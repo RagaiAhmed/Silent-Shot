@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class Head_Movement : MonoBehaviour 
 {
-	Vector3 new_rotation; // holding the new rotation according to mouse input
+	public Vector3 new_rotation; // holding the new rotation according to mouse input
 
 	public float Sensitivity; // mouse sensetivity
-	 Transform body; // player body
+	Transform body; // player body
 
 	void Start()
 	{
 		Cursor.visible = false; // hides mouse
 		Cursor.lockState = CursorLockMode.Locked; // locks mouse in screen
-		body=GameObject.FindGameObjectWithTag("Player").transform;
+		body = transform.parent; // body of the player
 			
 	}
 
 
-	void FixedUpdate () 
+	void Update () 
 	{
 		// adds the input to the current looking state
 		new_rotation +=  new Vector3(-Input.GetAxis ("Mouse Y"),Input.GetAxis("Mouse X"),0)*Sensitivity ;
