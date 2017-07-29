@@ -16,69 +16,100 @@ public class Shooting : MonoBehaviour {
 	private bool released; // if trigger released
 	public float recoil; // recoil value
 	private Head_Movement head; // to apply recoil
-	public int clip_ammo_size;
-	public int total_ammo;
-	private int current_ammo;
+	public int clip_ammo_size; // size of ammo per reload
+	public int total_ammo; // total ammount of ammo given
+	private int current_ammo; // current ammo in the gun
 	private bool reloading=false;
+	private float anti_recoil=0f; // to calculate the back of recoil
+	public GameObject aim_cursor; //  aim cursor when aiming
 
 	void Start()
 	{
 		cool_down_between_shots = 1 / fire_rate; // calculates the cool down
 		head = transform.parent.gameObject.GetComponent<Head_Movement> (); // gets head moving script
-		StartCoroutine(reload());	
+		StartCoroutine(reload()); // reloads at the start of the game
 	}
 	void Update () 
 	{
-		if (!reloading) 
+		if (!reloading)  // if not reloading
 		{
-			shoot ();
-			if (Input.GetAxisRaw ("Reload") == 1) 
-				StartCoroutine(reload());	
+			shoot (); // take shooting input
+			if (Input.GetAxisRaw ("Reload") == 1) // if want to reload
+				StartCoroutine(reload());	 // reload
+			aim(); // take aiming input
 		}
-		// TODO zoom
-	}
+ 	}
 
 
 	void shoot()
 	{
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
-		if (Input.GetAxisRaw ("Fire1") == 1) // if fire button hit
-		{
-			if (current_ammo == 0) 
-			{
-				// TODO sound effect of no ammo **Stage 2
-				return;
-			}
+		if (Input.GetAxisRaw ("Fire1") == 1) { // if fire button hit
 			
-			if (Time.time - last_shot >= cool_down_between_shots || released) // if not in cooldown or gun was released before
-			{
+			if ((Time.time - last_shot >= cool_down_between_shots || released) && current_ammo > 0) { // if not in cooldown or gun was released before
 				muzzle_flash.Play (); // shows the muzzle flash
 				// TODO shooting sound effect **Stage 2
 				last_shot = Time.time; // saves the time to know whether the next bullet will be in cooldown or not
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
-				if (Physics.Raycast (Camera.main.ScreenPointToRay (Input.mousePosition), out info, gun_reach)) 
-				{
-					if (info.collider.gameObject.tag == "Player") // if hit a player
+				if (Physics.Raycast (Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out info, gun_reach)) { // a ray from center of the screen  
+					if (info.transform.CompareTag("Player")) { // if hit a player
+						info.collider.gameObject.GetComponent<Health> ().decrease (gun_damage); // decrease player health
+						Destroy (Instantiate (blood_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // make blood effect and deletes it after some time
+					} else 
 					{
-						info.collider.gameObject.GetComponent<Health>().decrease(gun_damage); // decrease player health
-						Destroy(Instantiate (blood_effect, info.point, Quaternion.LookRotation (info.normal)),0.125f); // make blood effect and deletes it after some time
+						Destroy (Instantiate (hit_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // makes hit effect and destroys it after some time
+						//TODO with effect script of bullet hit sound **Stage 2
+						if (info.transform.CompareTag ("Shootable")) 
+						{
+							info.transform.gameObject.GetComponent<Destructable> ().destroy((info.point-transform.parent.position).normalized*gun_damage);
+					
+						}
 					}
-					else
-						Destroy(Instantiate (hit_effect, info.point, Quaternion.LookRotation (info.normal)),0.125f); // makes hit effect and destroys it after some time
-					//TODO with effect script of bullet hit sound **Stage 2
 				}
 				// calculating recoil
-				Vector3 recoil_rot = new Vector3 (Random.Range (-recoil / 50, recoil / 100), Random.Range (-recoil / 200, recoil / 200), 0)
-					+ head.new_rotation;
-				head.new_rotation =Vector3.Lerp(head.new_rotation ,recoil_rot,0.2f); // applying recoil while keeping it smooth
+				anti_recoil += Random.Range (0, recoil / 50); // random recoil value in recoil range
+				apply_rotation (-anti_recoil,0.2f); // apply recoil
+				anti_recoil *= 0.2f; // the recoil saved as the only applied percent of recoil
+
+				current_ammo -= 1; // decreased is false
+				released = false; // trigger not released
+			}
+			else if (current_ammo == 0)
+				
+			{
+				//TODO sound effect of no ammo
+
+				// restores gun in place
+				if (anti_recoil > 0) 
+				{
+					apply_rotation (anti_recoil,0.2f);
+					anti_recoil *= 0.8f;
+
+				}
+		
 			}
 
-			current_ammo -= 1;
-			released=false;
 
-		} 
-		else {released = true;}
+
+		} else {
+
+			// restores gun in place
+			if (anti_recoil > 0)
+			{
+				apply_rotation (anti_recoil,0.2f);
+				anti_recoil *= 0.8f;
+
+			}
+
+		}
 	}
+	void apply_rotation(float ammount,float with) // apply a rotation around x axis with a specific percentage
+	{
+		Vector3 rot = new Vector3 (ammount, 0, 0)
+			+ head.new_rotation;
+		head.new_rotation = Vector3.Lerp (head.new_rotation, rot, with);
+	}
+
 	IEnumerator reload ()
 	{
 
@@ -97,6 +128,21 @@ public class Shooting : MonoBehaviour {
 			reloading = false;
 			current_ammo = Mathf.Min(total_ammo,clip_ammo_size); 
 			total_ammo -= current_ammo;
+		}
+	}
+	void aim()
+	{
+		if (Input.GetAxisRaw ("Fire2")==1) 
+		{
+			aim_cursor.SetActive (true);
+			// TODO animation of aiming **Stage 2
+
+		}
+		else 
+		{
+			aim_cursor.SetActive (false);
+			// TODO animation of leaving aiming **Stage 2
+
 		}
 	}
 }
