@@ -9,6 +9,8 @@ public class Character_Control : MonoBehaviour
 	public float speed; // adjustable speed variable
 	public float gravity; // adjustable gravity quantity
 	public float jump; // adjustable jump force
+	public GameObject PrimaryWeapon;
+	public GameObject SecondaryWeapon;
 
 	private bool wasinair;
 
@@ -17,19 +19,19 @@ public class Character_Control : MonoBehaviour
 		engine0 = gameObject.GetComponent<CharacterController> (); // gets the charcater controller
 	}
 	
-	void Update () 
+	void FixedUpdate () 
 	{
 		input (); // takes input 
 	}
 
 	void input()
 	{
-		// MOVEMENT
+		
 		move();
 
-		// TODO Switch weapon
+		swith_weapon ();
 
-		// TODO Escape pressed
+		
 	}
 	void move()
 	{
@@ -67,7 +69,16 @@ public class Character_Control : MonoBehaviour
 
 		} 
 
-		engine0.Move(new Vector3(Movement.x,up,Movement.z)*Time.deltaTime); //applying the movement
+		engine0.Move(new Vector3(Movement.x,up,Movement.z)*Time.fixedDeltaTime); //applying the movement
 	}
 
+	void swith_weapon()
+	{
+		if (Input.GetButtonDown ("SwitchWeapon")) 
+		{
+			PrimaryWeapon.SetActive (!PrimaryWeapon.activeSelf);
+			SecondaryWeapon.SetActive (!SecondaryWeapon.activeSelf);
+
+		}
+	}
 }

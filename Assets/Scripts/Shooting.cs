@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
+
 
 public class Shooting : MonoBehaviour {
 
@@ -13,23 +15,27 @@ public class Shooting : MonoBehaviour {
 	public float gun_damage; // damage for each gun per bullet
 	public ParticleSystem muzzle_flash; // the particle system effect for gun fire flash
 	float last_shot; // indicating the time of last shot
-	private bool released; // if trigger released
+	private bool released=true; // if trigger released
 	public float recoil; // recoil value
 	private Head_Movement head; // to apply recoil
 	public int clip_ammo_size; // size of ammo per reload
 	public int total_ammo; // total ammount of ammo given
-	private int current_ammo; // current ammo in the gun
+	private int current_ammo=0; // current ammo in the gun
 	private bool reloading=false;
 	private float anti_recoil=0f; // to calculate the back of recoil
 	public GameObject aim_cursor; //  aim cursor when aiming
-
+	public Text reload_label;
 	void Start()
 	{
-		cool_down_between_shots = 1 / fire_rate; // calculates the cool down
-		head = transform.parent.gameObject.GetComponent<Head_Movement> (); // gets head moving script
+		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
+		head = transform.parent.parent.gameObject.GetComponent<Head_Movement> (); // gets head moving script
 		StartCoroutine(reload()); // reloads at the start of the game
 	}
-	void Update () 
+	void OnEnable()
+	{
+		set_ammo ();
+	}
+	void FixedUpdate () 
 	{
 		if (!reloading)  // if not reloading
 		{
@@ -45,7 +51,7 @@ public class Shooting : MonoBehaviour {
 	{
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
 		if (Input.GetAxisRaw ("Fire1") == 1) { // if fire button hit
-			
+
 			if ((Time.time - last_shot >= cool_down_between_shots || released) && current_ammo > 0) { // if not in cooldown or gun was released before
 				muzzle_flash.Play (); // shows the muzzle flash
 				// TODO shooting sound effect **Stage 2
@@ -71,13 +77,17 @@ public class Shooting : MonoBehaviour {
 				apply_rotation (-anti_recoil,0.2f); // apply recoil
 				anti_recoil *= 0.2f; // the recoil saved as the only applied percent of recoil
 
-				current_ammo -= 1; // decreased is false
+				current_ammo -= 1;
+				set_ammo ();
 				released = false; // trigger not released
 			}
-			else if (current_ammo == 0)
+			else 
 				
 			{
-				//TODO sound effect of no ammo
+
+				if (current_ammo == 0) 
+				{/*TODO sound effect of no ammo*/
+				}
 
 				// restores gun in place
 				if (anti_recoil > 0) 
@@ -93,6 +103,7 @@ public class Shooting : MonoBehaviour {
 
 		} else {
 
+			released = true;
 			// restores gun in place
 			if (anti_recoil > 0)
 			{
@@ -103,6 +114,7 @@ public class Shooting : MonoBehaviour {
 
 		}
 	}
+
 	void apply_rotation(float ammount,float with) // apply a rotation around x axis with a specific percentage
 	{
 		Vector3 rot = new Vector3 (ammount, 0, 0)
@@ -126,23 +138,29 @@ public class Shooting : MonoBehaviour {
 			reloading = true;
 			yield return new WaitForSeconds (time_to_wait); //waits for the animation
 			reloading = false;
-			current_ammo = Mathf.Min(total_ammo,clip_ammo_size); 
-			total_ammo -= current_ammo;
+			int new_ammo = Mathf.Min(total_ammo,clip_ammo_size)-current_ammo; 
+			total_ammo -=  new_ammo ;
+			current_ammo += new_ammo;
+			set_ammo ();
 		}
 	}
 	void aim()
 	{
-		if (Input.GetAxisRaw ("Fire2")==1) 
+		if (Input.GetButtonDown ("Fire2")) 
 		{
 			aim_cursor.SetActive (true);
 			// TODO animation of aiming **Stage 2
 
 		}
-		else 
+		else if (Input.GetButtonUp ("Fire2")) 
 		{
 			aim_cursor.SetActive (false);
 			// TODO animation of leaving aiming **Stage 2
 
 		}
+	}
+	void set_ammo()
+	{
+		reload_label.text = current_ammo + "/" + total_ammo;
 	}
 }

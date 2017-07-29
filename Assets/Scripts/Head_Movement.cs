@@ -11,14 +11,14 @@ public class Head_Movement : MonoBehaviour
 
 	void Start()
 	{
+		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false; // hides mouse
-		Cursor.lockState = CursorLockMode.Locked; // locks mouse in screen
 		body = transform.parent; // body of the player
 			
 	}
 
 
-	void Update () 
+	void FixedUpdate () 
 	{
 		// adds the input to the current looking state
 		new_rotation +=  new Vector3(-Input.GetAxis ("Mouse Y"),Input.GetAxis("Mouse X"),0)*Sensitivity ;
