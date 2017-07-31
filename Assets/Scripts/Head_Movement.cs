@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Head_Movement : MonoBehaviour 
 {
@@ -14,7 +12,6 @@ public class Head_Movement : MonoBehaviour
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false; // hides mouse
 		body = transform.parent; // body of the player
-			
 	}
 
 
@@ -27,6 +24,5 @@ public class Head_Movement : MonoBehaviour
 		// casts the vector to a rotation dedicated type called quaternion
 		transform.localRotation = Quaternion.Euler(new_rotation.x,0,0); // applying up , down rotation to head
 		body.rotation = Quaternion.Euler(0,new_rotation.y,0); // applying right , left rotation to body
-		
 	}
 }

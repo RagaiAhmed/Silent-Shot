@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -53,15 +52,18 @@ public class Shooting : MonoBehaviour {
 	void shoot()
 	{
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
-		if (Input.GetAxisRaw ("Fire1") == 1) { // if fire button hit
-
-			if ((Time.time - last_shot >= cool_down_between_shots || released) && current_ammo > 0) { // if not in cooldown or gun was released before
+		if (Input.GetAxisRaw ("Fire1") == 1) // if fire button hit
+		{ 
+			if ((Time.time - last_shot >= cool_down_between_shots || released) && current_ammo > 0) // if not in cooldown or gun was released before and there are ammo
+			{ 
 				muzzle_flash.Play (); // shows the muzzle flash
 				// TODO shooting sound effect **Stage 2
 				last_shot = Time.time; // saves the time to know whether the next bullet will be in cooldown or not
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
-				if (Physics.Raycast (Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out info, gun_reach)) { // a ray from center of the screen  
-					hit(info);
+				// if a ray from center of the screen hit a collider
+				if (Physics.Raycast (Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out info, gun_reach)) 
+				{ 
+					hit(info,gun_damage,gun_reach-info.distance,(info.point - transform.parent.position).normalized);
 				}
 				// calculating recoil
 				anti_recoil += Random.Range (0, recoil / 50); // random recoil value in recoil range
@@ -73,50 +75,38 @@ public class Shooting : MonoBehaviour {
 				released = false; // trigger not released
 			}
 			else 
-				
 			{
-
 				if (current_ammo == 0) 
-				{/*TODO sound effect of no ammo*/
+				{
+					/*TODO sound effect of no ammo*/
 				}
-
 				// restores gun in place
 				if (anti_recoil > 0) 
 				{
 					apply_rotation (anti_recoil,0.2f);
 					anti_recoil *= 0.8f;
-
 				}
-		
 			}
-
-
-
-		} else {
-
+		} 
+		else 
+		{
 			released = true;
-			// restores gun in place
-			if (anti_recoil > 0)
+			if (anti_recoil > 0)// restores gun in place
 			{
 				apply_rotation (anti_recoil,0.2f);
 				anti_recoil *= 0.8f;
-
 			}
-
 		}
 	}
 
-	void apply_rotation(float ammount,float with) // apply a rotation around x axis with a specific percentage
+	void apply_rotation(float amount,float with) // apply a rotation around x axis with a specific percentage
 	{
-		Vector3 rot = new Vector3 (ammount, 0, 0)
-			+ head.new_rotation;
+		Vector3 rot = new Vector3 (amount, 0, 0) + head.new_rotation;
 		head.new_rotation = Vector3.Lerp (head.new_rotation, rot, with);
 	}
 
 	IEnumerator reload ()
 	{
-
-
 		if (total_ammo == 0 || current_ammo == clip_ammo_size) 
 		{
 			//TODO sound_effect of no ammo or full clip **Stage 2
@@ -134,6 +124,7 @@ public class Shooting : MonoBehaviour {
 			current_ammo += new_ammo;
 			set_ammo ();
 		}
+
 	}
 
 	void aim()
@@ -142,13 +133,11 @@ public class Shooting : MonoBehaviour {
 		{
 			aim_cursor.SetActive (true);
 			// TODO animation of aiming **Stage 2
-
 		}
 		else if (Input.GetButtonUp ("Fire2")) 
 		{
 			aim_cursor.SetActive (false);
 			// TODO animation of leaving aiming **Stage 2
-
 		}
 	}
 
@@ -156,12 +145,15 @@ public class Shooting : MonoBehaviour {
 	{
 		reload_label.text = current_ammo + "/" + total_ammo;
 	}
-	void hit(RaycastHit info)
+
+	void hit(RaycastHit info,float damage,float left_distance,Vector3 direction)
 	{
 		if (info.transform.CompareTag("Player")) { // if hit a player
+			
 			info.collider.gameObject.GetComponent<Health> ().decrease (gun_damage); // decrease player health
 			Destroy (Instantiate (blood_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // make blood effect and deletes it after some time
-		} else 
+		} 
+		else 
 		{
 			Destroy (Instantiate (hit_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // makes hit effect and destroys it after some time
 			//TODO with effect script of bullet hit sound **Stage 2
@@ -175,9 +167,15 @@ public class Shooting : MonoBehaviour {
 				else 
 				{
 					Rigidbody r = info.transform.gameObject.GetComponent<Rigidbody> ();
-					r.AddForce((info.point - transform.parent.position).normalized * gun_damage);
+					r.AddForce(direction * damage);
 				}
 
+			}
+			RaycastHit another_info;
+			print (info.transform.gameObject.name);
+			if (Physics.Raycast (info.point+direction*0.01f, direction,out another_info,left_distance)&&left_distance>0.01f) 
+			{
+				hit (another_info, damage / 2, left_distance - another_info.distance,direction);
 			}
 		}
 	}
