@@ -24,6 +24,7 @@ public class Shooting : MonoBehaviour {
 	private float anti_recoil=0f; // to calculate the back of recoil
 	public GameObject aim_cursor; //  aim cursor when aiming
 	public Text reload_label;
+	public GameObject bullet_hole;
 
 	void Start()
 	{
@@ -61,9 +62,10 @@ public class Shooting : MonoBehaviour {
 				last_shot = Time.time; // saves the time to know whether the next bullet will be in cooldown or not
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
 				// if a ray from center of the screen hit a collider
-				if (Physics.Raycast (Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0)), out info, gun_reach)) 
-				{ 
-					hit(info,gun_damage,gun_reach-info.distance,(info.point - transform.parent.position).normalized);
+				Ray r =Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+				if (Physics.Raycast (r, out info, gun_reach)) 
+				{
+					hit(info,gun_damage,gun_reach-info.distance,r.direction);
 				}
 				// calculating recoil
 				anti_recoil += Random.Range (0, recoil / 50); // random recoil value in recoil range
@@ -171,8 +173,11 @@ public class Shooting : MonoBehaviour {
 				}
 
 			}
+			else if (info.transform.CompareTag ("Wall"))
+			{
+				Instantiate (bullet_hole,info.point+info.normal*0.001f,Quaternion.LookRotation(info.normal),info.transform);
+			}
 			RaycastHit another_info;
-			print (info.transform.gameObject.name);
 			if (Physics.Raycast (info.point+direction*0.01f, direction,out another_info,left_distance)&&left_distance>0.01f) 
 			{
 				hit (another_info, damage / 2, left_distance - another_info.distance,direction);
