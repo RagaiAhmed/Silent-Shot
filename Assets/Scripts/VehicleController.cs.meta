@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 16037b922dd530f49b39bdcb876d039e
+timeCreated: 1492292752
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - doorPosition: {instanceID: 0}
+  - skidMarksShader: {fileID: 4800000, guid: 0e9783dda7aa8884491cd17040cdaf4b, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
