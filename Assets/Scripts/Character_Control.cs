@@ -1,84 +1,197 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Character_Control : MonoBehaviour 
 {
 
-	CharacterController engine0 ; 
-	public float speed; // adjustable speed variable
-	public float gravity; // adjustable gravity quantity
+	Rigidbody engine0 ; 
+
+	public float crouch; // adjustable speed variable
+	public float walk; // adjustable speed variable
+	public float run; // adjustable speed variable
 	public float jump; // adjustable jump force
-	public GameObject PrimaryWeapon;
-	public GameObject SecondaryWeapon;
+	public float footstepadjust;
+	public Transform Rightfoot;
+	public Transform Leftfoot;
 
-	private bool wasinair;
 
+	public AudioClip Jump;
+	public AudioClip Land;
+	public AudioClip[] FootSteps;
+
+	int state;
+	bool was_crouch;
+	bool was_idle;
+	bool wasinair=true;
+	bool step;
+	bool isGrounded;
+
+	private Animator anim;
+	private AudioSource Audio;
+	private float[] speed_array;
+	delegate void action ();
+	private action[] state_functions;
 	void Start ()
 	{
-		engine0 = gameObject.GetComponent<CharacterController> (); // gets the charcater controller
+		speed_array = new  float[] {crouch,walk,run};
+		state_functions = new action[] {Crouch,Walk,Sprint};
+		engine0 = GetComponent<Rigidbody>(); 
+		anim    = GetComponent<Animator>();
+		Audio   = GetComponent<AudioSource>();
 	}
-	
-	void FixedUpdate () 
+
+
+	void Update()
 	{
-		input (); // takes input 
-	}
-
-	void input()
-	{
-		
-		move();
-
-		swith_weapon ();
-
-		
-	}
-	void move()
-	{
-		Vector3 Movement ; // stores main movement input
-		Movement=transform.right * Input.GetAxis ("Horizontal");  
-		Movement+=transform.forward * Input.GetAxis ("Vertical");
-
-		if (Movement.magnitude > 0)
+		if (Time.timeScale > 0) 
 		{
-			//TODO trigger movement animation **Stage 2
-			//TODO Trigger moving sound effect  **Stage 2
+			isGrounded = isgrounded();
+			state = (int)Input.GetAxisRaw ("Sprint") + 1;
+			Move (); // calls the move function
 		}
+	}
 
-		Movement.Normalize (); // normalized to make walking diagonaly like walking straight without increasing speed
-		Movement *= speed*(Mathf.Pow(2,Input.GetAxis ("Sprint"))) ; // taking care of speed and with respect to sprint and walk
 
-		float up = engine0.velocity.y - gravity; // the up speed is decreased by a constant value making gravity
+	void Move()
+	{
+		Vector3 Movement=Vector3.zero ; // to store main movement input
 
-		if (engine0.isGrounded) 
+		Movement.x = Input.GetAxis ("Horizontal");
+		Movement.z = Input.GetAxis ("Vertical")  ;  // stores input
+
+		animate_direction (Movement);  // sends the animator the direction of movement
+
+		Movement = Movement.x * transform.right + Movement.z * transform.forward; // stores the direction of movement
+		Movement.Normalize (); // normalizes the vector
+
+
+		Movement *= getSpeed ();
+
+		Movement.y = engine0.velocity.y; // stores the y axis velocity
+
+		if (isGrounded)  // if the character is grounded
 		{
-			if (Input.GetAxisRaw ("Jump") == 1) {
-				up += jump; // if grounded and jump pressed add some speed to up value
-				wasinair=true;
-				// TODO Trigger jumping sound effect **Stage 2
-				// TODO trigger in air animation **Stage 2
-			} 
-			else if (wasinair) 
+			if (wasinair&& going_down()) // if it was previously in air
 			{
-				wasinair = false;
-				// TODO stop animation in air **Stage 2
-				// TODO landing sound effect **Stage 2
+				wasinair = false; // its now not in air
+				anim.SetTrigger("Idle");
+				was_idle = true;
+				Audio.PlayOneShot(Land);  // playing land Audio clip
+			}
+			else if (Input.GetAxisRaw ("Jump") == 1 && !wasinair) 
+			{
+				Movement.y += jump; // adds velocity in y axis
+				anim.SetTrigger("InAir");
+				wasinair = true;
+				Audio.PlayOneShot(Jump); // plays jump audio clip
 			}
 
 
-
+			engine0.velocity=Movement; // applying the movement
 		} 
 
-		engine0.Move(new Vector3(Movement.x,up,Movement.z)*Time.fixedDeltaTime); //applying the movement
 	}
 
-	void swith_weapon()
+
+	void animate_direction (Vector3 Movement)
 	{
-		if (Input.GetButtonDown ("SwitchWeapon")) 
+		// checks the direction of the movement and sets it to the animator
+
+		action current_state = check_state(); // checks state of the character like sprint, crouch, etc..
+		current_state();
+
+		anim.SetBool ("Right"   ,Movement.x > 0);
+		anim.SetBool ("Left"    ,Movement.x < 0);
+		anim.SetBool ("Forward" ,Movement.z > 0);
+		anim.SetBool ("Backward",Movement.z < 0);
+
+
+		if (Movement.magnitude > 0) 
 		{
-			PrimaryWeapon.SetActive (!PrimaryWeapon.activeSelf);
-			SecondaryWeapon.SetActive (!SecondaryWeapon.activeSelf);
+			was_idle = false;
+
+			if (!step && isGrounded && state>1) 
+			{
+				Audio.PlayOneShot (FootSteps [Random.Range (0, FootSteps.Length)]);
+				StartCoroutine (step_wait(getSpeed()));
+			}
 
 		}
+		else 
+		{
+			if (!was_idle && !wasinair )  // if wasnt previously idle
+			{
+				anim.SetTrigger ("Idle"); // set the state to idle
+				was_idle = true;
+			}
+		}
+
+		if (!isGrounded && !wasinair) // if moving in y axis
+		{
+			wasinair=true;
+			was_idle = false;
+			anim.SetTrigger ("InAir");
+		}
+	}
+		
+
+	IEnumerator step_wait(float time)
+	{
+		step = true;
+		yield return new WaitForSeconds(1/time*footstepadjust);
+		step = false;
+	}
+
+
+	float getSpeed()
+	{
+		return speed_array[state];
+	}
+
+
+	bool isgrounded ()
+	{
+		return Physics.Raycast (Rightfoot.position,-transform.up,0.5f)||Physics.Raycast (Leftfoot.position,-transform.up,0.5f);
+	}
+
+
+	action check_state()
+	{ // checks current state
+		return state_functions [state];
+	}
+
+	void Crouch()
+	{
+		if (!was_crouch) 
+		{
+			anim.SetBool ("Crouch", true);
+			anim.SetBool ("Sprint",false);
+			anim.SetTrigger ("Idle");
+			was_crouch = true;
+		}
+	}
+	void EndCrouch()
+	{
+		if (was_crouch)
+		{				
+			anim.SetTrigger ("Idle");
+			was_crouch = false;
+		}		
+	}
+	void Sprint()
+	{
+		EndCrouch ();
+		anim.SetBool ("Sprint", true);
+		anim.SetBool ("Crouch", false);
+	}
+	void Walk()
+	{
+		EndCrouch ();
+		anim.SetBool ("Crouch", false);
+		anim.SetBool ("Sprint",false) ;
+	}
+	bool going_down()
+	{
+		return engine0.velocity.y < 1;
 	}
 }

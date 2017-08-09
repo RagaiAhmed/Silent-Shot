@@ -1,17 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Destructable : MonoBehaviour {
 	public GameObject destroyed;
 
-	public	void destroy(Vector3 force)
+	public	void destroy()
 	{
-		if (destroyed != null) { // there is a destroyed object to replace
-			Instantiate (destroyed, transform.position, transform.rotation); // put the destroyed
-			Destroy (gameObject); // delete current
-		} else {
-			GetComponent<Rigidbody> ().AddForce (force); // add force on destroyable objects like a bullet hit it
-		}
+		Instantiate (destroyed, transform.position, transform.rotation); // put the destroyed
+		Destroy (gameObject); // delete current
 	}
 }

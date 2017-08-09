@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Day_Night_Cycle : MonoBehaviour {
 	public float Day_Duration;

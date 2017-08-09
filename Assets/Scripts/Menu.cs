@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -15,6 +13,6 @@ public class Menu : MonoBehaviour {
 	}
 	void load()
 	{
-		SceneManager.LoadScene ("Test");
+		SceneManager.LoadScene ("Test"); // just for testing and more scenes with maps will be available soon
 	}
 }
