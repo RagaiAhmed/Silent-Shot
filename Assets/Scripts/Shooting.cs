@@ -216,7 +216,7 @@ public class Shooting : MonoBehaviour {
 					hit (another_info, damage / 2, left_distance - another_info.distance,direction);
 				}
 			}
-			else if (info.transform.CompareTag ("Wall"))
+			else
 			{
 				Instantiate (bullet_hole,info.point+info.normal*0.001f,Quaternion.LookRotation(info.normal),info.transform);
 			}
