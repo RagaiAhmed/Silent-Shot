@@ -6,11 +6,17 @@ public class Head_Movement : MonoBehaviour
 
 	public float Sensitivity; // mouse sensetivity
 
-	public Transform chest;
-	public Transform torso;
 	public Transform root;
-	public float torso_shift;
-	public float root_shift;
+	public Transform chest;
+	public Transform torso ;
+	public Transform head;
+
+	public float yshift ;
+	private float temp_x;
+	private float temp_y;
+	public float side_shift;
+
+
 
 	Animator anim;
 
@@ -40,10 +46,37 @@ public class Head_Movement : MonoBehaviour
 
 			new_rotation       += new Vector3( turn, Input.GetAxis( "Mouse X" ), 0)*Sensitivity ; // takes input
 			new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -60, 60), new_rotation.y%360, 0); // clamps it
-			transform.rotation  = Quaternion.Euler( 0, new_rotation.y-torso_shift, 0); // applying portion of rotation to body
-			root .localRotation = Quaternion.Euler( root_shift, torso_shift, 0); // maintain torso shift
-			torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -torso_shift, 0); // applying portion of rotation to torso
-			chest.localRotation = Quaternion.Euler( Mathf.Abs( new_rotation.x/4 ), 0, 0 ); // applying portion of rotation to chest
+			transform.rotation  = Quaternion.Euler( 0, new_rotation.y, 0); // applying portion of rotation to body
+			root.localRotation  = Quaternion.Euler(0,yshift,0);
+			torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -yshift, 0); // applying portion of rotation to torso
+			chest.localRotation = Quaternion.Euler( Mathf.Abs( new_rotation.x/4 ), side_shift, 0 ); // applying portion of rotation to chest
+			head.localRotation  = Quaternion.Euler( 0, -side_shift, 0 ); 
+			head.rotation = Quaternion.Euler(head.eulerAngles.x , head.eulerAngles.y , 0 ); 
+			 ;
 		}
+	}
+
+	public float apply_x(float val)
+	{
+		temp_x += val;
+		if (temp_x + new_rotation.x < -60) 
+		{
+			return -60 - new_rotation.x;
+		}
+		return temp_x;
+	}
+
+	public void apply_y(float val)
+	{
+		temp_y += val;
+	}
+
+	void Update ()
+	{
+		temp_x *= 0.5f;
+		temp_y *= 0.5f;
+
+		new_rotation += new Vector3 (temp_x,temp_y);
+
 	}
 }

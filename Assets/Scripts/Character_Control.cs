@@ -1,8 +1,17 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[System.Serializable]
+public class Floors 
+{
+	public AudioClip Jump;
+	public AudioClip Land;
+	public AudioClip[] FootSteps;
+}
+
 public class Character_Control : MonoBehaviour 
 {
+
 
 	Rigidbody engine0 ; 
 
@@ -14,10 +23,9 @@ public class Character_Control : MonoBehaviour
 	public Transform Rightfoot;
 	public Transform Leftfoot;
 
+	public Floors[] floor;
+	private int Floor_Type;
 
-	public AudioClip Jump;
-	public AudioClip Land;
-	public AudioClip[] FootSteps;
 
 	int state;
 	bool was_crouch;
@@ -26,11 +34,17 @@ public class Character_Control : MonoBehaviour
 	bool step;
 	bool isGrounded;
 
+	public float fall_damage;
+
 	private Animator anim;
 	private AudioSource Audio;
 	private float[] speed_array;
 	delegate void action ();
 	private action[] state_functions;
+	private Head_Movement player;
+	private float air_time;
+	private Main_Health health;
+
 	void Start ()
 	{
 		speed_array = new  float[] {crouch,walk,run};
@@ -38,6 +52,8 @@ public class Character_Control : MonoBehaviour
 		engine0 = GetComponent<Rigidbody>(); 
 		anim    = GetComponent<Animator>();
 		Audio   = GetComponent<AudioSource>();
+		player  = GetComponent<Head_Movement> ();
+		health  = GetComponent<Main_Health> ();
 	}
 
 
@@ -71,24 +87,33 @@ public class Character_Control : MonoBehaviour
 
 		if (isGrounded)  // if the character is grounded
 		{
+			if (air_time > 1.5) 
+			{
+				health.decrease(air_time*fall_damage);
+			}
+			air_time = 0;
 			if (wasinair&& going_down()) // if it was previously in air
 			{
 				wasinair = false; // its now not in air
 				anim.SetTrigger("Idle");
 				was_idle = true;
-				Audio.PlayOneShot(Land);  // playing land Audio clip
+				Audio.PlayOneShot(floor[Floor_Type].Land);  // playing land Audio clip
 			}
 			else if (Input.GetAxisRaw ("Jump") == 1 && !wasinair) 
 			{
 				Movement.y += jump; // adds velocity in y axis
 				anim.SetTrigger("InAir");
 				wasinair = true;
-				Audio.PlayOneShot(Jump); // plays jump audio clip
+				Audio.PlayOneShot(floor[Floor_Type].Jump); // plays jump audio clip
 			}
 
 
 			engine0.velocity=Movement; // applying the movement
-		} 
+		}
+		else
+		{
+			air_time += Time.deltaTime;
+		}
 
 	}
 
@@ -105,14 +130,17 @@ public class Character_Control : MonoBehaviour
 		anim.SetBool ("Forward" ,Movement.z > 0);
 		anim.SetBool ("Backward",Movement.z < 0);
 
-
+		player.yshift = 45 * Movement.x;
+		if (Movement.z != 0)
+			player.yshift *= Movement.z;
+		
 		if (Movement.magnitude > 0) 
 		{
 			was_idle = false;
 
 			if (!step && isGrounded && state>1) 
 			{
-				Audio.PlayOneShot (FootSteps [Random.Range (0, FootSteps.Length)]);
+				Audio.PlayOneShot (floor[Floor_Type].FootSteps [Random.Range (0, floor[Floor_Type].FootSteps.Length)]);
 				StartCoroutine (step_wait(getSpeed()));
 			}
 
@@ -151,7 +179,18 @@ public class Character_Control : MonoBehaviour
 
 	bool isgrounded ()
 	{
-		return Physics.Raycast (Rightfoot.position,-transform.up,0.5f)||Physics.Raycast (Leftfoot.position,-transform.up,0.5f);
+		RaycastHit info;
+		if ( Physics.Raycast (Rightfoot.position, -transform.up, out info, 0.5f) ) 
+		{
+			Floor_Type = (info.collider.gameObject.CompareTag ("Grass")) ? 1 : 0; 
+			return true;
+		}
+		else if ( Physics.Raycast (Leftfoot.position, -transform.up, out info, 0.5f) )
+		{
+			Floor_Type = (info.collider.gameObject.CompareTag ("Grass")) ? 1 : 0; 
+			return true;
+		}
+		return false;
 	}
 
 
@@ -159,6 +198,7 @@ public class Character_Control : MonoBehaviour
 	{ // checks current state
 		return state_functions [state];
 	}
+
 
 	void Crouch()
 	{
@@ -170,6 +210,8 @@ public class Character_Control : MonoBehaviour
 			was_crouch = true;
 		}
 	}
+
+
 	void EndCrouch()
 	{
 		if (was_crouch)
@@ -178,18 +220,24 @@ public class Character_Control : MonoBehaviour
 			was_crouch = false;
 		}		
 	}
+
+
 	void Sprint()
 	{
 		EndCrouch ();
 		anim.SetBool ("Sprint", true);
 		anim.SetBool ("Crouch", false);
 	}
+
+
 	void Walk()
 	{
 		EndCrouch ();
 		anim.SetBool ("Crouch", false);
 		anim.SetBool ("Sprint",false) ;
 	}
+
+
 	bool going_down()
 	{
 		return engine0.velocity.y < 1;
