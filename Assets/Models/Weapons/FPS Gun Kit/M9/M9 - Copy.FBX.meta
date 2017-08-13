@@ -1,0 +1,500 @@
+fileFormatVersion: 2
+guid: 22b32476f73e20744a6fef09c50f37d5
+timeCreated: 1487478958
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: arm_mesh_nosleve
+    100002: Camera001
+    100004: l-forearm
+    100006: l-forearm-twist
+    100008: l-ik
+    100010: l-index-low
+    100012: l-index-mid
+    100014: l-index-tip
+    100016: l-middle-low
+    100018: l-middle-mid
+    100020: l-middle-tip
+    100022: l-pinky-low
+    100024: l-pinky-mid
+    100026: l-pinky-tip
+    100028: l-ring-low
+    100030: l-ring-mid
+    100032: l-ring-tip
+    100034: l-thumb-low
+    100036: l-thumb-mid
+    100038: l-thumb-tip
+    100040: l-upperarm
+    100042: l-upperarm-movement
+    100044: L_Wrist_Controller
+    100046: lwrist
+    100048: //RootNode
+    100050: polySurface52
+    100052: polySurface53
+    100054: polySurface54
+    100056: polySurface55
+    100058: polySurface58
+    100060: pPipe4
+    100062: pPlane2
+    100064: r-forearm
+    100066: r-forearm-twist
+    100068: r-ik
+    100070: r-index-low
+    100072: r-index-mid
+    100074: r-index-tip
+    100076: r-middle-low
+    100078: r-middle-mid
+    100080: r-middle-tip
+    100082: r-pinky-low
+    100084: r-pinky-mid
+    100086: r-pinky-tip
+    100088: r-ring-low
+    100090: r-ring-mid
+    100092: r-ring-tip
+    100094: r-rist
+    100096: r-thumb-low
+    100098: r-thumb-mid
+    100100: r-thumb-tip
+    100102: r-upperarm
+    100104: r-upperarm-movement
+    100106: R_Wrist_Controller
+    100108: sleves
+    100110: top-sleve
+    100112: transform63
+    400000: arm_mesh_nosleve
+    400002: Camera001
+    400004: l-forearm
+    400006: l-forearm-twist
+    400008: l-ik
+    400010: l-index-low
+    400012: l-index-mid
+    400014: l-index-tip
+    400016: l-middle-low
+    400018: l-middle-mid
+    400020: l-middle-tip
+    400022: l-pinky-low
+    400024: l-pinky-mid
+    400026: l-pinky-tip
+    400028: l-ring-low
+    400030: l-ring-mid
+    400032: l-ring-tip
+    400034: l-thumb-low
+    400036: l-thumb-mid
+    400038: l-thumb-tip
+    400040: l-upperarm
+    400042: l-upperarm-movement
+    400044: L_Wrist_Controller
+    400046: lwrist
+    400048: //RootNode
+    400050: polySurface52
+    400052: polySurface53
+    400054: polySurface54
+    400056: polySurface55
+    400058: polySurface58
+    400060: pPipe4
+    400062: pPlane2
+    400064: r-forearm
+    400066: r-forearm-twist
+    400068: r-ik
+    400070: r-index-low
+    400072: r-index-mid
+    400074: r-index-tip
+    400076: r-middle-low
+    400078: r-middle-mid
+    400080: r-middle-tip
+    400082: r-pinky-low
+    400084: r-pinky-mid
+    400086: r-pinky-tip
+    400088: r-ring-low
+    400090: r-ring-mid
+    400092: r-ring-tip
+    400094: r-rist
+    400096: r-thumb-low
+    400098: r-thumb-mid
+    400100: r-thumb-tip
+    400102: r-upperarm
+    400104: r-upperarm-movement
+    400106: R_Wrist_Controller
+    400108: sleves
+    400110: top-sleve
+    400112: transform63
+    2300000: polySurface52
+    2300002: polySurface53
+    2300004: polySurface54
+    2300006: polySurface55
+    2300008: polySurface58
+    2300010: pPipe4
+    3300000: polySurface52
+    3300002: polySurface53
+    3300004: polySurface54
+    3300006: polySurface55
+    3300008: polySurface58
+    3300010: pPipe4
+    4300000: top-sleve
+    4300002: sleves
+    4300004: arm_mesh_nosleve
+    4300006: polySurface54
+    4300008: polySurface52
+    4300010: polySurface55
+    4300012: pPipe4
+    4300014: polySurface58
+    4300016: polySurface53
+    7400000: TakeOut
+    7400002: Reload
+    9500000: //RootNode
+    13700000: arm_mesh_nosleve
+    13700002: sleves
+    13700004: top-sleve
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: TakeOut
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 25
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm_mesh_nosleve
+        weight: 1
+      - path: Camera001
+        weight: 1
+      - path: l-upperarm-movement
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/l-forearm-twist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid/l-index-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid/l-middle-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid/l-pinky-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid/l-ring-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid/l-thumb-tip
+        weight: 1
+      - path: L_Wrist_Controller
+        weight: 1
+      - path: L_Wrist_Controller/l-ik
+        weight: 1
+      - path: pPlane2
+        weight: 1
+      - path: pPlane2/transform63
+        weight: 1
+      - path: r-upperarm-movement
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-forearm-twist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid/r-index-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid/r-middle-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid/r-pinky-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid/r-ring-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid/r-thumb-tip
+        weight: 1
+      - path: R_Wrist_Controller
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface52
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface53
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface55
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface55/pPipe4
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface58
+        weight: 1
+      - path: R_Wrist_Controller/r-ik
+        weight: 1
+      - path: sleves
+        weight: 1
+      - path: top-sleve
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Reload
+      takeName: Take 001
+      firstFrame: 30
+      lastFrame: 90
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: arm_mesh_nosleve
+        weight: 1
+      - path: Camera001
+        weight: 1
+      - path: l-upperarm-movement
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/l-forearm-twist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-index-low/l-index-mid/l-index-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-middle-low/l-middle-mid/l-middle-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-pinky-low/l-pinky-mid/l-pinky-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-ring-low/l-ring-mid/l-ring-tip
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid
+        weight: 1
+      - path: l-upperarm-movement/l-upperarm/l-forearm/lwrist/l-thumb-low/l-thumb-mid/l-thumb-tip
+        weight: 1
+      - path: L_Wrist_Controller
+        weight: 1
+      - path: L_Wrist_Controller/l-ik
+        weight: 1
+      - path: pPlane2
+        weight: 1
+      - path: pPlane2/transform63
+        weight: 1
+      - path: r-upperarm-movement
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-forearm-twist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-index-low/r-index-mid/r-index-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-middle-low/r-middle-mid/r-middle-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-pinky-low/r-pinky-mid/r-pinky-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-ring-low/r-ring-mid/r-ring-tip
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid
+        weight: 1
+      - path: r-upperarm-movement/r-upperarm/r-forearm/r-rist/r-thumb-low/r-thumb-mid/r-thumb-tip
+        weight: 1
+      - path: R_Wrist_Controller
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface52
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface53
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface55
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface55/pPipe4
+        weight: 1
+      - path: R_Wrist_Controller/polySurface54/polySurface58
+        weight: 1
+      - path: R_Wrist_Controller/r-ik
+        weight: 1
+      - path: sleves
+        weight: 1
+      - path: top-sleve
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

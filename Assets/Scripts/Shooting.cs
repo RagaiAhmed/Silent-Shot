@@ -12,6 +12,8 @@ public class Shooting : MonoBehaviour {
 	public Object hit_effect; // the particle system effect upon bullet hitting a non-player object
 	public Object blood_effect; // the particle system effect when a bullet hit a player
 
+	public float reload_time;
+
 	public float gun_damage; // damage for each gun per bullet
 	public ParticleSystem muzzle_flash; // the particle system effect for gun fire flash
 	float last_shot; // indicating the time of last shot
@@ -19,15 +21,14 @@ public class Shooting : MonoBehaviour {
 	public float recoil; // recoil value
 
 	public Head_Movement player; // to apply recoil
+	public Animator anim;
 
 	public int clip_ammo_size; // size of ammo per reload
 	public int total_ammo; // total ammount of ammo given
 
 	private int current_ammo=0; // current ammo in the gun
 	private bool reloading=false;
-	private Vector3 anti_recoil; // to calculate the back of recoil
 
-	public Text reload_label;
 	public GameObject bullet_hole;
 	public Transform gun_cam;
 
@@ -35,30 +36,25 @@ public class Shooting : MonoBehaviour {
 	public AudioClip Reload;
 	public AudioClip NoAmmo;
 
-	private Transform current_state;
+	public float side_shift;
 
+	private float recoil_ammount;
+	public Transform current_state;
 	AudioSource Audio;
 	void Start()
 	{
+		current_state = transform.GetChild (0);
 		Audio = GetComponent<AudioSource> ();
 		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
 		StartCoroutine(reload()); // reloads at the start of the game
-		current_state=gun_cam.transform.GetChild(1);
 	}
 
 	void OnEnable()
 	{
+		player.gameObject.GetComponent<WeaponSwitch> ().Name_label.text = transform.name;
 		set_ammo ();
-	}
-
-
-	void Update()
-	{
-		if (Time.timeScale > 0) 
-		{
-			transform.position = Vector3.Lerp (current_state.position,transform.position,0.1f);
-			transform.rotation = Quaternion.Lerp (transform.rotation, current_state.rotation, 0.2f);
-		}			
+		player.side_shift = side_shift;
+		reloading = false;
 	}
 
 
@@ -80,77 +76,65 @@ public class Shooting : MonoBehaviour {
 	void shoot()
 	{
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
-		if (Input.GetAxisRaw ("Fire1") == 1) // if fire button hit
+		if (Input.GetAxisRaw ("Fire1") == 1 && current_ammo>0) // if fire button hit
 		{ 
-			if ((Time.time - last_shot >= cool_down_between_shots || released) && current_ammo > 0) // if not in cooldown or gun was released before and there are ammo
-			{ 
+			
+			if ((Time.time - last_shot >= cool_down_between_shots || released)) 
+			{ // if not in cooldown or gun was released before and there are ammo
 				muzzle_flash.Play (); // shows the muzzle flash
-				Audio.PlayOneShot(GunFire);
+				Audio.PlayOneShot (GunFire);
 				last_shot = Time.time; // saves the time to know whether the next bullet will be in cooldown or not
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
 				// if a ray from center of the screen hit a collider
-				Ray r =Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
-				if (Physics.Raycast (r, out info, gun_reach)) 
-				{
-					hit(info,gun_damage,gun_reach-info.distance,r.direction);
+				Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+				if (Physics.Raycast (r, out info, gun_reach)) {
+					hit (info, gun_damage, gun_reach - info.distance, r.direction);
 				}
 				// calculating recoil
-				anti_recoil +=new Vector3(Random.Range (0, recoil / 50),Random.Range(-recoil/100, recoil / 100),0); // random recoil value in recoil range
-				anti_recoil = -apply_rotation (-anti_recoil,0.2f); // the recoil saved as the only applied percent of recoil
+
+				float to_recoil = Random.Range (recoil / 2, recoil);
+				player.apply_y (Random.Range (-to_recoil / 4, to_recoil / 4));
+				recoil_ammount -= player.apply_x (-to_recoil);
 
 				current_ammo -= 1;
 				set_ammo ();
 				released = false; // trigger not released
-			}
-			else 
+			} 
+			else
 			{
-				if (current_ammo == 0) 
+				if (recoil_ammount>0)
 				{
-					if (!Audio.isPlaying)
-					{
-						Audio.clip = NoAmmo;
-						Audio.Play();
-					}
-
-				
-					// restores gun in place
-
-					restore_gun ();
-
-				}
-				if (fire_rate == 0) 
-				{
-					restore_gun ();
+					player.apply_x(recoil/2);
+					recoil_ammount -= recoil;
 				}
 			}
 		} 
 		else 
 		{
+			if (recoil_ammount>0)
+			{
+				player.apply_x(recoil/2);
+				recoil_ammount -= recoil;
+			}
+		
 			released = true;
-			restore_gun ();
+
+			if (current_ammo == 0 && Input.GetAxisRaw ("Fire1") == 1) 
+			{
+				if (!Audio.isPlaying)
+				{
+					Audio.clip = NoAmmo;
+					Audio.Play();
+				}
+			}
 		}
 	}
 
-	void restore_gun()
-	{
-		if (anti_recoil.magnitude > 0)// restores gun in place
-		{
-			anti_recoil -= apply_rotation (anti_recoil,0.1f);
-		}
-	}
-
-	Vector3 apply_rotation(Vector3 amount,float with) // apply a rotation around with a specific percentage
-	{
-		Vector3 rot = amount*with + player.new_rotation;
-		player.new_rotation = rot;
-		return amount*with;
-	}
 
 	IEnumerator reload ()
 	{
 		if (total_ammo == 0 || current_ammo == clip_ammo_size) 
 		{
-			
 			if (!Audio.isPlaying)
 			{
 				Audio.clip = NoAmmo;
@@ -159,33 +143,49 @@ public class Shooting : MonoBehaviour {
 		} 
 		else
 		{
-			current_state=gun_cam.transform.GetChild(3);
+			anim.SetTrigger ("Reload");
+			Transform temp = current_state;
+			current_state = transform.GetChild (2);
 			Audio.PlayOneShot(Reload);
-			float time_to_wait = 1;
 			reloading = true;
-			yield return new WaitForSeconds (time_to_wait); //waits for the animation
+			yield return new WaitForSeconds (reload_time); //waits for the animation
 			reloading = false;
-			int new_ammo = Mathf.Min(total_ammo+current_ammo,clip_ammo_size-current_ammo); 
+			current_state = temp;
+			int new_ammo = clip_ammo_size-current_ammo; 
 			total_ammo -=  new_ammo ;
 			current_ammo += new_ammo;
+			if (total_ammo < 0) 
+			{
+				current_ammo += total_ammo;
+				total_ammo = 0;
+			}
 			set_ammo ();
-			current_state=gun_cam.transform.GetChild(1);
 
 		}
 
 	}
 
+
 	void aim()
 	{
-		if (Input.GetButtonDown("Fire2"))
-			current_state=gun_cam.transform.GetChild(0);
+		if (Input.GetButtonDown ("Fire2"))
+		{
+			anim.SetBool ("Aim",true);
+			current_state = transform.GetChild (1);
+		}
 		else if(Input.GetButtonUp("Fire2"))
-			current_state=gun_cam.transform.GetChild(1);
+		{
+			anim.SetBool ("Aim",false);
+			current_state = transform.GetChild (0);
+
+
+		}
 	}
+
 
 	void set_ammo()
 	{
-		reload_label.text = current_ammo + "/" + total_ammo;
+		player.gameObject.GetComponent<WeaponSwitch> ().reload_label.text = current_ammo + "/" + total_ammo;
 	}
 
 	void hit(RaycastHit info,float damage,float left_distance,Vector3 direction)
@@ -221,6 +221,12 @@ public class Shooting : MonoBehaviour {
 				Instantiate (bullet_hole,info.point+info.normal*0.001f,Quaternion.LookRotation(info.normal),info.transform);
 			}
 		}
+	}
+
+	void Update ()
+	{
+		gun_cam.position = Vector3.Lerp (current_state.position,gun_cam.position, 0.2f);
+		gun_cam.rotation = Quaternion.Slerp(gun_cam.rotation ,current_state.rotation,0.2f);
 	}
 
 }
