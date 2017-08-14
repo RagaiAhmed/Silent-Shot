@@ -201,7 +201,7 @@ public class Shooting : MonoBehaviour {
 			if (info.transform.CompareTag ("Shootable")) 
 			{
 				Destructable d = info.transform.gameObject.GetComponent<Destructable> ();
-				if (d != null)
+				if (d)
 				{
 					d.destroy ();
 				}
