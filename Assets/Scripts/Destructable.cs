@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Destructable : MonoBehaviour {
 	public GameObject destroyed;
@@ -12,7 +13,7 @@ public class Destructable : MonoBehaviour {
 		}
 		else
 		{
-			SplitMesh(true);
+			StartCoroutine(SplitMesh(true));
 		}
 	}
 
