@@ -11,7 +11,9 @@ public class Shooting : MonoBehaviour {
 	public float gun_reach; // the farthest the gun can reach
 	public Object hit_effect; // the particle system effect upon bullet hitting a non-player object
 	public Object blood_effect; // the particle system effect when a bullet hit a player
+	public int burst=1;
 
+	public GameObject scope;
 	public float gun_damage; // damage for each gun per bullet
 	public ParticleSystem muzzle_flash; // the particle system effect for gun fire flash
 	float last_shot; // indicating the time of last shot
@@ -96,9 +98,28 @@ public class Shooting : MonoBehaviour {
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
 				// if a ray from center of the screen hit a collider
 				Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
-				if (Physics.Raycast (r, out info, gun_reach)) {
-					hit (info, gun_damage, gun_reach - info.distance, r.direction);
+				if (burst>1)
+				{
+					for (int i = 0; i < burst; i++)
+					{
+						r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+						r.direction += new Vector3 (Random.Range (-0.3f, 0.3f), Random.Range (-0.3f, 0.3f));
+						r.origin += Camera.main.transform.forward*0.5f;
+						if (Physics.Raycast (r, out info, gun_reach))
+						{
+							hit (info, gun_damage, gun_reach - info.distance, r.direction);
+						}
+
+					}
 				}
+				else
+				{
+					if (Physics.Raycast (r, out info, gun_reach))
+					{
+						hit (info, gun_damage, gun_reach - info.distance, r.direction);
+					}
+				}
+					
 				// calculating recoil
 
 				float to_recoil = Random.Range (recoil / 2, recoil);
@@ -107,6 +128,10 @@ public class Shooting : MonoBehaviour {
 
 				current_ammo -= 1;
 				set_ammo ();
+				if (current_ammo == 0) 
+				{
+					StartCoroutine (reload ());	 // reload
+				}
 				released = false; // trigger not released
 			} 
 			else
@@ -130,7 +155,6 @@ public class Shooting : MonoBehaviour {
 
 			if (current_ammo == 0 && Input.GetAxisRaw ("Fire1") == 1) 
 			{
-				StartCoroutine (reload ());	 // reload
 				if (!Audio.isPlaying)
 				{
 					Audio.clip = NoAmmo;
@@ -143,6 +167,7 @@ public class Shooting : MonoBehaviour {
 
 	IEnumerator reload ()
 	{
+		
 		if (total_ammo == 0 || current_ammo == clip_ammo_size) 
 		{
 			if (!Audio.isPlaying)
@@ -153,6 +178,14 @@ public class Shooting : MonoBehaviour {
 		} 
 		else
 		{
+			anim.SetBool ("Aim",false);
+			current_state = transform.GetChild (0);
+			if (scope) 
+			{
+				gameObject.layer = LayerMask.NameToLayer ("Weapon");
+				scope.SetActive (false);
+				Camera.main.fieldOfView = 50;
+			}
 			anim.SetTrigger ("Reload");
 			Transform temp = current_state;
 			current_state = transform.GetChild (2);
@@ -170,6 +203,17 @@ public class Shooting : MonoBehaviour {
 				total_ammo = 0;
 			}
 			set_ammo ();
+			if (Input.GetButton ("Fire2"))
+			{
+				anim.SetBool ("Aim",true);
+				current_state = transform.GetChild (1);
+				if (scope) 
+				{
+					gameObject.layer = LayerMask.NameToLayer ("Invisible");
+					scope.SetActive (true);
+					Camera.main.fieldOfView = 25;
+				}
+			}
 
 		}
 
@@ -182,11 +226,23 @@ public class Shooting : MonoBehaviour {
 		{
 			anim.SetBool ("Aim",true);
 			current_state = transform.GetChild (1);
+			if (scope) 
+			{
+				gameObject.layer = LayerMask.NameToLayer ("Invisible");
+				scope.SetActive (true);
+				Camera.main.fieldOfView = 25;
+			}
 		}
 		else if(Input.GetButtonUp("Fire2"))
 		{
 			anim.SetBool ("Aim",false);
 			current_state = transform.GetChild (0);
+			if (scope) 
+			{
+				gameObject.layer = LayerMask.NameToLayer ("Weapon");
+				scope.SetActive (false);
+				Camera.main.fieldOfView = 50;
+			}
 
 
 		}

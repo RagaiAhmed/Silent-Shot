@@ -4,13 +4,17 @@ using UnityEngine;
 public class Destructable : MonoBehaviour {
 	public GameObject destroyed;
 	public float explosion_multiplier;
-
+	bool not_shot =true;
 	public	void destroy()
 	{	
 		if(destroyed)
 		{
-			Instantiate (destroyed, transform.position, transform.rotation); // put the destroyed
-			Destroy (gameObject); // delete current
+			if (not_shot)
+			{
+				Instantiate (destroyed, transform.position, transform.rotation); // put the destroyed
+				Destroy (gameObject); // delete current
+				not_shot=false;
+			}
 		}
 		else
 		{
