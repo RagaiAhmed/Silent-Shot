@@ -12,21 +12,21 @@ public class Shooting : MonoBehaviour {
 	public Object hit_effect; // the particle system effect upon bullet hitting a non-player object
 	public Object blood_effect; // the particle system effect when a bullet hit a player
 
-	public float reload_time;
-
 	public float gun_damage; // damage for each gun per bullet
 	public ParticleSystem muzzle_flash; // the particle system effect for gun fire flash
 	float last_shot; // indicating the time of last shot
 	private bool released=true; // if trigger released
 	public float recoil; // recoil value
 
-	public Head_Movement player; // to apply recoil
-	public Animator anim;
+	public int layer;
+	private Head_Movement player; // to apply recoil
+	private Animator anim;
+	Transform pl;
 
 	public int clip_ammo_size; // size of ammo per reload
 	public int total_ammo; // total ammount of ammo given
 
-	private int current_ammo=0; // current ammo in the gun
+	public int current_ammo=0; // current ammo in the gun
 	private bool reloading=false;
 
 	public GameObject bullet_hole;
@@ -37,21 +37,29 @@ public class Shooting : MonoBehaviour {
 	public AudioClip NoAmmo;
 
 	public float side_shift;
-
+	public bool in_hand=true;
 	private float recoil_ammount;
 	public Transform current_state;
 	AudioSource Audio;
+	public Vector3[] standard;
+
 	void Start()
 	{
-		current_state = transform.GetChild (0);
-		Audio = GetComponent<AudioSource> ();
 		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
 		StartCoroutine(reload()); // reloads at the start of the game
 	}
 
 	void OnEnable()
-	{
-		player.gameObject.GetComponent<WeaponSwitch> ().Name_label.text = transform.name;
+	{		pl = transform;
+		for (int i = 0; i < layer; i++) 
+		{
+			pl = pl.parent;
+		}
+		pl.GetComponent<WeaponSwitch> ().Name_label.text = transform.name;
+		player = pl.GetComponent<Head_Movement> ();
+		anim = pl.GetComponent<Animator> ();
+		current_state = transform.GetChild (0);
+		Audio = GetComponent<AudioSource> ();
 		set_ammo ();
 		player.side_shift = side_shift;
 		reloading = false;
@@ -60,7 +68,7 @@ public class Shooting : MonoBehaviour {
 
 	void LateUpdate () 
 	{
-		if (Time.timeScale > 0)
+		if (Time.timeScale > 0&&in_hand)
 		{
 			if (!reloading) // if not reloading
 			{  
@@ -69,6 +77,7 @@ public class Shooting : MonoBehaviour {
 					StartCoroutine (reload ());	 // reload
 				aim (); // take aiming input
 			}
+
 		}
  	}
 
@@ -121,6 +130,7 @@ public class Shooting : MonoBehaviour {
 
 			if (current_ammo == 0 && Input.GetAxisRaw ("Fire1") == 1) 
 			{
+				StartCoroutine (reload ());	 // reload
 				if (!Audio.isPlaying)
 				{
 					Audio.clip = NoAmmo;
@@ -148,7 +158,7 @@ public class Shooting : MonoBehaviour {
 			current_state = transform.GetChild (2);
 			Audio.PlayOneShot(Reload);
 			reloading = true;
-			yield return new WaitForSeconds (reload_time); //waits for the animation
+			yield return new WaitForSeconds (Reload.length); //waits for the animation
 			reloading = false;
 			current_state = temp;
 			int new_ammo = clip_ammo_size-current_ammo; 
@@ -208,7 +218,7 @@ public class Shooting : MonoBehaviour {
 				else 
 				{
 					Rigidbody r = info.transform.gameObject.GetComponent<Rigidbody> ();
-					r.AddForce(direction * damage);
+					r.AddForce(direction * damage*10);
 				}
 				RaycastHit another_info;
 				if (Physics.Raycast (info.point+direction*0.01f, direction,out another_info,left_distance)&&left_distance>0.01f) 
@@ -216,7 +226,7 @@ public class Shooting : MonoBehaviour {
 					hit (another_info, damage / 2, left_distance - another_info.distance,direction);
 				}
 			}
-			else if (!info.transform.CompareTag("Non-Shootable"))
+			else if (!info.transform.CompareTag("Non-Shootable") && !info.transform.CompareTag("Grass"))
 			{
 				Instantiate (bullet_hole,info.point+info.normal*0.001f,Quaternion.LookRotation(info.normal),info.transform);
 			}
@@ -225,8 +235,34 @@ public class Shooting : MonoBehaviour {
 
 	void Update ()
 	{
-		gun_cam.position = Vector3.Lerp (current_state.position,gun_cam.position, 0.2f);
-		gun_cam.rotation = Quaternion.Slerp(gun_cam.rotation ,current_state.rotation,0.2f);
+		if (! (Time.timeScale > 0))
+		{
+			return;
+		}
+		if (in_hand) 
+		{
+			gun_cam.position = Vector3.Lerp (current_state.position, gun_cam.position, 0.2f);
+			gun_cam.rotation = Quaternion.Slerp (gun_cam.rotation, current_state.rotation, 0.2f);
+		}
+
 	}
 
+
+	void OnTriggerStay(Collider c)
+	{
+		if (c.CompareTag ("Player"))
+		{
+			WeaponSwitch ws = c.GetComponentInParent<WeaponSwitch> ();
+			ws.pick (gameObject);
+		}
+	}
+	void OnTriggerExit(Collider c)
+	{
+		if (c.CompareTag ("Player"))
+		{
+			WeaponSwitch ws = c.GetComponentInParent<WeaponSwitch> ();
+			ws.end_pick ();
+		}
+	}
+		
 }

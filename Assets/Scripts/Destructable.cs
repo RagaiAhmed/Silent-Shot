@@ -94,6 +94,8 @@ public class Destructable : MonoBehaviour {
 				rb.AddExplosionForce(Random.Range(3,5*explosion_multiplier), explosionPos, 5);
 				Destroy(GO, 5 + Random.Range(0.0f, 5.0f));
 			}
+			yield return null;
+
 		}
 
 		GetComponent<Renderer>().enabled = false;

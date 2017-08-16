@@ -59,7 +59,7 @@ public class Character_Control : MonoBehaviour
 
 	void Update()
 	{
-		if (Time.timeScale > 0) 
+		if (Time.timeScale != 0) 
 		{
 			isGrounded = isgrounded();
 			state = (int)Input.GetAxisRaw ("Sprint") + 1;

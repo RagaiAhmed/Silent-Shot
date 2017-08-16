@@ -4,8 +4,11 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class WeaponSwitch : MonoBehaviour {
+	public GameObject Inventory;
+
 	public Text reload_label;
 	public Text Name_label;
+	public Text message;
 
 
 	public Transform WeaponHolder;
@@ -64,14 +67,22 @@ public class WeaponSwitch : MonoBehaviour {
 
 			if (Input.GetButtonDown ("SwitchWeapon")) 
 			{
-				switchto (current);
+				show_hide ();
 			}
-			
+			if (Input.GetButtonDown ("Inventory")) 
+			{
+				show_inventory ();
+			}
+			if (Input.GetButtonDown("Drop")) 
+			{
+				drop (current);
+			}
+
 		}
 		
 	}
 
-	void switchto(int index)
+	public void switchto(int index)
 	{
 		if (index < 0)
 			index += WeaponHolder.childCount;
@@ -83,14 +94,15 @@ public class WeaponSwitch : MonoBehaviour {
 
 			player.SetTrigger ("Switch");
 			aud.PlayOneShot (switching);
-
-			gun = WeaponHolder.GetChild (current).gameObject;
-			state = gun.GetComponent<Shooting> ();
-			if (state!=null)
-				state.current_state = gun.transform.GetChild (2);
-			StartCoroutine	(change_state (gun, false));
-			player.SetBool (gun.tag, false);
-
+			if (current < WeaponHolder.childCount && current >= 0) 
+			{
+				gun = WeaponHolder.GetChild (current).gameObject;
+				state = gun.GetComponent<Shooting> ();
+				if (state != null)
+					state.current_state = gun.transform.GetChild (2);
+				StartCoroutine	(change_state (gun, false));
+				player.SetBool (gun.tag, false);
+			}
 			if (index != current || free)
 			{
 				current = index;
@@ -103,10 +115,8 @@ public class WeaponSwitch : MonoBehaviour {
 				free = false;
 			}
 			else
-			{
-				free = true;
-				reload_label.text = "";
-				Name_label.text = "";
+			{	
+				make_free ();
 
 			}
 		}
@@ -123,5 +133,107 @@ public class WeaponSwitch : MonoBehaviour {
 	bool cool_down()
 	{
 		return Time.time - last >= scroll_cool_down;
+	}
+
+	void show_hide()
+	{
+		switchto (current);
+	}
+
+	public void drop(int i)
+	{
+		
+		
+		GameObject gun = WeaponHolder.GetChild (i).gameObject;
+		if (!gun.GetComponent<Shooting> ())
+			return;
+		player.SetBool (gun.tag, false);
+		player.SetTrigger ("Switch");
+		gun.transform.parent = null;
+		gun.layer=LayerMask.NameToLayer("Default");
+		foreach (Transform child in gun.transform)
+		{
+			if (child)
+				child.gameObject.layer = gun.layer;
+		}
+
+		gun.GetComponent<Shooting>().in_hand = false;
+
+		gun.AddComponent<BoxCollider> ();
+
+		SphereCollider sp = gun.AddComponent<SphereCollider> ();
+		sp.isTrigger = true;
+		sp.radius = 0.5f;
+
+		gun.AddComponent<Rigidbody> ().useGravity = true;
+		gun.SetActive (true);
+
+		current -= 1;
+		if (current < 0)
+			current = 0;
+
+		make_free ();
+
+
+	}
+		
+
+
+	public void pick(GameObject go)
+	{
+		message.text = "Press V to grab : " + go.name;
+		if (Input.GetButtonDown ("Take")) 
+		{
+			go.SetActive (false);
+			message.text = "";
+			go.layer = LayerMask.NameToLayer("Weapon");
+			foreach (Transform child in go.transform)
+			{
+				if (child)
+					child.gameObject.layer = go.layer;
+			}
+			go.transform.parent = WeaponHolder;
+			Vector3[] standard = go.GetComponent<Shooting> ().standard;
+			go.transform.localPosition = standard [0];
+			go.transform.localEulerAngles = standard [1];
+			go.GetComponent<Shooting> ().in_hand = true;
+			Destroy (go.GetComponent<SphereCollider> ());
+			Destroy (go.GetComponent<BoxCollider> ());
+			Destroy (go.GetComponent<Rigidbody> ());
+			switchto (-1);
+
+		}
+
+	}
+	public void end_pick ()
+	{
+		message.text = "";
+	}
+
+	public void make_free()
+	{
+		free = true;
+		reload_label.text = "";
+		Name_label.text = "";
+		player.GetComponent<Head_Movement> ().side_shift = 0;
+		player.SetLayerWeight (1, 0.5f);
+	}
+
+	void show_inventory ()
+	{
+		Inventory.GetComponent<Inventory> ().show (WeaponHolder);
+	}
+
+	public void switch_in(int frm, int to)
+	{
+		if (current == frm)
+			current = to;
+		else if (current == to) 
+		{
+			current += (frm - to) / (Mathf.Abs (frm - to));
+		}
+		WeaponHolder.GetChild (frm).SetSiblingIndex (to);
+		show_inventory ();
+		
 	}
 }

@@ -28,12 +28,15 @@ public class Head_Movement : MonoBehaviour
 		anim=GetComponent<Animator>(); 
 	}
 
-
-	void LateUpdate () 
+	void Update()
 	{
 		if (Time.timeScale > 0)
 		{
-			// adds the input to the current looking state
+			temp_x *= 0.5f;
+			temp_y *= 0.5f;
+
+			new_rotation += new Vector3 (temp_x,temp_y);
+
 			float turn=-Input.GetAxis ("Mouse Y");
 			if (turn > 0) 
 				anim.SetBool ("Turn_R",true);
@@ -44,18 +47,22 @@ public class Head_Movement : MonoBehaviour
 			else
 				anim.SetBool ("Turn_L",false);
 
-			new_rotation       += new Vector3( turn, Input.GetAxis( "Mouse X" ), 0)*Sensitivity ; // takes input
-			new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -60, 60), new_rotation.y%360, 0); // clamps it
-			transform.rotation  = Quaternion.Euler( 0, new_rotation.y, 0); // applying portion of rotation to body
-			root.localRotation  = Quaternion.Euler(0,yshift,0);
-			torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -yshift, 0); // applying portion of rotation to torso
-			chest.localRotation = Quaternion.Euler( Mathf.Abs( new_rotation.x/4 ), side_shift, 0 ); // applying portion of rotation to chest
-			head.localRotation  = Quaternion.Euler( 0, -side_shift, 0 ); 
-			head.rotation = Quaternion.Euler(head.eulerAngles.x , head.eulerAngles.y , 0 ); 
-			 ;
+			new_rotation += new Vector3( turn, Input.GetAxis( "Mouse X" ), 0)*Sensitivity ;	// adds the input to the current looking state
+
 		}
 	}
 
+	void LateUpdate () 
+	{
+			new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -60, 60), new_rotation.y%360, 0); // clamps it
+			transform.rotation  = Quaternion.Euler( 0, new_rotation.y, 0); // applying portion of rotation to body
+			root.localRotation  = Quaternion.Euler(0,yshift,0);
+			torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -yshift+side_shift/2, 0); // applying portion of rotation to torso
+			chest.localRotation = Quaternion.Euler( Mathf.Abs( new_rotation.x/4 ),side_shift/2, 0 ); // applying portion of rotation to chest
+			head.localRotation  = Quaternion.Euler( 0, -side_shift, 0 ); 
+			head.rotation = Quaternion.Euler(head.eulerAngles.x , head.eulerAngles.y , 0 ); ;
+		
+	}
 	public float apply_x(float val)
 	{
 		temp_x += val;
@@ -70,13 +77,5 @@ public class Head_Movement : MonoBehaviour
 	{
 		temp_y += val;
 	}
-
-	void Update ()
-	{
-		temp_x *= 0.5f;
-		temp_y *= 0.5f;
-
-		new_rotation += new Vector3 (temp_x,temp_y);
-
-	}
+		
 }
