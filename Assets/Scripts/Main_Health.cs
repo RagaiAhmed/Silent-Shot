@@ -12,9 +12,12 @@ public class Main_Health : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
+		label = GameObject.FindGameObjectWithTag ("Health").transform.GetChild(0).GetComponent<Image> ();
 		aud = GetComponent<AudioSource> ();
 		hp = Health;
 		set_health ();
+		label.gameObject.SetActive (true);
+
 	}
 
 	public void decrease (float damage)

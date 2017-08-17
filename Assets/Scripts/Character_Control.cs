@@ -20,9 +20,11 @@ public class Character_Control : MonoBehaviour
 	public float run; // adjustable speed variable
 	public float jump; // adjustable jump force
 	public float footstepadjust;
-	public Transform Rightfoot;
-	public Transform Leftfoot;
+	public int[] Rightfoot_path;
+	public int[] Leftfoot_path;
 
+	Transform Rightfoot;
+	Transform Leftfoot;
 	public Floors[] floor;
 	private int Floor_Type;
 
@@ -47,6 +49,16 @@ public class Character_Control : MonoBehaviour
 
 	void Start ()
 	{
+		Rightfoot = transform;
+		foreach (int i in Rightfoot_path)
+		{
+			Rightfoot = Rightfoot.GetChild (i);
+		}
+		Leftfoot = transform;
+		foreach (int i in Leftfoot_path)
+		{
+			Leftfoot = Leftfoot.GetChild (i);
+		}
 		speed_array = new  float[] {crouch,walk,run};
 		state_functions = new action[] {Crouch,Walk,Sprint};
 		engine0 = GetComponent<Rigidbody>(); 

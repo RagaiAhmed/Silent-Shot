@@ -11,7 +11,9 @@ public class WeaponSwitch : MonoBehaviour {
 	public Text message;
 
 
-	public Transform WeaponHolder;
+	public int[] WeaponHolder_path;
+
+	private Transform WeaponHolder;
 	private Animator player;
 	public float switch_time;
 	public AudioClip switching;
@@ -40,6 +42,17 @@ public class WeaponSwitch : MonoBehaviour {
 
 	void Start()
 	{
+		Inventory = GameObject.FindGameObjectWithTag ("Inventory").transform.GetChild (0).gameObject;
+
+		reload_label=GameObject.FindGameObjectWithTag("Ammo").GetComponent<Text>();
+		Name_label=GameObject.FindGameObjectWithTag("WPName").GetComponent<Text>();
+		message=GameObject.FindGameObjectWithTag("Message").GetComponent<Text>();
+
+		WeaponHolder = transform;
+		foreach (int i in WeaponHolder_path)
+		{
+			WeaponHolder = WeaponHolder.GetChild (i);
+		}
 		aud = GetComponent<AudioSource> ();
 		player = GetComponent<Animator> ();
 

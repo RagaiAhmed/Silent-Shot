@@ -13,7 +13,8 @@ public class Shooting : MonoBehaviour {
 	public Object blood_effect; // the particle system effect when a bullet hit a player
 	public int burst=1;
 
-	public GameObject scope;
+	public bool is_scope;
+	private GameObject scope;
 	public float gun_damage; // damage for each gun per bullet
 	public ParticleSystem muzzle_flash; // the particle system effect for gun fire flash
 	float last_shot; // indicating the time of last shot
@@ -47,12 +48,17 @@ public class Shooting : MonoBehaviour {
 
 	void Start()
 	{
-		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
+		if (!in_hand)
+			return;
 		StartCoroutine(reload()); // reloads at the start of the game
+		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
+
 	}
 
 	void OnEnable()
-	{		pl = transform;
+	{	if (!in_hand)
+			return;
+		pl = transform;
 		for (int i = 0; i < layer; i++) 
 		{
 			pl = pl.parent;
@@ -65,6 +71,8 @@ public class Shooting : MonoBehaviour {
 		set_ammo ();
 		player.side_shift = side_shift;
 		reloading = false;
+		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
+		scope = GameObject.FindGameObjectWithTag ("Scope").transform.GetChild(0).gameObject;
 	}
 
 
@@ -136,6 +144,7 @@ public class Shooting : MonoBehaviour {
 			} 
 			else
 			{
+
 				if (recoil_ammount>0)
 				{
 					player.apply_x(recoil/2);
@@ -145,6 +154,7 @@ public class Shooting : MonoBehaviour {
 		} 
 		else 
 		{
+
 			if (recoil_ammount>0)
 			{
 				player.apply_x(recoil/2);
@@ -155,6 +165,8 @@ public class Shooting : MonoBehaviour {
 
 			if (current_ammo == 0 && Input.GetAxisRaw ("Fire1") == 1) 
 			{
+				StartCoroutine (reload ());	 // reload
+
 				if (!Audio.isPlaying)
 				{
 					Audio.clip = NoAmmo;
@@ -226,7 +238,7 @@ public class Shooting : MonoBehaviour {
 		{
 			anim.SetBool ("Aim",true);
 			current_state = transform.GetChild (1);
-			if (scope) 
+			if (is_scope) 
 			{
 				gameObject.layer = LayerMask.NameToLayer ("Invisible");
 				scope.SetActive (true);
@@ -237,7 +249,7 @@ public class Shooting : MonoBehaviour {
 		{
 			anim.SetBool ("Aim",false);
 			current_state = transform.GetChild (0);
-			if (scope) 
+			if (is_scope) 
 			{
 				gameObject.layer = LayerMask.NameToLayer ("Weapon");
 				scope.SetActive (false);

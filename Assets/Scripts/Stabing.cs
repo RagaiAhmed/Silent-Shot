@@ -7,7 +7,8 @@ public class Stabing : MonoBehaviour {
 	public float damage;
 	public float reach;
 	public GameObject blood_effect;
-	public Animator player;
+	public int layer;
+	private Animator player;
 	public Transform gun_cam;
 	public Transform current_state;
 	public WeaponSwitch PL;
@@ -21,10 +22,17 @@ public class Stabing : MonoBehaviour {
 	}
 	void OnEnable()
 	{
+		Transform t = transform;
+		for (int i = 0; i < layer; i++)
+		{
+			t = t.parent;
+		}
+		player = t.GetComponent<Animator>();
+		PL = t.GetComponent<WeaponSwitch> ();
+		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
 		PL.Name_label.text = transform.name;
 		PL.reload_label.text="";
-		Head_Movement player = PL.GetComponent<Head_Movement> ();
-		player.side_shift = side_shift;
+		PL.GetComponent<Head_Movement> ().side_shift = side_shift;
 	}
 
 	void Update () 

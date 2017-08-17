@@ -6,10 +6,15 @@ public class Head_Movement : MonoBehaviour
 
 	public float Sensitivity; // mouse sensetivity
 
-	public Transform root;
-	public Transform chest;
-	public Transform torso ;
-	public Transform head;
+	public int[] root_path;
+	public int[] chest_path;
+	public int[] torso_path ;
+	public int[] head_path;
+
+	 Transform root;
+	 Transform chest;
+	 Transform torso ;
+	 Transform head;
 
 	public float yshift ;
 	private float temp_x;
@@ -23,6 +28,11 @@ public class Head_Movement : MonoBehaviour
 
 	void Start()
 	{
+		root = get_from_path (root_path);
+		chest = get_from_path (chest_path);
+		torso = get_from_path (torso_path);
+		head = get_from_path (head_path);
+
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false; // hides mouse
 		anim=GetComponent<Animator>(); 
@@ -76,6 +86,16 @@ public class Head_Movement : MonoBehaviour
 	public void apply_y(float val)
 	{
 		temp_y += val;
+	}
+
+	Transform get_from_path(int[] path)
+	{
+		Transform t = transform;
+		foreach (int i in path)
+		{
+			t = t.GetChild (i);
+		}
+		return t;
 	}
 		
 }
