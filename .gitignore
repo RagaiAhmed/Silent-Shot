@@ -5,6 +5,10 @@
 /[Bb]uilds/
 /Assets/AssetStoreTools*
 
+# City for its big size
+[Cc]ity/
+
+
 # Visual Studio 2015 cache directory
 /.vs/
 
