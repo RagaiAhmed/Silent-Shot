@@ -6,7 +6,14 @@
 /Assets/AssetStoreTools*
 
 # City for its big size
-[Cc]ity/
+/Assets/Scenes/City.unity
+/Assets/Prefabs/_Buildings_Mobile/
+/Assets/Prefabs/Euro_Town/
+/Assets/Prefabs/fishing_boat/
+/Assets/Prefabs/Houses_Pack/
+/Assets/Prefabs/skyscrapers/
+/Assets/Prefabs/UK Terraced Houses FREE/
+
 
 
 # Visual Studio 2015 cache directory

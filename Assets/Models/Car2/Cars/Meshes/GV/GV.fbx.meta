@@ -1,0 +1,306 @@
+fileFormatVersion: 2
+guid: ac8f619bc4628594a9168558b473ec59
+timeCreated: 1490106031
+licenseType: Store
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: GOL 1
+    100004: GOL_Antena
+    100006: Gol_Black1
+    100008: Gol_BrakeLights1
+    100010: GOL_Chrome
+    100012: GOL_Driver
+    100014: GOL_Glass
+    100016: Gol_Gv_Bottom
+    100018: Gol_GV_BrakeLight
+    100020: Gol_Gv_Chassis
+    100022: Gol_Gv_Interior
+    100024: Gol_GV_PositionLight
+    100026: Gol_Interior
+    100028: Gol_LOD
+    100030: Gol_Luz_Brilhos
+    100032: Gol_Wheels
+    100034: GroundProjectors
+    100036: HeadLightFlare L
+    100038: HeadLightFlare L1
+    100040: HeadLightFlare LS
+    100042: HeadLightFlare LS1
+    100044: HeadLightFlareGroundL
+    100046: HeadLightFlareGroundR
+    100048: LOD_0
+    100050: LOD_1
+    100052: LOD_2
+    100054: RdD
+    100056: RdE
+    100058: RtD
+    100060: RtE
+    100062: TailLightFlareGroundL
+    100064: TailLightFlareGroundR
+    100066: Vision_lights_position_front_and_back_glows
+    100068: BackLights
+    100070: FrontLights
+    100072: GV_Antena
+    100074: GV_Black1
+    100076: GV_Bottom
+    100078: GV_BrakeLight
+    100080: GV_Chassis
+    100082: GV_Chrome
+    100084: GV_Driver
+    100086: GV_Glass
+    100088: GV_Interior
+    100090: GV_Interior 1
+    100092: GV_LOD
+    100094: GV_PositionLight
+    100096: GV_Wheels
+    100098: HeadLightFlare
+    100100: HeadLightFlare1
+    100102: HeadLightFlare2
+    100104: HeadLightFlare3
+    100106: lights_position_front_and_back_glows
+    400000: //RootNode
+    400002: GOL 1
+    400004: GOL_Antena
+    400006: Gol_Black1
+    400008: Gol_BrakeLights1
+    400010: GOL_Chrome
+    400012: GOL_Driver
+    400014: GOL_Glass
+    400016: Gol_Gv_Bottom
+    400018: Gol_GV_BrakeLight
+    400020: Gol_Gv_Chassis
+    400022: Gol_Gv_Interior
+    400024: Gol_GV_PositionLight
+    400026: Gol_Interior
+    400028: Gol_LOD
+    400030: Gol_Luz_Brilhos
+    400032: Gol_Wheels
+    400034: GroundProjectors
+    400036: HeadLightFlare L
+    400038: HeadLightFlare L1
+    400040: HeadLightFlare LS
+    400042: HeadLightFlare LS1
+    400044: HeadLightFlareGroundL
+    400046: HeadLightFlareGroundR
+    400048: LOD_0
+    400050: LOD_1
+    400052: LOD_2
+    400054: RdD
+    400056: RdE
+    400058: RtD
+    400060: RtE
+    400062: TailLightFlareGroundL
+    400064: TailLightFlareGroundR
+    400066: Vision_lights_position_front_and_back_glows
+    400068: BackLights
+    400070: FrontLights
+    400072: GV_Antena
+    400074: GV_Black1
+    400076: GV_Bottom
+    400078: GV_BrakeLight
+    400080: GV_Chassis
+    400082: GV_Chrome
+    400084: GV_Driver
+    400086: GV_Glass
+    400088: GV_Interior
+    400090: GV_Interior 1
+    400092: GV_LOD
+    400094: GV_PositionLight
+    400096: GV_Wheels
+    400098: HeadLightFlare
+    400100: HeadLightFlare1
+    400102: HeadLightFlare2
+    400104: HeadLightFlare3
+    400106: lights_position_front_and_back_glows
+    2300000: GOL_Antena
+    2300002: Gol_Black1
+    2300004: GOL_Chrome
+    2300006: GOL_Driver
+    2300008: GOL_Glass
+    2300010: Gol_Gv_Bottom
+    2300012: Gol_GV_BrakeLight
+    2300014: Gol_Gv_Chassis
+    2300016: Gol_Gv_Interior
+    2300018: Gol_GV_PositionLight
+    2300020: HeadLightFlare L
+    2300022: HeadLightFlare L1
+    2300024: HeadLightFlare LS
+    2300026: HeadLightFlare LS1
+    2300028: HeadLightFlareGroundL
+    2300030: HeadLightFlareGroundR
+    2300032: LOD_1
+    2300034: LOD_2
+    2300036: RdD
+    2300038: RdE
+    2300040: RtD
+    2300042: RtE
+    2300044: TailLightFlareGroundL
+    2300046: TailLightFlareGroundR
+    2300048: Vision_lights_position_front_and_back_glows
+    2300050: GV_Antena
+    2300052: GV_Black1
+    2300054: GV_Bottom
+    2300056: GV_BrakeLight
+    2300058: GV_Chassis
+    2300060: GV_Chrome
+    2300062: GV_Driver
+    2300064: GV_Glass
+    2300066: GV_Interior 1
+    2300068: GV_PositionLight
+    2300070: HeadLightFlare
+    2300072: HeadLightFlare1
+    2300074: HeadLightFlare2
+    2300076: HeadLightFlare3
+    2300078: lights_position_front_and_back_glows
+    3300000: GOL_Antena
+    3300002: Gol_Black1
+    3300004: GOL_Chrome
+    3300006: GOL_Driver
+    3300008: GOL_Glass
+    3300010: Gol_Gv_Bottom
+    3300012: Gol_GV_BrakeLight
+    3300014: Gol_Gv_Chassis
+    3300016: Gol_Gv_Interior
+    3300018: Gol_GV_PositionLight
+    3300020: HeadLightFlare L
+    3300022: HeadLightFlare L1
+    3300024: HeadLightFlare LS
+    3300026: HeadLightFlare LS1
+    3300028: HeadLightFlareGroundL
+    3300030: HeadLightFlareGroundR
+    3300032: LOD_1
+    3300034: LOD_2
+    3300036: RdD
+    3300038: RdE
+    3300040: RtD
+    3300042: RtE
+    3300044: TailLightFlareGroundL
+    3300046: TailLightFlareGroundR
+    3300048: Vision_lights_position_front_and_back_glows
+    3300050: GV_Antena
+    3300052: GV_Black1
+    3300054: GV_Bottom
+    3300056: GV_BrakeLight
+    3300058: GV_Chassis
+    3300060: GV_Chrome
+    3300062: GV_Driver
+    3300064: GV_Glass
+    3300066: GV_Interior 1
+    3300068: GV_PositionLight
+    3300070: HeadLightFlare
+    3300072: HeadLightFlare1
+    3300074: HeadLightFlare2
+    3300076: HeadLightFlare3
+    3300078: lights_position_front_and_back_glows
+    4300000: Gol_GV_PositionLight
+    4300002: Gol_Black1
+    4300004: GOL_Glass
+    4300006: GOL_Antena
+    4300008: Gol_Gv_Bottom
+    4300010: Gol_Gv_Chassis
+    4300012: GOL_Chrome
+    4300014: GOL_Driver
+    4300016: Gol_Gv_Interior
+    4300018: LOD_1
+    4300020: LOD_2
+    4300022: Vision_lights_position_front_and_back_glows
+    4300024: HeadLightFlare L
+    4300026: HeadLightFlare LS
+    4300028: HeadLightFlare LS1
+    4300030: HeadLightFlare L1
+    4300032: HeadLightFlareGroundL
+    4300034: HeadLightFlareGroundR
+    4300036: Gol_GV_BrakeLight
+    4300038: TailLightFlareGroundL
+    4300040: TailLightFlareGroundR
+    4300042: RtE
+    4300044: RtD
+    4300046: RdD
+    4300048: RdE
+    4300050: GV_PositionLight
+    4300052: GV_Black1
+    4300054: GV_Glass
+    4300056: GV_Antena
+    4300058: GV_Bottom
+    4300060: GV_Chassis
+    4300062: GV_Chrome
+    4300064: GV_Driver
+    4300066: GV_Interior
+    4300068: lights_position_front_and_back_glows
+    4300070: HeadLightFlare
+    4300072: HeadLightFlare1
+    4300074: HeadLightFlare2
+    4300076: HeadLightFlare3
+    4300078: GV_BrakeLight
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 110
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
