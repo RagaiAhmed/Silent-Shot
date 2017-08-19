@@ -12,7 +12,7 @@ public class player_movement : MonoBehaviour
 	void Update () 
 	{
 		float Rotation_x = Input.GetAxis ("Mouse X") * rotationSpeed;
-		transform.RotateAround (Vector3.up, Rotation_x); 
+		transform.Rotate (Vector3.up, Rotation_x); 
 
 		float x_movement = -1 * speed * Input.GetAxisRaw ("Vertical") * Time.deltaTime;
 		float z_movement = speed * Input.GetAxisRaw ("Horizontal") * Time.deltaTime;
