@@ -18,9 +18,18 @@ public class Health_Body_Part : MonoBehaviour {
 	}
 	public void decrease (float damage)
 	{
-		if (head_shot)
+		if (head_shot) 
+		{
 			main.headShot ();
+			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+main.Health));
+
+		}
 		else
-			main.decrease (damage * DamageMultiplier);
+		{
+			float d = damage * DamageMultiplier;
+			main.decrease (d);
+			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+d));
+
+		}
 	}
 }

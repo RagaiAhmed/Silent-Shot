@@ -162,25 +162,7 @@ public class WeaponSwitch : MonoBehaviour {
 			return;
 		player.SetBool (gun.tag, false);
 		player.SetTrigger ("Switch");
-		gun.transform.parent = null;
-		gun.layer=LayerMask.NameToLayer("Default");
-		foreach (Transform child in gun.transform)
-		{
-			if (child)
-				child.gameObject.layer = gun.layer;
-		}
-
-		gun.GetComponent<Shooting>().in_hand = false;
-
-		gun.AddComponent<BoxCollider> ();
-
-		SphereCollider sp = gun.AddComponent<SphereCollider> ();
-		sp.isTrigger = true;
-		sp.radius = 0.5f;
-
-		gun.AddComponent<Rigidbody> ().useGravity = true;
-		gun.SetActive (true);
-
+		gun.GetComponent<Shooting> ().drop ();
 		current -= 1;
 		if (current < 0)
 			current = 0;

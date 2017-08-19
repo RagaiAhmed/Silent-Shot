@@ -45,6 +45,7 @@ public class Shooting : MonoBehaviour {
 	public Transform current_state;
 	AudioSource Audio;
 	public Vector3[] standard;
+	public bool non_player;
 
 	void Start()
 	{
@@ -95,7 +96,7 @@ public class Shooting : MonoBehaviour {
 	void shoot()
 	{
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
-		if (Input.GetAxisRaw ("Fire1") == 1 && current_ammo>0) // if fire button hit
+		if ((Input.GetAxisRaw ("Fire1") == 1||non_player) && current_ammo>0) // if fire button hit
 		{ 
 			
 			if ((Time.time - last_shot >= cool_down_between_shots || released)) 
@@ -129,10 +130,13 @@ public class Shooting : MonoBehaviour {
 				}
 					
 				// calculating recoil
+				if (!non_player) 
+				{
+					float to_recoil = Random.Range (recoil / 2, recoil);
+					player.apply_y (Random.Range (-to_recoil / 4, to_recoil / 4));
+					recoil_ammount -= player.apply_x (-to_recoil);
+				}
 
-				float to_recoil = Random.Range (recoil / 2, recoil);
-				player.apply_y (Random.Range (-to_recoil / 4, to_recoil / 4));
-				recoil_ammount -= player.apply_x (-to_recoil);
 
 				current_ammo -= 1;
 				set_ammo ();
@@ -145,7 +149,7 @@ public class Shooting : MonoBehaviour {
 			else
 			{
 
-				if (recoil_ammount>0)
+				if (recoil_ammount>0&&!non_player)
 				{
 					player.apply_x(recoil/2);
 					recoil_ammount -= recoil;
@@ -154,8 +158,7 @@ public class Shooting : MonoBehaviour {
 		} 
 		else 
 		{
-
-			if (recoil_ammount>0)
+			if (recoil_ammount>0&&!non_player)
 			{
 				player.apply_x(recoil/2);
 				recoil_ammount -= recoil;
@@ -192,7 +195,7 @@ public class Shooting : MonoBehaviour {
 		{
 			anim.SetBool ("Aim",false);
 			current_state = transform.GetChild (0);
-			if (scope) 
+			if (is_scope) 
 			{
 				gameObject.layer = LayerMask.NameToLayer ("Weapon");
 				scope.SetActive (false);
@@ -219,7 +222,7 @@ public class Shooting : MonoBehaviour {
 			{
 				anim.SetBool ("Aim",true);
 				current_state = transform.GetChild (1);
-				if (scope) 
+				if (is_scope) 
 				{
 					gameObject.layer = LayerMask.NameToLayer ("Invisible");
 					scope.SetActive (true);
@@ -268,7 +271,8 @@ public class Shooting : MonoBehaviour {
 
 	void hit(RaycastHit info,float damage,float left_distance,Vector3 direction)
 	{
-		if (info.transform.CompareTag("Player")) { // if hit a player
+		if (info.transform.CompareTag("Player")||info.transform.CompareTag("Enemy")) 
+		{ // if hit a player
 			
 			info.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (gun_damage); // decrease player health
 			Destroy (Instantiate (blood_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // make blood effect and deletes it after some time
@@ -331,6 +335,28 @@ public class Shooting : MonoBehaviour {
 			WeaponSwitch ws = c.GetComponentInParent<WeaponSwitch> ();
 			ws.end_pick ();
 		}
+	}
+	public void drop()
+	{
+		transform.parent = null;
+		gameObject.layer=LayerMask.NameToLayer("Default");
+		foreach (Transform child in transform)
+		{
+			if (child)
+				child.gameObject.layer = gameObject.layer;
+		}
+
+		in_hand = false;
+
+		gameObject.AddComponent<BoxCollider> ();
+
+		SphereCollider sp = gameObject.AddComponent<SphereCollider> ();
+		sp.isTrigger = true;
+		sp.radius = 0.5f;
+
+		gameObject.AddComponent<Rigidbody> ().useGravity = true;
+		gameObject.SetActive (true);
+
 	}
 		
 }

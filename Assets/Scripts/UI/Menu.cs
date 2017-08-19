@@ -39,6 +39,7 @@ public class Menu : MonoBehaviour {
 
 		if (character == -1) 
 		{
+			PlayerPrefs.SetInt ("Points", 200);
 			welcome.SetActive (true);
 		}
 		else

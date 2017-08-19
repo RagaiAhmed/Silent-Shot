@@ -48,6 +48,7 @@ public class Head_Movement : MonoBehaviour
 			new_rotation += new Vector3 (temp_x,temp_y);
 
 			float turn=-Input.GetAxis ("Mouse Y");
+
 			if (turn > 0) 
 				anim.SetBool ("Turn_R",true);
 			else 

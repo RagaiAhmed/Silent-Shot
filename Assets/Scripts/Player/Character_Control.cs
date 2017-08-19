@@ -71,6 +71,7 @@ public class Character_Control : MonoBehaviour
 
 	void Update()
 	{
+
 		if (Time.timeScale != 0) 
 		{
 			isGrounded = isgrounded();

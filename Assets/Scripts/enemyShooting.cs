@@ -3,23 +3,67 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class enemyShooting : MonoBehaviour {
-	public Transform player;
-	public float minDist = 15f;
-	public float enemyDamage = 2f;
-	public NavMeshAgent nav;
+	public Transform [] Nodes;
+	public float spot_range;
+	public GameObject torso;
+	NavMeshAgent nav;
+//	shoot gun;
+	bool chasing,in_range;
+	Vector3 current_node;
+
 	void Start() 
 	{
+//		gun = torso.GetComponent<shoot> ();
+		current_node=transform.position;
 		nav = GetComponent<NavMeshAgent> ();
 	}
-	// Update is called once per frame
-	void Update () {
-		float dist = Vector3.Distance (gameObject.transform.position, player.transform.position);
-		if (dist <= minDist) {
-			takeDamageFromEnemy health = player.GetComponent<takeDamageFromEnemy> ();
-			health.damage_me (enemyDamage);
-			nav.enabled = false;
-		} else {
-			nav.enabled = true;
+
+	void Update ()
+	{
+		check_if_seen_player ();
+		if (chasing) 
+		{
+			shoot ();
+			if (isStopped()||!nav.hasPath)
+				chasing = false;
 		}
+		else
+		{
+			wander ();
+		}
+
+	}
+
+	void shoot()
+	{
+		print (888);
+		//torso.transform.rotation = Quaternion.LookRotation (current_node,torso.transform.position);
+		//gun.shoot ();
+	}
+
+	void wander()
+	{
+		if (isStopped()) 
+		{
+			current_node = Nodes [Random.Range (0, Nodes.Length)].position;
+			nav.SetDestination (current_node);
+		}
+	}
+
+	void check_if_seen_player ()
+	{
+		RaycastHit seen;
+		if (Physics.SphereCast (transform.position, 10, torso.transform.rotation.eulerAngles, out seen, spot_range)) 
+		{
+			if (seen.collider.CompareTag ("Player"))
+			{
+				current_node = seen.transform.position;
+				chasing = true;
+			}
+		}
+	}
+	bool isStopped()
+	{
+		return ((current_node-transform.position).magnitude < 1);
 	}
 }
