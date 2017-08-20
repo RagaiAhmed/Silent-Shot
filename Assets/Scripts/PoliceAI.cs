@@ -25,6 +25,10 @@ public class PoliceAI : MonoBehaviour {
 
 	public AudioSource siren;
 
+	private bool temp = false;
+
+	Rigidbody rb;
+
 	// Use this for initialization
 	void Start () {
 		policeMan.SetActive (false);
@@ -33,6 +37,7 @@ public class PoliceAI : MonoBehaviour {
 
 	public void Explode()
 	{
+		rb = GetComponent<Rigidbody> ();
 		_explosionParticle.Play ();
 		_carLight.SetActive (false);
 		AudioSource.PlayClipAtPoint (_explosionAudio, transform.position);
@@ -42,7 +47,7 @@ public class PoliceAI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (!aiControl.m_Driving&&aiControl.m_CarController.CurrentSpeed<1) {
+		if (aiControl.m_CarController.CurrentSpeed<1) {
 			policeMan.SetActive (true);
 		}
 		if (health < 1&&health!=-0.01f) 
@@ -51,8 +56,15 @@ public class PoliceAI : MonoBehaviour {
 			aiControl.m_Driving = false;
 		}
 		Vector3 localTarget = policeMan.transform.InverseTransformPoint(aiControl.m_Target.position);
-		if (localTarget.magnitude > 5*aiControl.m_ReachTargetThreshold&&policeMan.activeSelf) {
-			//TODO Reset PoliceCar to continue chasing player
+		// if appropriate, stop driving when we're close enough to the target.
+		if (localTarget.magnitude < aiControl.m_ReachTargetThreshold)
+		{
+			aiControl.m_CarController.Move (0, 0, -100000000, 0);
+			aiControl.enabled = false;
+		}
+		if (localTarget.magnitude > 3*aiControl.m_ReachTargetThreshold&&policeMan.activeSelf&&health!=-0.01f) {
+			aiControl.enabled = true;
+			policeMan.SetActive (false);
 		}
 	}
 

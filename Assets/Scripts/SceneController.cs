@@ -153,6 +153,15 @@ public class SceneController : MonoBehaviour {
 				Debug.LogError ("There are similar commands in the 'controls' list. Use different keys for each command.");
 	}
 
+	int searchForIndex(object x, object[] a)
+	{
+		for (int y = 0; y < a.Length; y++) {
+			if (a [y] == x)
+				return y;
+		}
+		return -1;
+	}
+
 	void Update () {
 		if (!error) {
 			#region customizeInputsValues
@@ -195,13 +204,14 @@ public class SceneController : MonoBehaviour {
 					proximityDoorIndex = 0;
 					for (int x = 0; x < vehicles.Length; x++) {
 						controllerTemp = vehicles [x].GetComponent<VehicleController> ();
-
-						for (int y = 0; y < controllerTemp.doorPosition.Length; y++) {
-							currentDistanceTemp = Vector3.Distance (player.transform.position, controllerTemp.doorPosition [y].transform.position);
-							proximityDistanceTemp = Vector3.Distance (player.transform.position, vehicles [proximityObjectIndex].GetComponent<VehicleController> ().doorPosition [proximityDoorIndex].transform.position);
-							if (currentDistanceTemp < proximityDistanceTemp) {
-								proximityObjectIndex = x;
-								proximityDoorIndex = y;
+						if (controllerTemp.doorPosition.Length > 0) {
+							for (int y = 0; y < controllerTemp.doorPosition.Length; y++) {
+								currentDistanceTemp = Vector3.Distance (player.transform.position, controllerTemp.doorPosition [y].transform.position);
+								proximityDistanceTemp = Vector3.Distance (player.transform.position, vehicles [proximityObjectIndex].GetComponent<VehicleController> ().doorPosition [proximityDoorIndex].transform.position);
+								if (currentDistanceTemp < proximityDistanceTemp) {
+									proximityObjectIndex = x;
+									proximityDoorIndex = y;
+								}
 							}
 						}
 					}
@@ -247,13 +257,16 @@ public class SceneController : MonoBehaviour {
 			velocitymph = "Velocity(mp/h): " + (int)(vehicleCode.KMh * 0.621371f * clampGear);
 			handBrake = "HandBreak: " + vehicleCode.handBrakeTrue;
 
-			if (vehicleCode.isDestroyed) {
-				vehicleCode.doorPosition = new GameObject[0];
-				vehicleCode.Explode ();
-				vehicleCode.isDestroyed = true;
+			foreach (GameObject g in vehicles) {
+				VehicleController v = g.GetComponent<VehicleController> ();
+				if (v.isDestroyed) {
+					v.doorPosition = new GameObject[0];
+					v.Explode ();
+					v.isDestroyed = false;
+				}
+				if (v.isInsideTheCar)
+					player.transform.position = v.transform.position;
 			}
-			if (vehicleCode.isInsideTheCar)
-				player.transform.position = vehicleCode.transform.position;
 		}
 	}
 
