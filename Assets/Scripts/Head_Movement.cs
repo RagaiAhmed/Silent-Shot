@@ -64,7 +64,7 @@ public class Head_Movement : MonoBehaviour
 
 	void LateUpdate () 
 	{
-			new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -60, 60), new_rotation.y%360, 0); // clamps it
+			new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -90, 60), new_rotation.y%360, 0); // clamps it
 			transform.rotation  = Quaternion.Euler( 0, new_rotation.y, 0); // applying portion of rotation to body
 			root.localRotation  = Quaternion.Euler(0,yshift,0);
 			torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -yshift+side_shift/2, 0); // applying portion of rotation to torso

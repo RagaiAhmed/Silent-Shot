@@ -49,4 +49,14 @@ public class Main_Health : MonoBehaviour {
 			set_health ();
 		}
 	}
+
+	void OnCollsionEnter(Collision c)
+	{
+		if (c.transform.tag == "Vehicle") {
+			float allVelocity = Mathf.Sqrt (Mathf.Pow (c.relativeVelocity.x, 2) + Mathf.Pow (c.relativeVelocity.y, 2) + Mathf.Pow (c.relativeVelocity.z, 2));
+			if (allVelocity > 1) {
+				decrease (allVelocity * 3);
+				print ("ouch");}
+		}
+	}
 }

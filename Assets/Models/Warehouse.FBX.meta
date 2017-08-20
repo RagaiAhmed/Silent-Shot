@@ -1,0 +1,196 @@
+fileFormatVersion: 2
+guid: 6c8d745131e0a4df89b00f063fd2d550
+timeCreated: 1503177769
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Base_suport
+    100002: Floor
+    100004: Glass
+    100006: Interior Window
+    100008: Metal_Plate_1
+    100010: Metal_Plate_2
+    100012: Metal_Plate_3
+    100014: Metal_Plate_4
+    100016: Metal_Plate_5
+    100018: Metal_Plate_6
+    100020: Metal_Plate_7
+    100022: Metal_Plate_8
+    100024: Pillars
+    100026: Rail
+    100028: Roof
+    100030: Roof support
+    100032: Roof_windows
+    100034: Small_Room
+    100036: Stairs
+    100038: TopoSurface001
+    100040: Walls
+    100042: //RootNode
+    100044: windows_left
+    100046: windows_right_metal
+    400000: Base_suport
+    400002: Floor
+    400004: Glass
+    400006: Interior Window
+    400008: Metal_Plate_1
+    400010: Metal_Plate_2
+    400012: Metal_Plate_3
+    400014: Metal_Plate_4
+    400016: Metal_Plate_5
+    400018: Metal_Plate_6
+    400020: Metal_Plate_7
+    400022: Metal_Plate_8
+    400024: Pillars
+    400026: Rail
+    400028: Roof
+    400030: Roof support
+    400032: Roof_windows
+    400034: Small_Room
+    400036: Stairs
+    400038: TopoSurface001
+    400040: Walls
+    400042: //RootNode
+    400044: windows_left
+    400046: windows_right_metal
+    2300000: Base_suport
+    2300002: Floor
+    2300004: Glass
+    2300006: Interior Window
+    2300008: Metal_Plate_1
+    2300010: Metal_Plate_2
+    2300012: Metal_Plate_3
+    2300014: Metal_Plate_4
+    2300016: Metal_Plate_5
+    2300018: Metal_Plate_6
+    2300020: Metal_Plate_7
+    2300022: Metal_Plate_8
+    2300024: Pillars
+    2300026: Rail
+    2300028: Roof
+    2300030: Roof support
+    2300032: Roof_windows
+    2300034: Small_Room
+    2300036: Stairs
+    2300038: Walls
+    2300040: windows_left
+    2300042: windows_right_metal
+    3300000: Base_suport
+    3300002: Floor
+    3300004: Glass
+    3300006: Interior Window
+    3300008: Metal_Plate_1
+    3300010: Metal_Plate_2
+    3300012: Metal_Plate_3
+    3300014: Metal_Plate_4
+    3300016: Metal_Plate_5
+    3300018: Metal_Plate_6
+    3300020: Metal_Plate_7
+    3300022: Metal_Plate_8
+    3300024: Pillars
+    3300026: Rail
+    3300028: Roof
+    3300030: Roof support
+    3300032: Roof_windows
+    3300034: Small_Room
+    3300036: Stairs
+    3300038: Walls
+    3300040: windows_left
+    3300042: windows_right_metal
+    4300000: Walls
+    4300002: Floor
+    4300004: Roof_windows
+    4300006: windows_left
+    4300008: Small_Room
+    4300010: Stairs
+    4300012: Metal_Plate_8
+    4300014: Metal_Plate_7
+    4300016: Metal_Plate_6
+    4300018: Metal_Plate_5
+    4300020: Metal_Plate_4
+    4300022: Metal_Plate_3
+    4300024: Metal_Plate_2
+    4300026: Metal_Plate_1
+    4300028: Rail
+    4300030: Base_suport
+    4300032: Pillars
+    4300034: windows_right_metal
+    4300036: Interior Window
+    4300038: Glass
+    4300040: Roof
+    4300042: Roof support
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
