@@ -139,7 +139,7 @@ public class MeshSimplifyEditor : Editor
         Matrix4x4 mtxHandles = Handles.matrix;
         Handles.matrix = Matrix4x4.TRS(relevanceSphere.m_v3Position, Quaternion.Euler(relevanceSphere.m_v3Rotation), relevanceSphere.m_v3Scale);
         Handles.color  = new Color(0.0f, 0.0f, 1.0f, 0.5f);
-        Handles.SphereCap(0, Vector3.zero, Quaternion.identity, 1.0f);
+				Handles.SphereHandleCap(0, Vector3.zero, Quaternion.identity, 1.0f,EventType.Ignore);
         Handles.matrix = mtxHandles;
       }
     }
