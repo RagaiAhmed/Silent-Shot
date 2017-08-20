@@ -30,7 +30,7 @@ public class Shooting : MonoBehaviour {
 	public int total_ammo; // total ammount of ammo given
 
 	public int current_ammo=0; // current ammo in the gun
-	private bool reloading=false;
+	public bool reloading=false;
 
 	public GameObject bullet_hole;
 	public Transform gun_cam;
@@ -64,36 +64,40 @@ public class Shooting : MonoBehaviour {
 		{
 			pl = pl.parent;
 		}
+		Audio = GetComponent<AudioSource> ();
+		reloading = false;
+		if (non_player)
+			return;
+		anim = pl.GetComponent<Animator> ();
 		pl.GetComponent<WeaponSwitch> ().Name_label.text = transform.name;
 		player = pl.GetComponent<Head_Movement> ();
-		anim = pl.GetComponent<Animator> ();
 		current_state = transform.GetChild (0);
-		Audio = GetComponent<AudioSource> ();
 		set_ammo ();
 		player.side_shift = side_shift;
-		reloading = false;
 		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
 		scope = GameObject.FindGameObjectWithTag ("Scope").transform.GetChild(0).gameObject;
 	}
 
 
-	void LateUpdate () 
+	void Update () 
 	{
-		if (Time.timeScale > 0&&in_hand)
+		if (Time.timeScale > 0&&in_hand&&!non_player)
 		{
 			if (!reloading) // if not reloading
 			{  
-				shoot (); // take shooting input
+				shoot (Vector3.zero); // take shooting input
 				if (Input.GetAxisRaw ("Reload") == 1) // if want to reload
 					StartCoroutine (reload ());	 // reload
 				aim (); // take aiming input
 			}
+			gun_cam.position = Vector3.Lerp (current_state.position, gun_cam.position, 0.2f);
+			gun_cam.rotation = Quaternion.Slerp (gun_cam.rotation, current_state.rotation, 0.2f);
 
 		}
  	}
 
 
-	void shoot()
+	public void shoot(Vector3 n)
 	{
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
 		if ((Input.GetAxisRaw ("Fire1") == 1||non_player) && current_ammo>0) // if fire button hit
@@ -106,12 +110,20 @@ public class Shooting : MonoBehaviour {
 				last_shot = Time.time; // saves the time to know whether the next bullet will be in cooldown or not
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
 				// if a ray from center of the screen hit a collider
-				Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+				Ray r;
+				if (!non_player)
+					r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+				else
+					r = new Ray (transform.position,n - transform.position);
 				if (burst>1)
 				{
 					for (int i = 0; i < burst; i++)
 					{
-						r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+						if (!non_player)
+							r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
+						else
+							r = new Ray (transform.position,n - transform.position);
+
 						r.direction += new Vector3 (Random.Range (-0.3f, 0.3f), Random.Range (-0.3f, 0.3f));
 						r.origin += Camera.main.transform.forward*0.5f;
 						if (Physics.Raycast (r, out info, gun_reach))
@@ -128,6 +140,7 @@ public class Shooting : MonoBehaviour {
 						hit (info, gun_damage, gun_reach - info.distance, r.direction);
 					}
 				}
+
 					
 				// calculating recoil
 				if (!non_player) 
@@ -139,11 +152,12 @@ public class Shooting : MonoBehaviour {
 
 
 				current_ammo -= 1;
-				set_ammo ();
 				if (current_ammo == 0) 
 				{
 					StartCoroutine (reload ());	 // reload
 				}
+				if (!non_player)
+					set_ammo ();
 				released = false; // trigger not released
 			} 
 			else
@@ -166,7 +180,7 @@ public class Shooting : MonoBehaviour {
 		
 			released = true;
 
-			if (current_ammo == 0 && Input.GetAxisRaw ("Fire1") == 1) 
+			if (current_ammo == 0 &&( Input.GetAxisRaw ("Fire1") == 1 || non_player)) 
 			{
 				StartCoroutine (reload ());	 // reload
 
@@ -193,15 +207,20 @@ public class Shooting : MonoBehaviour {
 		} 
 		else
 		{
-			anim.SetBool ("Aim",false);
-			current_state = transform.GetChild (0);
-			if (is_scope) 
-			{
-				gameObject.layer = LayerMask.NameToLayer ("Weapon");
-				scope.SetActive (false);
-				Camera.main.fieldOfView = 50;
+
+			if (!non_player) 
+			{	
+				anim.SetBool ("Aim",false);
+				current_state = transform.GetChild (0);
+				if (is_scope) 
+				{
+					gameObject.layer = LayerMask.NameToLayer ("Weapon");
+					scope.SetActive (false);
+					Camera.main.fieldOfView = 50;
+				}
+				anim.SetTrigger ("Reload");
+
 			}
-			anim.SetTrigger ("Reload");
 			Transform temp = current_state;
 			current_state = transform.GetChild (2);
 			Audio.PlayOneShot(Reload);
@@ -217,18 +236,21 @@ public class Shooting : MonoBehaviour {
 				current_ammo += total_ammo;
 				total_ammo = 0;
 			}
-			set_ammo ();
-			if (Input.GetButton ("Fire2"))
-			{
-				anim.SetBool ("Aim",true);
-				current_state = transform.GetChild (1);
-				if (is_scope) 
+			if (!non_player)
+			{			set_ammo ();
+				if (Input.GetButton ("Fire2"))
 				{
-					gameObject.layer = LayerMask.NameToLayer ("Invisible");
-					scope.SetActive (true);
-					Camera.main.fieldOfView = 25;
+					anim.SetBool ("Aim",true);
+					current_state = transform.GetChild (1);
+					if (is_scope) 
+					{
+						gameObject.layer = LayerMask.NameToLayer ("Invisible");
+						scope.SetActive (true);
+						Camera.main.fieldOfView = 25;
+					}
 				}
 			}
+
 
 		}
 
@@ -304,20 +326,7 @@ public class Shooting : MonoBehaviour {
 			}
 		}
 	}
-
-	void Update ()
-	{
-		if (! (Time.timeScale > 0))
-		{
-			return;
-		}
-		if (in_hand) 
-		{
-			gun_cam.position = Vector3.Lerp (current_state.position, gun_cam.position, 0.2f);
-			gun_cam.rotation = Quaternion.Slerp (gun_cam.rotation, current_state.rotation, 0.2f);
-		}
-
-	}
+		
 
 
 	void OnTriggerStay(Collider c)

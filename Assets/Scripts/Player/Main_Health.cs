@@ -6,6 +6,7 @@ public class Main_Health : MonoBehaviour {
 	public AudioClip[] Hurt;
 	AudioSource aud;
 	public Image label;
+	public Slider healthSlider;
 	public float Health;
 	private float hp;
 	public float regeneration;
@@ -13,18 +14,20 @@ public class Main_Health : MonoBehaviour {
 	void Start () 
 	{
 		label = GameObject.FindGameObjectWithTag ("Health").transform.GetChild(0).GetComponent<Image> ();
+		healthSlider= label.transform.parent.GetChild(1).GetComponent<Slider> ();
 		aud = GetComponent<AudioSource> ();
 		hp = Health;
 		set_health ();
+
 		label.gameObject.SetActive (true);
+		healthSlider.gameObject.SetActive (true);
+
 
 	}
 
 	public void decrease (float damage)
 	{
-		aud.Stop ();
-		aud.clip = Hurt [Random.Range (0, Hurt.Length)];
-		aud.Play ();
+		aud.PlayOneShot( Hurt [Random.Range (0, Hurt.Length)]);
 		hp -= damage;
 		if (hp <= 0) 
 			{
@@ -36,6 +39,7 @@ public class Main_Health : MonoBehaviour {
 	void set_health()
 	{
 		label.CrossFadeAlpha (1-hp/Health, 0.2f, true);
+		healthSlider.value = hp / Health;
 	}
 	public void headShot ()
 	{
