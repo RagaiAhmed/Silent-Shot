@@ -391,6 +391,8 @@ public class VehicleController : MonoBehaviour {
 	Mesh meshWheelRL;
 	Vector3[] last;
 
+	int bulletholes = 0;
+
 	Vector3 vectorMeshPos1;
 	Vector3 vectorMeshPos2;
 	Vector3 vectorMeshPos3;
@@ -722,6 +724,16 @@ public class VehicleController : MonoBehaviour {
 		if (isInsideTheCar) {
 			AutomaticGears ();
 		}
+
+		int currentbullets = 0;
+		foreach (Transform child in transform)
+		{
+			if (child.name.Contains ("Bullet_Hole"))
+				currentbullets++;
+		}
+		if (health >= 1&&health!=0.01F)
+			health -= currentbullets - bulletholes;
+		bulletholes = currentbullets;
 	}
 
 	public void EnterInVehicle(){
@@ -788,10 +800,12 @@ public class VehicleController : MonoBehaviour {
 				ms_Rigidbody.AddForce (-transform.forward * absSpeedFactor * ms_Rigidbody.mass * _vehicleSettings.brakeForce * absBrakeInput);	
 			}
 		}
-		if (health < 1) 
+		if (health < 1&&health!=0.01F) 
 		{
 			isDestroyed = true;
-			InputBroker.SetKeyDown (KeyCode.T);
+			health = 0.01F;
+			if(isInsideTheCar)
+				InputBroker.SetKeyDown (KeyCode.T);
 		}
 	}
 
@@ -1358,7 +1372,7 @@ public class VehicleController : MonoBehaviour {
 		}
 
 		if (_vehicleSettings.volant) {
-			_vehicleSettings.volant.transform.localEulerAngles = new Vector3 (_vehicleSettings.volant.transform.localEulerAngles.x, _vehicleSettings.volant.transform.localEulerAngles.y, volantStartRotation + (angle2Volant * 540.0f));
+			_vehicleSettings.volant.transform.localEulerAngles = new Vector3 (_vehicleSettings.volant.transform.localEulerAngles.x, _vehicleSettings.volant.transform.localEulerAngles.y, -(volantStartRotation + (angle2Volant * 540.0f)));
 		}
 	}
 
@@ -1738,6 +1752,7 @@ public class VehicleController : MonoBehaviour {
 
 	public void Explode()
 	{
+		print ("hi");
 		_explosionParticle.Play ();
 		_carLight.SetActive (false);
 		AudioSource.PlayClipAtPoint (_explosionAudio, transform.position);
