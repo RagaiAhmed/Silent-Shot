@@ -4,7 +4,6 @@ public class Health_Body_Part : MonoBehaviour {
 
 	public int layer;
 	private Main_Health main;
-	public bool head_shot;
 	public float DamageMultiplier;
 
 	void Start()
@@ -16,20 +15,15 @@ public class Health_Body_Part : MonoBehaviour {
 		}
 		main = t.GetComponent<Main_Health> ();
 	}
-	public void decrease (float damage)
+	public void decrease (float damage,GameObject did)
 	{
-		if (head_shot) 
-		{
-			main.headShot ();
-			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+main.Health));
+		float d = damage * DamageMultiplier;
+		main.decrease (d);
+		Main_Health doer = did.GetComponent<Main_Health> ();
+		if (doer)
+			doer.add_score(d);
 
-		}
-		else
-		{
-			float d = damage * DamageMultiplier;
-			main.decrease (d);
-			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+d));
 
-		}
 	}
+
 }

@@ -1,5 +1,7 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.AI;
+
 
 public class Main_Health : MonoBehaviour {
 
@@ -10,17 +12,24 @@ public class Main_Health : MonoBehaviour {
 	public float Health;
 	private float hp;
 	public float regeneration;
+	public bool is_player=true;
+	public Transform root;
 	// Use this for initialization
 	void Start () 
 	{
-		label = GameObject.FindGameObjectWithTag ("Health").transform.GetChild(0).GetComponent<Image> ();
-		healthSlider= label.transform.parent.GetChild(1).GetComponent<Slider> ();
 		aud = GetComponent<AudioSource> ();
-		hp = Health;
-		set_health ();
 
-		label.gameObject.SetActive (true);
-		healthSlider.gameObject.SetActive (true);
+		if (is_player) 
+		{
+			label = GameObject.FindGameObjectWithTag ("Health").transform.GetChild(0).GetComponent<Image> ();
+			healthSlider= label.transform.parent.GetChild(1).GetComponent<Slider> ();
+			hp = Health;
+			set_health ();
+
+			label.gameObject.SetActive (true);
+			healthSlider.gameObject.SetActive (true);
+		}
+
 
 
 	}
@@ -31,19 +40,32 @@ public class Main_Health : MonoBehaviour {
 		hp -= damage;
 		if (hp <= 0) 
 			{
-			// TODO call animator for death
+			die ();
 			}
 		else
 			set_health ();
 	}
 	void set_health()
 	{
-		label.CrossFadeAlpha (1-hp/Health, 0.2f, true);
-		healthSlider.value = hp / Health;
+		if (is_player)
+		{
+			label.CrossFadeAlpha (1-hp/Health, 0.2f, true);
+			healthSlider.value = hp / Health;
+		}
+
 	}
-	public void headShot ()
+
+
+	void die()
 	{
-		// TODO call animator for headshot animation
+		if (!is_player) 
+		{
+			GetComponent<NavMeshAgent> ().enabled=false;
+			Destroy(GetComponent<enemyShooting> ());
+			Destroy (GetComponent<Animator> ());
+			add_to_children (root);
+			Destroy (gameObject, 10);
+		}
 	}
 	void Update()
 	{
@@ -52,5 +74,19 @@ public class Main_Health : MonoBehaviour {
 			hp += Time.deltaTime * regeneration;
 			set_health ();
 		}
+	}
+	void add_to_children(Transform parent)
+	{
+		parent.gameObject.AddComponent<Rigidbody> ();
+		foreach (Transform child in parent) 
+		{
+			add_to_children (child);	
+		}
+	}
+	public void add_score(float d)
+	{
+		if (is_player)
+			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+d));
+
 	}
 }

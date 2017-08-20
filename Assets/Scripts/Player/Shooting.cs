@@ -296,7 +296,7 @@ public class Shooting : MonoBehaviour {
 		if (info.transform.CompareTag("Player")||info.transform.CompareTag("Enemy")) 
 		{ // if hit a player
 			
-			info.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (gun_damage); // decrease player health
+			info.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (gun_damage,pl.gameObject); // decrease player health
 			Destroy (Instantiate (blood_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // make blood effect and deletes it after some time
 		} 
 		else 

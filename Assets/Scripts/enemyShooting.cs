@@ -24,7 +24,6 @@ public class enemyShooting : MonoBehaviour {
 
 	void LateUpdate ()
 	{
-		print (nav.hasPath);
 		check_if_seen_player ();
 	
 		if (chasing) 

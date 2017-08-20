@@ -62,7 +62,7 @@ public class Stabing : MonoBehaviour {
 			if (hit.transform.CompareTag("Player"))
 			{ // if hit a player
 
-				hit.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (damage); // decrease player health
+				hit.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (damage,player.gameObject); // decrease player health
 				Destroy (Instantiate (blood_effect, hit.point, Quaternion.LookRotation (hit.normal)), 0.125f); // make blood effect and deletes it after some time
 			} 
 			else 
