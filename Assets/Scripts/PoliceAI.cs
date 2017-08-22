@@ -27,6 +27,8 @@ public class PoliceAI : MonoBehaviour {
 
 	private bool temp = false;
 
+	private int bulletholes = 0;
+
 	Rigidbody rb;
 
 	// Use this for initialization
@@ -66,6 +68,15 @@ public class PoliceAI : MonoBehaviour {
 			aiControl.enabled = true;
 			policeMan.SetActive (false);
 		}
+		int currentbullets = 0;
+		foreach (Transform child in transform)
+		{
+			if (child.name.Contains ("Bullet_Hole"))
+				currentbullets++;
+		}
+		if (health >= 1&&health!=0.01F)
+			health -= currentbullets - bulletholes;
+		bulletholes = currentbullets;
 	}
 
 	void OnCollisionEnter (Collision collision){

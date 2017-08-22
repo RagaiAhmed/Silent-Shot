@@ -41,6 +41,8 @@ public class PedestrianObject : MonoBehaviour
 
 	private bool                                ThresholdReached     { get; set; }
 
+	private bool killed = false;
+
 	public enum PathingStatus
 	{
 		RANDOM = 0
@@ -76,77 +78,65 @@ public class PedestrianObject : MonoBehaviour
 		yield return null;
 	}
 
-	void Update () 
+	void Update ()
 	{
-		if(!m_currentNode)
-		{
-			DetermineSpeed( 0.0f, true ); // idle animation as we are not walking anywhere
-			return;
-		}
-
-		Vector3 dir   = m_currentNode.transform.position;
-		dir.x        += m_lanePosXVariation;
-		dir.z        += m_lanePosZVariation;
-		dir           = dir - (transform.position + m_offsetPosVal);                                                             // find the direction to the next node
-
-		Vector3 speed = dir.normalized * m_currentSpeed;                                                                         // work out how fast we should travel in the desired directoin
-
-		if(ThresholdReached)
-		{
-			if(m_currentNode.m_waitAtNode)
-			{
-				if(m_speed != 0.0f)
-					m_speedStoredWhileWaiting = m_speed;
-				
-				DetermineSpeed( 0.0f, true );
+		if(!killed){
+			if (!m_currentNode) {
+				DetermineSpeed (0.0f, true); // idle animation as we are not walking anywhere
+				return;
 			}
-			else
-			{
-				if(m_speedStoredWhileWaiting != 0.0f)
-				{
-					DetermineSpeed(m_speedStoredWhileWaiting);
-					m_speedStoredWhileWaiting = 0.0f;
+
+			Vector3 dir = m_currentNode.transform.position;
+			dir.x += m_lanePosXVariation;
+			dir.z += m_lanePosZVariation;
+			dir = dir - (transform.position + m_offsetPosVal);                                                             // find the direction to the next node
+
+			Vector3 speed = dir.normalized * m_currentSpeed;                                                                         // work out how fast we should travel in the desired directoin
+
+			if (ThresholdReached) {
+				if (m_currentNode.m_waitAtNode) {
+					if (m_speed != 0.0f)
+						m_speedStoredWhileWaiting = m_speed;
+						
+					DetermineSpeed (0.0f, true);
+				} else {
+					if (m_speedStoredWhileWaiting != 0.0f) {
+						DetermineSpeed (m_speedStoredWhileWaiting);
+						m_speedStoredWhileWaiting = 0.0f;
+					}
+
+					m_prevPedestrianNodes [m_nodeVisitIndex] = m_currentNode;
+					m_nodeVisitIndex++;
+					if (m_nodeVisitIndex >= m_prevPedestrianNodes.Length)
+						m_nodeVisitIndex = 0;
+
+					m_currentNode = m_currentNode.NextNode (this);                                                                 // find another node or do something else
+					ThresholdReached = false;
+				}
+			} else if (dir.magnitude > m_nodeThreshold) {
+				if (GetComponent<Rigidbody> ()) {                                                                                                       // if we have a rigidbody, use the following code to move us
+					GetComponent<Rigidbody> ().velocity = speed;                                                                                     // set our rigidbody to this speed to move us by the determined speed 
+
+					if (m_lookAtNode)
+						transform.forward = Vector3.Slerp (transform.forward, dir.normalized, m_rotationSpeed * Time.deltaTime);   // rotate our forward directoin over time to face the node we are moving towards
+				} else {                                                                                                                // no rigidbody then use the following code to move us
+					transform.position += speed * Time.deltaTime;                                                                   // move us by the determined speed
+
+					if (m_lookAtNode)
+						transform.forward = Vector3.Slerp (transform.forward, dir.normalized, m_rotationSpeed * Time.deltaTime);   // rotate our forward directoin over time to face the node we are moving towards
 				}
 
-				m_prevPedestrianNodes[m_nodeVisitIndex] = m_currentNode;
-				m_nodeVisitIndex++;
-				if(m_nodeVisitIndex >= m_prevPedestrianNodes.Length)
-					m_nodeVisitIndex = 0;
-
-				m_currentNode = m_currentNode.NextNode( this );                                                                 // find another node or do something else
-				ThresholdReached = false;
-			}
+				if (m_onlyRotYAxis)
+					transform.rotation = Quaternion.Euler (new Vector3 (0.0f, transform.eulerAngles.y, 0.0f)); // only rotate around the Y axis.
+			} else
+				ThresholdReached = true; 
 		}
-		else if(dir.magnitude > m_nodeThreshold)
-		{
-			if(GetComponent<Rigidbody>())                                                                                                       // if we have a rigidbody, use the following code to move us
-			{
-				GetComponent<Rigidbody>().velocity = speed;                                                                                     // set our rigidbody to this speed to move us by the determined speed 
-
-				if(m_lookAtNode)
-					transform.forward = Vector3.Slerp( transform.forward, dir.normalized, m_rotationSpeed * Time.deltaTime );   // rotate our forward directoin over time to face the node we are moving towards
-			}
-			else                                                                                                                // no rigidbody then use the following code to move us
-			{
-				if(GetComponent<Collider>())                                                                                                    // it generally is a bad idea to move something with a collider, so we should tell someone about it if this is happening. See Unity Docs for more info: http://docs.unity3d.com/ScriptReference/Collider.html
-					Debug.LogWarning("Pedestrian System Warning -> Object has a collider. You should think about moving the object with a rigidbody instead.");
-				
-				transform.position += speed * Time.deltaTime;                                                                   // move us by the determined speed
-
-				if(m_lookAtNode)
-					transform.forward = Vector3.Slerp( transform.forward, dir.normalized, m_rotationSpeed * Time.deltaTime );   // rotate our forward directoin over time to face the node we are moving towards
-			}
-
-			if(m_onlyRotYAxis)
-				transform.rotation = Quaternion.Euler(new Vector3(0.0f, transform.eulerAngles.y, 0.0f)); // only rotate around the Y axis.
-		}
-		else
-			ThresholdReached = true; 
 	}
 
 	void FixedUpdate()
 	{
-		DetermineAnimation();
+		if(!killed)
+			DetermineAnimation();
 	}
 
 	void Destroy()
@@ -215,5 +205,15 @@ public class PedestrianObject : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	public IEnumerator kill()
+	{
+		if (!killed) {
+			killed = true;
+			m_animation.Play ("dying_backwards");
+			yield return new WaitForSeconds (7);
+			DestroyImmediate (gameObject);
+		}
 	}
 }
