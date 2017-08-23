@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
+
 
 public class Health_Body_Part : MonoBehaviour {
 
@@ -15,10 +17,13 @@ public class Health_Body_Part : MonoBehaviour {
 		}
 		main = t.GetComponent<Main_Health> ();
 	}
-	public void decrease (float damage,GameObject did)
+
+	public void CmdDecrease (float damage,GameObject did)
 	{
+		if (main.died)
+			return;
 		float d = damage * DamageMultiplier;
-		main.decrease (d);
+		main.RpcDecrease (d);
 		if (!did)
 			return;
 		Main_Health doer = did.GetComponent<Main_Health> ();
@@ -27,13 +32,12 @@ public class Health_Body_Part : MonoBehaviour {
 
 
 	}
-	void OnCollsionEnter(Collision c)
+	void OnCollisionEnter(Collision c)
 	{
-		if (c.transform.tag == "Vehicle") {
-			float allVelocity = Mathf.Sqrt (Mathf.Pow (c.relativeVelocity.x, 2) + Mathf.Pow (c.relativeVelocity.y, 2) + Mathf.Pow (c.relativeVelocity.z, 2));
-			if (allVelocity > 1)
-				decrease (allVelocity * 3,null);
-		}
+		float allVelocity = c.relativeVelocity.magnitude ;
+		if (allVelocity>1)
+			CmdDecrease (allVelocity * 3,null);
 	}
 
 }
+	

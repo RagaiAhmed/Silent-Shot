@@ -9,6 +9,9 @@ public class SpawnerScript : MonoBehaviour {
 	public GameObject[] primary;
 	public GameObject[] Secondary;
 	public GameObject knife;
+	public GameObject Car;
+	public GameObject Police;
+
 
 	void Start()
 	{
@@ -18,8 +21,12 @@ public class SpawnerScript : MonoBehaviour {
 		{
 			weaponHolder = weaponHolder.GetChild (i);
 		}
-		Instantiate (primary [PlayerPrefs.GetInt ("Primary")], weaponHolder);
-		Instantiate (Secondary [PlayerPrefs.GetInt ("Secondary")], weaponHolder);
+		int m = PlayerPrefs.GetInt ("Primary",-1);
+		if (m!=-1)
+			Instantiate (primary [m], weaponHolder);
+		m = PlayerPrefs.GetInt ("Secondary",-1);
+		if (m!=-1)
+			Instantiate (Secondary [m], weaponHolder);
 		Instantiate (knife, weaponHolder);
 
 	}

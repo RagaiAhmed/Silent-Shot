@@ -1,6 +1,9 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
+using UnityEngine.SceneManagement;
+//using UnityEngine.Networking;
 
 
 public class Main_Health : MonoBehaviour {
@@ -9,11 +12,15 @@ public class Main_Health : MonoBehaviour {
 	AudioSource aud;
 	public Image label;
 	public Slider healthSlider;
+
+	bool hurtin;
 	public float Health;
 	private float hp;
 	public float regeneration;
 	public bool is_player=true;
 	public Transform root;
+	public bool died=false;
+	public float factor;
 	// Use this for initialization
 	void Start () 
 	{
@@ -34,16 +41,28 @@ public class Main_Health : MonoBehaviour {
 
 	}
 
-	public void decrease (float damage)
+	public void RpcDecrease (float damage)
 	{
-		aud.PlayOneShot( Hurt [Random.Range (0, Hurt.Length)]);
+		if (died)
+			return;
+		if (regeneration>=factor)
+		{
+			regeneration -= factor;
+			StartCoroutine (restor_gen_after());
+		}
+		if (!hurtin) 
+		{	
+			AudioClip	ac = Hurt [Random.Range (0, Hurt.Length)];
+			aud.PlayOneShot(ac);
+			hurtin = true;
+			StartCoroutine (non_hurtin (ac.length));
+		}
 		hp -= damage;
 		if (hp <= 0) 
 			{
 			die ();
 			}
-		else
-			set_health ();
+		set_health ();
 	}
 	void set_health()
 	{
@@ -58,35 +77,79 @@ public class Main_Health : MonoBehaviour {
 
 	void die()
 	{
-		if (!is_player) 
+		died = true;
+		Destroy (GetComponent<Animation> ());
+		Destroy (GetComponent<NavMeshAgent> ());
+		Destroy(GetComponent<enemyShooting> ());
+		Destroy (GetComponent<Animator> ());
+		Destroy (GetComponent<WeaponSwitch> ());
+		Destroy (GetComponent<Head_Movement> ());
+		Destroy (GetComponent<Character_Control> ());
+		Destroy (GetComponent<PedestrianObject> ());
+
+
+
+		add_to_children (root);
+		Destroy (gameObject, 10);
+		if (is_player)
 		{
-			GetComponent<NavMeshAgent> ().enabled=false;
-			Destroy(GetComponent<enemyShooting> ());
-			Destroy (GetComponent<Animator> ());
-			add_to_children (root);
-			Destroy (gameObject, 10);
+			GetComponent<WeaponSwitch> ().switchto (-1);
+			GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0).gameObject.SetActive (true);
+			StartCoroutine (return_main());
+
 		}
 	}
 	void Update()
 	{
-		if (Time.timeScale>0 && hp < Health)
+		if (Time.timeScale>0 && hp < Health&&!died)
 		{
 			hp += Time.deltaTime * regeneration;
 			set_health ();
 		}
 	}
-	void add_to_children(Transform parent)
+	bool add_to_children(Transform parent)
 	{
-		parent.gameObject.AddComponent<Rigidbody> ();
+		Shooting sht = parent.GetComponent<Shooting> ();
+		if (sht)
+		{
+			sht.drop ();
+			return false;
+		}
+		Rigidbody rb = parent.gameObject.GetComponent<Rigidbody> ();
+		if (!rb)
+			rb=parent.gameObject.AddComponent<Rigidbody> ();
 		foreach (Transform child in parent) 
 		{
-			add_to_children (child);	
+			if(add_to_children (child))
+				child.gameObject.AddComponent<CharacterJoint> ().connectedBody = rb;
+
 		}
+		return true;
 	}
 	public void add_score(float d)
 	{
 		if (is_player)
+		{
 			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+d));
+		}
+			
+	}
 
+	IEnumerator restor_gen_after()
+	{
+		yield return new WaitForSeconds (5f);
+		regeneration += factor;
+	}
+	IEnumerator return_main()
+	{
+		yield return new WaitForSeconds (8);
+		Cursor.visible = true;
+		Cursor.lockState = CursorLockMode.None;
+		SceneManager.LoadScene ("Main");
+	}
+	IEnumerator non_hurtin(float time)
+	{
+		yield return new WaitForSeconds (time);
+		hurtin = false;
 	}
 }

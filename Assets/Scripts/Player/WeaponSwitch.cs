@@ -176,7 +176,9 @@ public class WeaponSwitch : MonoBehaviour {
 
 	public void pick(GameObject go)
 	{
-		message.text = "Press V to grab : " + go.name;
+		if (WeaponHolder.childCount >= 5)
+			return;
+		message.text = "Press V to grab : " + go.GetComponent <Linkpic>().Name;
 		if (Input.GetButtonDown ("Take")) 
 		{
 			go.SetActive (false);
@@ -188,10 +190,12 @@ public class WeaponSwitch : MonoBehaviour {
 					child.gameObject.layer = go.layer;
 			}
 			go.transform.parent = WeaponHolder;
-			Vector3[] standard = go.GetComponent<Shooting> ().standard;
-			go.transform.localPosition = standard [0];
-			go.transform.localEulerAngles = standard [1];
-			go.GetComponent<Shooting> ().in_hand = true;
+
+			Shooting sh = go.GetComponent<Shooting> ();
+			sh.in_hand = true;
+			sh.non_player = false;
+			sh.layer = 9;
+
 			Destroy (go.GetComponent<SphereCollider> ());
 			Destroy (go.GetComponent<BoxCollider> ());
 			Destroy (go.GetComponent<Rigidbody> ());

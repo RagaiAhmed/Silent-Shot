@@ -21,7 +21,7 @@ public class Inventory : MonoBehaviour {
 			Text name = slot.GetChild (1).GetComponent<Text>();
 			Text ammo = name.transform.GetChild (0).GetComponent<Text>();
 			Button b = slot.GetChild (2).GetComponent<Button> ();
-			name.text = Weapon.name;
+			name.text = Weapon.GetComponent<Linkpic>().Name;
 			slot.GetChild (3).gameObject.SetActive (true);
 			slot.GetChild(3).GetComponent<Image> ().sprite=Weapon.GetComponent<Linkpic>().Pic;
 			Shooting sh = Weapon.GetComponent<Shooting> ();

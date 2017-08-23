@@ -14,12 +14,16 @@ public class enemyShooting : MonoBehaviour {
 	Animator anim;
 	bool didnt_know;
 	int index;
-
+	bool tracing_player;
 	void Start() 
 	{
 		anim = GetComponent<Animator> ();
 		current_node=transform.position;
 		nav = GetComponent<NavMeshAgent> ();
+		if (!nav.isOnNavMesh) 
+		{
+			Destroy (gameObject);
+		}
 	}
 
 	void LateUpdate ()
@@ -35,6 +39,7 @@ public class enemyShooting : MonoBehaviour {
 			{
 				chasing = false;
 				current_node = player_pos;
+				tracing_player = true;
 			}
 		}
 		else
@@ -68,12 +73,18 @@ public class enemyShooting : MonoBehaviour {
 	{
 		if (isStopped ()) 
 		{
-			index = Random.Range (0, Nodes.Length);
-			current_node = Nodes [index].position;
+			if (Nodes.Length > 0) 
+			{
+				index = Random.Range (0, Nodes.Length);
+				current_node = Nodes [index].position;
+				tracing_player = false;
+			}
+
 		}
 		else 
 		{
-			current_node=Nodes [index].position;
+			if (!tracing_player)
+				current_node=Nodes [index].position;
 		}
 	}
 
