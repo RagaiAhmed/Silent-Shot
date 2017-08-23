@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using UnityEngine;
 
 [System.Serializable]
@@ -102,7 +103,7 @@ public class Character_Control : MonoBehaviour
 		{
 			if (air_time > 1.5) 
 			{
-				health.decrease(air_time*fall_damage);
+				health.RpcDecrease(air_time*fall_damage);
 			}
 			air_time = 0;
 			if (wasinair&& going_down()) // if it was previously in air
@@ -146,7 +147,7 @@ public class Character_Control : MonoBehaviour
 		player.yshift = 45 * Movement.x;
 		if (Movement.z != 0)
 			player.yshift *= Movement.z;
-		
+
 		if (Movement.magnitude > 0) 
 		{
 			was_idle = false;
@@ -174,7 +175,7 @@ public class Character_Control : MonoBehaviour
 			anim.SetTrigger ("InAir");
 		}
 	}
-		
+
 
 	IEnumerator step_wait(float time)
 	{

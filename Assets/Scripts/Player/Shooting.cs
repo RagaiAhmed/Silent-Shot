@@ -52,12 +52,15 @@ public class Shooting : MonoBehaviour {
 		if (!in_hand)
 			return;
 		StartCoroutine(reload()); // reloads at the start of the game
-		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
 
 	}
 
 	void OnEnable()
-	{	if (!in_hand)
+	{	
+
+		cool_down_between_shots = 1 / fire_rate;// calculates the cool down
+
+		if (!in_hand)
 			return;
 		pl = transform;
 		for (int i = 0; i < layer; i++) 
@@ -68,18 +71,21 @@ public class Shooting : MonoBehaviour {
 		reloading = false;
 		if (non_player)
 			return;
+		transform.localPosition = standard [0];
+		transform.localEulerAngles = standard [1];
 		anim = pl.GetComponent<Animator> ();
-		pl.GetComponent<WeaponSwitch> ().Name_label.text = transform.name;
+		pl.GetComponent<WeaponSwitch> ().Name_label.text = GetComponent<Linkpic>().Name;
 		player = pl.GetComponent<Head_Movement> ();
 		current_state = transform.GetChild (0);
 		set_ammo ();
 		player.side_shift = side_shift;
 		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
 		scope = GameObject.FindGameObjectWithTag ("Scope").transform.GetChild(0).gameObject;
+
 	}
 
 
-	void Update () 
+	void LateUpdate () 
 	{
 		if (Time.timeScale > 0&&in_hand&&!non_player)
 		{
@@ -90,6 +96,7 @@ public class Shooting : MonoBehaviour {
 					StartCoroutine (reload ());	 // reload
 				aim (); // take aiming input
 			}
+
 			gun_cam.position = Vector3.Lerp (current_state.position, gun_cam.position, 0.2f);
 			gun_cam.rotation = Quaternion.Slerp (gun_cam.rotation, current_state.rotation, 0.2f);
 
@@ -102,6 +109,7 @@ public class Shooting : MonoBehaviour {
 		/* SHOOT A BULLET AT WILL , SOLIDER*/
 		if ((Input.GetAxisRaw ("Fire1") == 1||non_player) && current_ammo>0) // if fire button hit
 		{ 
+
 			
 			if ((Time.time - last_shot >= cool_down_between_shots || released)) 
 			{ // if not in cooldown or gun was released before and there are ammo
@@ -115,6 +123,7 @@ public class Shooting : MonoBehaviour {
 					r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 				else
 					r = new Ray (transform.position,n - transform.position);
+				r.origin += r.direction * 0.2f;
 				if (burst>1)
 				{
 					for (int i = 0; i < burst; i++)
@@ -124,10 +133,12 @@ public class Shooting : MonoBehaviour {
 						else
 							r = new Ray (transform.position,n - transform.position);
 
-						r.direction += new Vector3 (Random.Range (-0.3f, 0.3f), Random.Range (-0.3f, 0.3f));
+						r.direction += new Vector3 (Random.Range (-0.1f, 0.1f), Random.Range (-0.1f, 0.1f));
 						r.origin += Camera.main.transform.forward*0.5f;
 						if (Physics.Raycast (r, out info, gun_reach))
 						{
+							if (info.collider.transform.IsChildOf (pl))
+								return;
 							hit (info, gun_damage, gun_reach - info.distance, r.direction);
 						}
 
@@ -137,6 +148,8 @@ public class Shooting : MonoBehaviour {
 				{
 					if (Physics.Raycast (r, out info, gun_reach))
 					{
+						if (info.collider.transform.IsChildOf (pl))
+							return;
 						hit (info, gun_damage, gun_reach - info.distance, r.direction);
 					}
 				}
@@ -158,7 +171,6 @@ public class Shooting : MonoBehaviour {
 				}
 				if (!non_player)
 					set_ammo ();
-				released = false; // trigger not released
 			} 
 			else
 			{
@@ -169,6 +181,8 @@ public class Shooting : MonoBehaviour {
 					recoil_ammount -= recoil;
 				}
 			}
+			released = false; // trigger not released
+
 		} 
 		else 
 		{
@@ -293,10 +307,16 @@ public class Shooting : MonoBehaviour {
 
 	void hit(RaycastHit info,float damage,float left_distance,Vector3 direction)
 	{
-		if (info.transform.CompareTag("Player")||info.transform.CompareTag("Enemy")) 
-		{ // if hit a player
-			
-			info.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (gun_damage,pl.gameObject); // decrease player health
+		Rigidbody r = info.transform.gameObject.GetComponent<Rigidbody> ();
+		if (r) 
+		{
+			r.AddForce (direction * damage * 10);
+		}
+		if (info.transform.CompareTag("Player")||info.transform.CompareTag("Player_Main")||info.transform.CompareTag("Enemy")) 
+		{
+			Health_Body_Part hbp =	info.collider.gameObject.GetComponent<Health_Body_Part> (); // decrease player health
+			if (hbp)
+				hbp.CmdDecrease (gun_damage,pl.gameObject);
 			Destroy (Instantiate (blood_effect, info.point, Quaternion.LookRotation (info.normal)), 0.125f); // make blood effect and deletes it after some time
 		} 
 		else 
@@ -309,20 +329,15 @@ public class Shooting : MonoBehaviour {
 				{
 					d.destroy ();
 				}
-				else 
-				{
-					Rigidbody r = info.transform.gameObject.GetComponent<Rigidbody> ();
-					r.AddForce(direction * damage*10);
-				}
 				RaycastHit another_info;
 				if (Physics.Raycast (info.point+direction*0.01f, direction,out another_info,left_distance)&&left_distance>0.01f) 
 				{
 					hit (another_info, damage / 2, left_distance - another_info.distance,direction);
 				}
 			}
-			else if (!info.transform.CompareTag("Non-Shootable") && !info.transform.CompareTag("Grass"))
+			else if (!info.transform.CompareTag("Non-Shootable") && !info.transform.CompareTag("Grass")&& !info.transform.CompareTag("Pistol")&& !info.transform.CompareTag("Gun"))
 			{
-				Instantiate (bullet_hole,info.point+info.normal*0.001f,Quaternion.LookRotation(info.normal),info.transform);
+				Instantiate (bullet_hole, info.point + info.normal * 0.001f, Quaternion.LookRotation (info.normal)).transform.parent= info.transform;
 			}
 		}
 	}
@@ -334,7 +349,8 @@ public class Shooting : MonoBehaviour {
 		if (c.CompareTag ("Player"))
 		{
 			WeaponSwitch ws = c.GetComponentInParent<WeaponSwitch> ();
-			ws.pick (gameObject);
+			if (ws)
+				ws.pick (gameObject);
 		}
 	}
 	void OnTriggerExit(Collider c)
@@ -342,7 +358,8 @@ public class Shooting : MonoBehaviour {
 		if (c.CompareTag ("Player"))
 		{
 			WeaponSwitch ws = c.GetComponentInParent<WeaponSwitch> ();
-			ws.end_pick ();
+			if (ws)
+				ws.end_pick ();
 		}
 	}
 	public void drop()
@@ -361,7 +378,7 @@ public class Shooting : MonoBehaviour {
 
 		SphereCollider sp = gameObject.AddComponent<SphereCollider> ();
 		sp.isTrigger = true;
-		sp.radius = 0.5f;
+		sp.radius = 0.5f/transform.localScale.x;
 
 		gameObject.AddComponent<Rigidbody> ().useGravity = true;
 		gameObject.SetActive (true);

@@ -30,7 +30,7 @@ public class Stabing : MonoBehaviour {
 		player = t.GetComponent<Animator>();
 		PL = t.GetComponent<WeaponSwitch> ();
 		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
-		PL.Name_label.text = transform.name;
+		PL.Name_label.text = GetComponent<Linkpic>().Name;
 		PL.reload_label.text="";
 		PL.GetComponent<Head_Movement> ().side_shift = side_shift;
 	}
@@ -62,7 +62,7 @@ public class Stabing : MonoBehaviour {
 			if (hit.transform.CompareTag("Player"))
 			{ // if hit a player
 
-				hit.collider.gameObject.GetComponent<Health_Body_Part> ().decrease (damage,player.gameObject); // decrease player health
+				hit.collider.gameObject.GetComponent<Health_Body_Part> ().CmdDecrease (damage,player.gameObject); // decrease player health
 				Destroy (Instantiate (blood_effect, hit.point, Quaternion.LookRotation (hit.normal)), 0.125f); // make blood effect and deletes it after some time
 			} 
 			else 

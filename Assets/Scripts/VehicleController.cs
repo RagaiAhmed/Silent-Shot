@@ -429,21 +429,15 @@ public class VehicleController : MonoBehaviour {
 			this.transform.gameObject.SetActive (false);
 			return;
 		}
-		controls = GameObject.FindObjectOfType (typeof(SceneController))as SceneController;
+		controls = GetComponent<SceneController>();
 		if (!controls) {
 			Debug.LogError ("There must be an object with the 'MSSceneController' component so that vehicles can be managed.");
 			this.transform.gameObject.SetActive (false);
 			return;
 		}
 		//
-		bool isOnTheList = false;
-		for (int x = 0; x < controls.vehicles.Length; x++) {
-			if (controls.vehicles [x]) {
-				if (controls.vehicles [x].gameObject == this.gameObject) {
-					isOnTheList = true;
-				}
-			}
-		}
+		bool isOnTheList =controls!=null ;
+
 		if (!isOnTheList) {
 			Debug.LogError ("This vehicle can not be controlled because it is not associated with the vehicle list of the scene controller (object that has the 'MSSceneController' component).");
 			this.transform.gameObject.SetActive (false);
@@ -1752,7 +1746,6 @@ public class VehicleController : MonoBehaviour {
 
 	public void Explode()
 	{
-		print ("hi");
 		_explosionParticle.Play ();
 		_carLight.SetActive (false);
 		AudioSource.PlayClipAtPoint (_explosionAudio, transform.position);

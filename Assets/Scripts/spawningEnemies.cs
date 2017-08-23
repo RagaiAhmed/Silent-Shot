@@ -2,20 +2,24 @@
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class spawningEnemies : MonoBehaviour {
-	public Transform[] spawnPoints;
+public class spawningEnemies : MonoBehaviour
+{
 	public float spawnTime = 5.5f;
 	public GameObject enemy;
-	// Use this for initialization
-	void Start () {
+	Transform [] Nodes;
+	void Start () 
+	{
+		Nodes = new Transform[transform.childCount];
+		for (int i = 0; i < transform.childCount; i++)
+			Nodes [i] = transform.GetChild (i);
 		InvokeRepeating ("spawn", spawnTime, spawnTime);
-		StartCoroutine ("delayforTime", spawnTime);
 	}
-	void spawn () {
-		int spawnPointIndex = Random.Range(0, spawnPoints.Length);
-		Instantiate (enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
-	}
-	IEnumerator delayforTime(float delay){
-		yield return new WaitForSeconds (delay);
+	void spawn ()
+	{
+
+
+		Transform spawnPoint = Nodes [Random.Range (0, transform.childCount)];
+		GameObject spawned = Instantiate (enemy, spawnPoint.position, spawnPoint.rotation);
+		spawned.GetComponent<enemyShooting> ().Nodes = Nodes;
 	}
 }

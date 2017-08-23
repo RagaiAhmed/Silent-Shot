@@ -87,7 +87,7 @@ public class Menu : MonoBehaviour {
 	void open_map_chooser()
 	{
 		aud.PlayOneShot (soundclick);
-		if (PlayerPrefs.GetInt ("Primary", -1) != -1&&PlayerPrefs.GetInt ("Secondary", -1) != -1)
+		if (PlayerPrefs.GetInt ("Primary", -1) != -1 || PlayerPrefs.GetInt ("Secondary", -1) != -1)
 		{
 			weapon_selector.SetActive (false);
 			map_chooser.SetActive (true);

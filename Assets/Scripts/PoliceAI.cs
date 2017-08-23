@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
+
 using UnityStandardAssets.Vehicles.Car;
 
 public class PoliceAI : MonoBehaviour {
@@ -49,8 +51,15 @@ public class PoliceAI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (aiControl.m_CarController.CurrentSpeed<1) {
-			policeMan.SetActive (true);
+		if (aiControl.m_CarController.CurrentSpeed<1) 
+		{
+			if (policeMan.GetComponent<NavMeshAgent> ().isOnNavMesh) 
+			{
+				policeMan.SetActive (true);
+				policeMan.GetComponent<enemyShooting> ().Nodes = new Transform[1] { aiControl.m_Target };
+			}
+
+
 		}
 		if (health < 1&&health!=-0.01f) 
 		{
