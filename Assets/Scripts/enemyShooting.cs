@@ -15,6 +15,10 @@ public class enemyShooting : MonoBehaviour {
 	bool didnt_know;
 	int index;
 	bool tracing_player;
+	public bool escaper;
+	public Transform escape_node;
+	bool escaping;
+	public bool escaped;
 	void Start() 
 	{
 		anim = GetComponent<Animator> ();
@@ -28,10 +32,30 @@ public class enemyShooting : MonoBehaviour {
 
 	void LateUpdate ()
 	{
+		anim.SetBool ("Walking",nav.velocity.magnitude<0.5f);
+		if (escaping) 
+		{
+			if (Vector3.Distance (transform.position, current_node) < 5) {
+				escaped = true;
+			}
+			return;
+
+		}
+
 		check_if_seen_player ();
 	
 		if (chasing) 
 		{
+			if (escaper) 
+			{
+				nav.speed = 4;
+				current_node = escape_node.position;
+				nav.SetDestination (current_node);
+				anim.SetTrigger ("Run");
+				anim.speed = 2;
+				escaping = true;
+				return;
+			}
 			nav.isStopped = true;
 
 			shoot ();
@@ -48,13 +72,13 @@ public class enemyShooting : MonoBehaviour {
 			nav.isStopped = false;
 			wander ();
 			nav.SetDestination (current_node);
-
 		}
 
 	}
 
 	void shoot()
 	{
+
 		anim.SetBool ("Shooting", true);
 		torso.transform.eulerAngles = Quaternion.LookRotation (player_pos - torso.transform.position).eulerAngles + new Vector3 (0, 30); 
 		if (!gun.reloading && gun.total_ammo > 0) 
@@ -76,15 +100,22 @@ public class enemyShooting : MonoBehaviour {
 			if (Nodes.Length > 0) 
 			{
 				index = Random.Range (0, Nodes.Length);
-				current_node = Nodes [index].position;
-				tracing_player = false;
+				if (Nodes [index]!=null) 
+				{
+					current_node = Nodes [index].position;
+					tracing_player = false;
+				}
 			}
 
 		}
 		else 
 		{
-			if (!tracing_player)
-				current_node=Nodes [index].position;
+			if (!tracing_player) 
+			{
+				if (Nodes[index]!=null)
+					current_node=Nodes [index].position;
+				
+			}
 		}
 	}
 
@@ -104,6 +135,6 @@ public class enemyShooting : MonoBehaviour {
 
 	bool isStopped()
 	{
-		return (Vector3.Distance(transform.position,current_node)<1||!nav.hasPath);
+		return (Vector3.Distance(transform.position,current_node)<5||!nav.hasPath);
 	}
 }

@@ -35,8 +35,8 @@ public class Health_Body_Part : MonoBehaviour {
 	void OnCollisionEnter(Collision c)
 	{
 		float allVelocity = c.relativeVelocity.magnitude ;
-		if (allVelocity>1)
-			CmdDecrease (allVelocity * 3,null);
+		if (allVelocity>6)
+			CmdDecrease (allVelocity ,null);
 	}
 
 }

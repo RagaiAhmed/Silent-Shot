@@ -75,7 +75,7 @@ public class Main_Health : MonoBehaviour {
 	}
 
 
-	void die()
+	public void die()
 	{
 		died = true;
 		Destroy (GetComponent<Animation> ());
@@ -151,5 +151,13 @@ public class Main_Health : MonoBehaviour {
 	{
 		yield return new WaitForSeconds (time);
 		hurtin = false;
+	}
+
+	void OnCollisionEnter(Collision c)
+	{
+		float allVelocity = c.relativeVelocity.magnitude ;
+	
+		if (allVelocity>20)
+			RpcDecrease (allVelocity );
 	}
 }

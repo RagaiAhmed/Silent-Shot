@@ -15,5 +15,6 @@ public class Follow : MonoBehaviour {
 	{
 		transform.position = to_follow.position - diff;
 		transform.rotation = Quaternion.Euler(to_follow.eulerAngles.x,to_follow.eulerAngles.y,0);
+
 	}
 }
