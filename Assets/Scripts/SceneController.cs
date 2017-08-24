@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -41,11 +41,11 @@ public class SceneController : MonoBehaviour {
 	[Space(10)][Tooltip("Here you can configure the vehicle controls, choose the desired inputs and also, deactivate the unwanted ones.")]
 	public Controls controls;
 	//[Tooltip("All vehicles in the scene containing the 'MS Vehicle Controller' component must be associated with this list.")]
-	 GameObject vehicle;
+	GameObject vehicle;
 	//[Space(10)][Tooltip("This variable is responsible for defining the vehicle in which the player will start. It represents an index of the 'vehicles' list, where the number placed here represents the index of the list. The selected index will be the starting vehicle.")]
-//	public int startingVehicle = 0;
+	//	public int startingVehicle = 0;
 	//[Tooltip("The player must be associated with this variable. This variable should only be used if your scene also has a player other than a vehicle. This \"player\" will temporarily be disabled when you get in a vehicle, and will be activated again when you leave a vehicle.")]
-	 GameObject player;
+	GameObject player;
 	//[Tooltip("If this variable is true and if you have a player associated with the 'player' variable, the game will start at the player. Otherwise, the game will start in the starting vehicle, selected in the variable 'startingVehicle'.")]
 	//public bool startInPlayer = false;
 	[Tooltip("This is the minimum distance the player needs to be in relation to the door of a vehicle, to interact with it.")]
@@ -95,11 +95,11 @@ public class SceneController : MonoBehaviour {
 			error = true;
 			Debug.LogError ("The vehicle associated does not have the 'VehicleController' component. So it will be disabled.");
 		}
-			
+
 		//
 
 
-				vehicleCode.ExitTheVehicle ();
+		vehicleCode.ExitTheVehicle ();
 
 	}
 
@@ -170,7 +170,7 @@ public class SceneController : MonoBehaviour {
 						blockedInteraction = true;
 						StartCoroutine ("WaitToInteract");
 					} 
-					else 
+					else if(player.activeSelf)
 					{
 						if(vehicleCode.doorPosition.Length>0)
 						{
@@ -178,6 +178,7 @@ public class SceneController : MonoBehaviour {
 							if (currentDistanceTemp < minDistance)
 							{
 								vehicleCode.EnterInVehicle ();
+								vehicleCode.sensitivity = GetComponent<Head_Movement> ().Sensitivity;
 								if (player) {
 									player.SetActive (false);
 								}
@@ -185,7 +186,7 @@ public class SceneController : MonoBehaviour {
 								StartCoroutine ("WaitToInteract");
 							}
 						}
-							
+
 					}
 				}
 			}
