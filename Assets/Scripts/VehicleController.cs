@@ -1,3 +1,4 @@
+
 ﻿using Random = UnityEngine.Random;
 using System;
 using System.Collections;
@@ -32,7 +33,7 @@ public class VehicleWheelsClass {
 	[Tooltip("The rear left wheel collider should be associated with this variable")]
 	public WheelClass leftRearWheel;
 }
-	
+
 [Serializable]
 public class VehicleAdjustmentClass {
 	[Tooltip("In this variable an empty object affiliated to the vehicle should be associated with the center position of the vehicle, perhaps displaced slightly downward, with the intention of representing the center of mass of the vehicle.")]
@@ -101,7 +102,7 @@ public class CameraTypeClass {
 	[Tooltip("Here you must select the type of rotation and movement that camera will possess.")]
 	public TipoRotac rotationType = TipoRotac.ETS_StyleCamera;
 }
-	
+
 [Serializable]
 public class TorqueAdjustmentClass {
 	[Range(0.5f,2000.0f)][Tooltip("This variable defines the torque that the motor of the vehicle will have.")]
@@ -404,6 +405,8 @@ public class VehicleController : MonoBehaviour {
 
 	[HideInInspector]
 	public bool isDestroyed = false;
+	[HideInInspector]
+	public float sensitivity = 10;
 
 	public float health = 100;
 	[HideInInspector]
@@ -644,8 +647,8 @@ public class VehicleController : MonoBehaviour {
 
 		switch (_cameras.cameras[indexCamera].rotationType ) {
 		case CameraTypeClass.TipoRotac.ETS_StyleCamera:
-			rotationXETS += mouseXInput * 10;
-			rotationYETS += mouseYInput * 10;
+			rotationXETS += mouseXInput * sensitivity;
+			rotationYETS += mouseYInput * sensitivity;
 			positionCameras = new Vector3 (startETSCamerasPosition [indexCamera].x + Mathf.Clamp ((rotationXETS / 50 + 0.7f), -0.7f, 0), startETSCamerasPosition [indexCamera].y, startETSCamerasPosition [indexCamera].z);
 			_cameras.cameras [indexCamera]._camera.transform.localPosition = Vector3.Lerp (_cameras.cameras [indexCamera]._camera.transform.localPosition, positionCameras, Time.deltaTime * 10.0f);
 			rotationXETS = ClampAngle (rotationXETS, -180, 80);
@@ -1264,7 +1267,7 @@ public class VehicleController : MonoBehaviour {
 		changinGears = false;
 		currentGear = gear;
 	}
-		
+
 	void AutomaticGears(){
 		if (currentGear == 0 || (mediumRPM < 5 && mediumRPM >= 0)) {
 			currentGear = 1;
