@@ -14,7 +14,11 @@ public class Stabing : MonoBehaviour {
 	public WeaponSwitch PL;
 	public float stab_time;
 
+
 	public float side_shift;
+
+
+	public Vector3[] standard;
 
 	void Start()
 	{
@@ -22,6 +26,9 @@ public class Stabing : MonoBehaviour {
 	}
 	void OnEnable()
 	{
+		transform.localPosition = standard [0];
+		transform.localEulerAngles = standard [1];
+
 		Transform t = transform;
 		for (int i = 0; i < layer; i++)
 		{
@@ -51,6 +58,8 @@ public class Stabing : MonoBehaviour {
 		}
 		
 	}
+
+
 	IEnumerator stab ()
 	{
 		player.SetTrigger ("Stab");	
@@ -59,7 +68,7 @@ public class Stabing : MonoBehaviour {
 		Ray r = Camera.main.ViewportPointToRay (new Vector3 (0.5f, 0.5f, 0));
 		if (Physics.Raycast (r, out hit, reach)) 
 		{
-			if (hit.transform.CompareTag("Player"))
+			if (hit.transform.CompareTag("Player")||hit.transform.CompareTag("Enemy"))
 			{ // if hit a player
 
 				hit.collider.gameObject.GetComponent<Health_Body_Part> ().CmdDecrease (damage,player.gameObject); // decrease player health

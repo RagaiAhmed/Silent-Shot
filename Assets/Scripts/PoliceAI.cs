@@ -54,16 +54,6 @@ public class PoliceAI : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (aiControl.m_CarController.CurrentSpeed<1) 
-		{
-			if (policeMan.GetComponent<NavMeshAgent> ().isOnNavMesh) 
-			{
-				policeMan.SetActive (true);
-				policeMan.GetComponent<enemyShooting> ().Nodes = new Transform[1] { aiControl.m_Target };
-			}
-
-
-		}
 		if (health < 1&&health!=-0.01f) 
 		{
 			Explode ();
@@ -90,6 +80,12 @@ public class PoliceAI : MonoBehaviour {
 		if (health >= 1&&health!=0.01F)
 			health -= currentbullets - bulletholes;
 		bulletholes = currentbullets;
+		if (aiControl.m_CarController.CurrentSpeed<1) 
+		{
+
+			policeMan.SetActive (true);
+			policeMan.GetComponent<enemyShooting> ().Nodes = new Transform[1] { aiControl.m_Target };
+		}
 	}
 
 	void OnCollisionEnter (Collision collision){

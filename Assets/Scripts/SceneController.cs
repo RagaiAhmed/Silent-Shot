@@ -21,6 +21,7 @@ public class Controls {
 
 public class SceneController : MonoBehaviour {
 
+	public bool pedestrian_car=false;
 	#region defineInputs
 	[Tooltip("Vertical input recognized by the system")]
 	public string _verticalInput = "Vertical";
@@ -198,10 +199,12 @@ public class SceneController : MonoBehaviour {
 			velocitymph = "Velocity(mp/h): " + (int)(vehicleCode.KMh * 0.621371f * clampGear);
 			handBrake = "HandBreak: " + vehicleCode.handBrakeTrue;
 
-			if (vehicleCode.isDestroyed) {
+			if (vehicleCode.isDestroyed) 
+			{
 				vehicleCode.doorPosition = new GameObject[0];
 				vehicleCode.Explode ();
 				vehicleCode.isDestroyed = false;
+				vehicleCode.ExitTheVehicle ();
 			}
 			if (vehicleCode.isInsideTheCar)
 				player.transform.position = vehicleCode.transform.position;
@@ -213,7 +216,23 @@ public class SceneController : MonoBehaviour {
 		blockedInteraction = false;
 	}
 
-	void EnableVehicle(int index){
+	void EnableVehicle()
+	{
+		if (pedestrian_car)
+		{
+			Destroy (GetComponent<UnityStandardAssets.Vehicles.Car.CarAIControl> ());
+			Destroy (GetComponent<UnityStandardAssets.Vehicles.Car.CarAudio> ());
+			Destroy (GetComponent<UnityStandardAssets.Vehicles.Car.CarController> ());
+
+
+			VehicleController vc = GetComponent<VehicleController> ();
+
+			if (vc) 
+			{
+				vc.enabled = true;
+			}
+
+		}
 		vehicleCode.EnterInVehicle ();
 
 	}
