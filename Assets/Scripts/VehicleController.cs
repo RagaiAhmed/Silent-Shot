@@ -667,8 +667,10 @@ public class VehicleController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision collision){
+		if (!this.enabled)
+			return;
 		if (collision.contacts.Length > 0) {
-			if (collision.relativeVelocity.magnitude > 5 && collision.contacts [0].thisCollider.gameObject.transform != transform.parent) {
+			if (collision.relativeVelocity.magnitude > 7.5f && collision.contacts [0].thisCollider.gameObject.transform != transform.parent) {
 				if (_sounds.collisionSounds.Length > 0) {
 					beatsSoundAUD.clip = _sounds.collisionSounds [UnityEngine.Random.Range (0, _sounds.collisionSounds.Length)];
 					beatsSoundAUD.PlayOneShot (beatsSoundAUD.clip);
@@ -732,13 +734,26 @@ public class VehicleController : MonoBehaviour {
 			health -= currentbullets - bulletholes;
 		bulletholes = currentbullets;
 	}
-
-	public void EnterInVehicle(){
+	Transform temp_parent;
+	public void EnterInVehicle()
+	{
+		GameObject arrow = GameObject.FindGameObjectWithTag ("Arrow");
+		temp_parent = arrow.transform.parent;
+		arrow.transform.parent = transform;
+		arrow.transform.localPosition = new Vector3 (0, 1, 2);
 		isInsideTheCar = true;
 		EnableCameras (indexCamera);
 	}
 
-	public void ExitTheVehicle(){
+	public void ExitTheVehicle()
+	{
+		if (temp_parent) 
+		{
+			GameObject arrow = GameObject.FindGameObjectWithTag ("Arrow");
+			arrow.transform.parent = temp_parent;
+			arrow.transform.localPosition = new Vector3 (0, 0.366118f, 1.048862f);
+		}
+
 		isInsideTheCar = false;
 		EnableCameras (-1);
 		handBrakeTrue = true;

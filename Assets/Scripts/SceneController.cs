@@ -21,7 +21,7 @@ public class Controls {
 
 public class SceneController : MonoBehaviour {
 
-	public bool pedestrian_car=false;
+	public bool Normal_car=false;
 	#region defineInputs
 	[Tooltip("Vertical input recognized by the system")]
 	public string _verticalInput = "Vertical";
@@ -91,7 +91,7 @@ public class SceneController : MonoBehaviour {
 		Time.timeScale = 1;
 		error = false;
 
-		if (!vehicleCode)
+		if (!vehicleCode&&!Normal_car)
 		{
 			error = true;
 			Debug.LogError ("The vehicle associated does not have the 'VehicleController' component. So it will be disabled.");
@@ -152,6 +152,17 @@ public class SceneController : MonoBehaviour {
 
 			if (InputBroker.GetKeyDown (controls.enterEndExit) && !blockedInteraction && player && controls.enable_enterEndExit_Input)
 			{
+				if (Normal_car)
+				{
+					Destroy (GetComponent < UnityStandardAssets.Vehicles.Car.CarAudio>());
+					Destroy (GetComponent<UnityStandardAssets.Utility.WaypointProgressTracker>());
+					Destroy (GetComponent<UnityStandardAssets.Vehicles.Car.CarAIControl>());
+					Destroy (GetComponent< UnityStandardAssets.Vehicles.Car.CarController>());
+					Destroy (GetComponent<PoliceAI> ());
+
+					vehicleCode.enabled = true;
+					Normal_car = false;
+				}
 				if (vehicle) 
 				{
 					if (vehicleCode.isInsideTheCar) 
@@ -179,7 +190,7 @@ public class SceneController : MonoBehaviour {
 							if (currentDistanceTemp < minDistance)
 							{
 								vehicleCode.EnterInVehicle ();
-								vehicleCode.sensitivity = GetComponent<Head_Movement> ().Sensitivity;
+								vehicleCode.sensitivity = player.GetComponent<Head_Movement> ().Sensitivity;
 								if (player) {
 									player.SetActive (false);
 								}
@@ -218,7 +229,7 @@ public class SceneController : MonoBehaviour {
 
 	void EnableVehicle()
 	{
-		if (pedestrian_car)
+		if (Normal_car)
 		{
 			Destroy (GetComponent<UnityStandardAssets.Vehicles.Car.CarAIControl> ());
 			Destroy (GetComponent<UnityStandardAssets.Vehicles.Car.CarAudio> ());
