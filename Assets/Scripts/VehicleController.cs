@@ -667,6 +667,8 @@ public class VehicleController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision collision){
+		if (!this.enabled)
+			return;
 		if (collision.contacts.Length > 0) {
 			if (collision.relativeVelocity.magnitude > 7.5f && collision.contacts [0].thisCollider.gameObject.transform != transform.parent) {
 				if (_sounds.collisionSounds.Length > 0) {
@@ -732,13 +734,19 @@ public class VehicleController : MonoBehaviour {
 			health -= currentbullets - bulletholes;
 		bulletholes = currentbullets;
 	}
-
-	public void EnterInVehicle(){
+	Transform temp_parent;
+	public void EnterInVehicle()
+	{
+		GameObject arrow = GameObject.FindGameObjectWithTag ("Arrow");
+		temp_parent = arrow.transform.parent;
+		arrow.transform.parent = transform;
 		isInsideTheCar = true;
 		EnableCameras (indexCamera);
 	}
 
-	public void ExitTheVehicle(){
+	public void ExitTheVehicle()
+	{
+		GameObject.FindGameObjectWithTag ("Arrow").transform.parent = temp_parent;
 		isInsideTheCar = false;
 		EnableCameras (-1);
 		handBrakeTrue = true;
