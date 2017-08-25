@@ -179,7 +179,7 @@ public class SceneController : MonoBehaviour {
 							if (currentDistanceTemp < minDistance)
 							{
 								vehicleCode.EnterInVehicle ();
-								vehicleCode.sensitivity = GetComponent<Head_Movement> ().Sensitivity;
+								vehicleCode.sensitivity = player.GetComponent<Head_Movement> ().Sensitivity;
 								if (player) {
 									player.SetActive (false);
 								}
