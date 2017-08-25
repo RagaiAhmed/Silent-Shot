@@ -2,7 +2,7 @@
 
 Silent Shot is a FPS multiplayer game with Co-op missions and interactive gameplay .
 
-Game Made by ZOR Team:
+Game Made by ZORY Team:
 
     1- Ziyad Eslam  
     2- Yusuf Elnady  
