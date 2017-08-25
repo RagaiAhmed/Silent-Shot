@@ -25,7 +25,7 @@ public class WeaponSwitch : MonoBehaviour {
 
 	bool free = true;
 	Shooting state;
-	int current = 0;
+	public int current = 0;
 
 	KeyCode[] numberkeys = 
 	{

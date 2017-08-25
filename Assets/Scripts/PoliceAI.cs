@@ -82,7 +82,6 @@ public class PoliceAI : MonoBehaviour {
 		bulletholes = currentbullets;
 		if (aiControl.m_CarController.CurrentSpeed<1) 
 		{
-
 			policeMan.SetActive (true);
 			policeMan.GetComponent<enemyShooting> ().Nodes = new Transform[1] { aiControl.m_Target };
 		}
