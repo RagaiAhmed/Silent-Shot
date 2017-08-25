@@ -740,13 +740,20 @@ public class VehicleController : MonoBehaviour {
 		GameObject arrow = GameObject.FindGameObjectWithTag ("Arrow");
 		temp_parent = arrow.transform.parent;
 		arrow.transform.parent = transform;
+		arrow.transform.localPosition = new Vector3 (0, 1, 2);
 		isInsideTheCar = true;
 		EnableCameras (indexCamera);
 	}
 
 	public void ExitTheVehicle()
 	{
-		GameObject.FindGameObjectWithTag ("Arrow").transform.parent = temp_parent;
+		if (temp_parent) 
+		{
+			GameObject arrow = GameObject.FindGameObjectWithTag ("Arrow");
+			arrow.transform.parent = temp_parent;
+			arrow.transform.localPosition = new Vector3 (0, 0.366118f, 1.048862f);
+		}
+
 		isInsideTheCar = false;
 		EnableCameras (-1);
 		handBrakeTrue = true;
