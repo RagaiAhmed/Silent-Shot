@@ -78,6 +78,15 @@ public class Main_Health : MonoBehaviour {
 	public void die()
 	{
 		died = true;
+		add_to_children (root);
+		Destroy (gameObject, 10);
+		if (is_player)
+		{
+			GetComponent<WeaponSwitch> ().switchto (GetComponent<WeaponSwitch> ().current);
+			GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0).gameObject.SetActive (true);
+			StartCoroutine (return_main());
+
+		}
 		Destroy (GetComponent<Animation> ());
 		Destroy (GetComponent<NavMeshAgent> ());
 		Destroy(GetComponent<enemyShooting> ());
@@ -86,18 +95,6 @@ public class Main_Health : MonoBehaviour {
 		Destroy (GetComponent<Head_Movement> ());
 		Destroy (GetComponent<Character_Control> ());
 		Destroy (GetComponent<PedestrianObject> ());
-
-
-
-		add_to_children (root);
-		Destroy (gameObject, 10);
-		if (is_player)
-		{
-			GetComponent<WeaponSwitch> ().switchto (-1);
-			GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0).gameObject.SetActive (true);
-			StartCoroutine (return_main());
-
-		}
 	}
 	void Update()
 	{
@@ -128,8 +125,11 @@ public class Main_Health : MonoBehaviour {
 	}
 	public void add_score(float d)
 	{
+		if (d <= 0)
+			return;
 		if (is_player)
 		{
+			
 			PlayerPrefs.SetInt("Points",Mathf.CeilToInt(PlayerPrefs.GetInt("Points",0)+d));
 		}
 			

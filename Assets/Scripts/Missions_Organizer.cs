@@ -23,6 +23,8 @@ public class Missions_Organizer : MonoBehaviour
 	bool target_died;
 	Text timer;
 	bool player_died;
+	Transform pointer;
+	public Transform WareHouse;
 	void Start()
 	{
 		Player = GameObject.FindGameObjectWithTag ("Player_Main");
@@ -34,6 +36,8 @@ public class Missions_Organizer : MonoBehaviour
 		rndm_mission = missions[Random.Range (0, missions.Length-1)];
 		rndm_mission.Target.SetActive (true);
 
+		pointer = GameObject.FindGameObjectWithTag ("Arrow").transform.GetChild(0);
+		pointer.gameObject.SetActive (true);
 
 	}
 
@@ -47,6 +51,7 @@ public class Missions_Organizer : MonoBehaviour
 
 		if (Time.timeScale>0) 
 		{
+			pointer_towards(rndm_mission.Victim!=null?rndm_mission.Victim.transform.position:WareHouse.transform.position);
 			timer.text = "Timer : " + Mathf.Floor (Time.timeSinceLevelLoad / 60) + ":" +Mathf.Floor( Time.timeSinceLevelLoad % 60);
 			if (rndm_mission.Victim==null&&!target_died) 
 			{
@@ -75,6 +80,7 @@ public class Missions_Organizer : MonoBehaviour
 		{
 			Transform mdlMsg = GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0);
 			mdlMsg.GetComponent<Text> ().text = "Mission Passed !";
+			mdlMsg.GetComponent<Text> ().color = Color.green;
 			mdlMsg.gameObject.SetActive (true);
 			Player.GetComponent<Main_Health> ().add_score ((rndm_mission.mission_time_in_seconds-Time.timeSinceLevelLoad)*12);
 			StartCoroutine (Stop_level(5));
@@ -88,4 +94,8 @@ public class Missions_Organizer : MonoBehaviour
 		SceneManager.LoadScene ("Main");
 	}
 
+	void pointer_towards(Vector3 object_location)
+	{
+		pointer.eulerAngles = new Vector3(-60,Quaternion.LookRotation (object_location - pointer.position).eulerAngles.y,0);
+	}
 }
