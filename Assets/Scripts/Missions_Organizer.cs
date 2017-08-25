@@ -76,7 +76,7 @@ public class Missions_Organizer : MonoBehaviour
 
 	void OnTriggerEnter(Collider c)
 	{
-		if (!rndm_mission.Victim&&(c.gameObject.CompareTag ("Player_Main")||c.gameObject.CompareTag ("Player")||c.gameObject.CompareTag ("Vehicle"))) 
+		if (!rndm_mission.Victim&&(c.gameObject.CompareTag ("Player_Main")||c.gameObject.CompareTag ("Player")||c.gameObject.CompareTag ("Player_Vehicle"))) 
 		{
 			Transform mdlMsg = GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0);
 			mdlMsg.GetComponent<Text> ().text = "Mission Passed !";
