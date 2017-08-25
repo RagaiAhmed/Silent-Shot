@@ -157,7 +157,7 @@ public class Main_Health : MonoBehaviour {
 	{
 		float allVelocity = c.relativeVelocity.magnitude ;
 	
-		if ((c.collider.CompareTag("Vehicle")||c.collider.CompareTag("Player_Vehicle"))&&allVelocity>10)
+		if ((c.collider.CompareTag("Vehicle")||c.collider.CompareTag("Player_Vehicle"))&&allVelocity>7.5f)
 			RpcDecrease (allVelocity*5);
 	}
 }

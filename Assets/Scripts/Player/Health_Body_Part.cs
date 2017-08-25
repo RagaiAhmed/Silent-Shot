@@ -33,5 +33,13 @@ public class Health_Body_Part : MonoBehaviour {
 
 	}
 
+	void OnCollisionEnter(Collision c)
+	{
+		float allVelocity = c.relativeVelocity.magnitude ;
+
+		if ((c.collider.CompareTag("Vehicle")||c.collider.CompareTag("Player_Vehicle"))&&allVelocity>7.5f)
+			CmdDecrease (allVelocity*5,null);
+	}
+
 }
 	
