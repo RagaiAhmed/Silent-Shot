@@ -668,7 +668,7 @@ public class VehicleController : MonoBehaviour {
 
 	void OnCollisionEnter (Collision collision){
 		if (collision.contacts.Length > 0) {
-			if (collision.relativeVelocity.magnitude > 5 && collision.contacts [0].thisCollider.gameObject.transform != transform.parent) {
+			if (collision.relativeVelocity.magnitude > 15 && collision.contacts [0].thisCollider.gameObject.transform != transform.parent) {
 				if (_sounds.collisionSounds.Length > 0) {
 					beatsSoundAUD.clip = _sounds.collisionSounds [UnityEngine.Random.Range (0, _sounds.collisionSounds.Length)];
 					beatsSoundAUD.PlayOneShot (beatsSoundAUD.clip);
