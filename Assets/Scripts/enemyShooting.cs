@@ -132,7 +132,7 @@ public class enemyShooting : MonoBehaviour {
 		RaycastHit seen;
 		if (Physics.SphereCast (transform.position, 5,direction, out seen, spot_range)) 
 		{
-			if (seen.collider.CompareTag ("Player")) 
+			if (seen.collider.CompareTag ("Player")||seen.collider.CompareTag ("Player_Main")||(seen.collider.gameObject.CompareTag ("Vehicle")&&seen.collider.GetComponent<VehicleController>().isInsideTheCar)) 
 			{
 				player_pos = seen.transform.position;
 				chasing = true;
