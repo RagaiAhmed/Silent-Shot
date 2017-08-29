@@ -80,9 +80,10 @@ public class PoliceAI : MonoBehaviour {
 		if (health >= 1&&health!=0.01F)
 			health -= currentbullets - bulletholes;
 		bulletholes = currentbullets;
-		if (aiControl.m_CarController.CurrentSpeed<1) 
+		if (aiControl.m_CarController.CurrentSpeed<1&&!aiControl.enabled) 
 		{
 			policeMan.SetActive (true);
+			policeMan.transform.position = new Vector3(transform.position.x - 3, transform.position.y, transform.position.z);
 			policeMan.GetComponent<enemyShooting> ().Nodes = new Transform[1] { aiControl.m_Target };
 		}
 	}

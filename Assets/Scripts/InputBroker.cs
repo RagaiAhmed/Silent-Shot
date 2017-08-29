@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class InputBroker
 {
-	static KeyCode forcedKeyCode;
+	static string forcedKeyCode;
 
-	public static bool GetKeyDown(KeyCode aKey)
+	public static bool GetButtonDown(string aKey)
 	{
 		if (aKey == forcedKeyCode) {
-			forcedKeyCode = KeyCode.None;
+			forcedKeyCode = string.Empty;
 			return true;
 		}
 		else
-			return Input.GetKeyDown(aKey);
+			return Input.GetButtonDown(aKey);
 	}
 
-	public static void SetKeyDown(KeyCode aKey)
+	public static void SetButtonDown(string aKey)
 	{
 		forcedKeyCode = aKey;
 	}

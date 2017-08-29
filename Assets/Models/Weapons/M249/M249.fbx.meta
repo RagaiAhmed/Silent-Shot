@@ -1,0 +1,133 @@
+fileFormatVersion: 2
+guid: 0d40415e44603475792eb6abc9b9278f
+timeCreated: 1504025353
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: bullets
+    100002: CARRYHANDLE
+    100004: CHARGINHANDLE
+    100006: crazyamountofbullet
+    100008: evenmoarbullet
+    100010: last_pile_of_bullet
+    100012: //RootNode
+    100014: MAG_HATCH
+    100016: Mesh_0011
+    100018: TRIGGER
+    400000: bullets
+    400002: CARRYHANDLE
+    400004: CHARGINHANDLE
+    400006: crazyamountofbullet
+    400008: evenmoarbullet
+    400010: last_pile_of_bullet
+    400012: //RootNode
+    400014: MAG_HATCH
+    400016: Mesh_0011
+    400018: TRIGGER
+    2300000: bullets
+    2300002: CARRYHANDLE
+    2300004: CHARGINHANDLE
+    2300006: crazyamountofbullet
+    2300008: evenmoarbullet
+    2300010: last_pile_of_bullet
+    2300012: //RootNode
+    2300014: MAG_HATCH
+    2300016: Mesh_0011
+    2300018: TRIGGER
+    3300000: bullets
+    3300002: CARRYHANDLE
+    3300004: CHARGINHANDLE
+    3300006: crazyamountofbullet
+    3300008: evenmoarbullet
+    3300010: last_pile_of_bullet
+    3300012: //RootNode
+    3300014: MAG_HATCH
+    3300016: Mesh_0011
+    3300018: TRIGGER
+    4300000: Mesh_0009
+    4300002: CHARGINHANDLE
+    4300004: TRIGGER
+    4300006: Mesh_0011
+    4300008: last_pile_of_bullet
+    4300010: bullets
+    4300012: crazyamountofbullet
+    4300014: evenmoarbullet
+    4300016: MAG_HATCH
+    4300018: CARRYHANDLE
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

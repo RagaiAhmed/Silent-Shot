@@ -38,6 +38,7 @@ public class Map_Shower : MonoBehaviour {
 	{
 		if (current_map!=-1)
 		{
+			start.gameObject.SetActive (false);
 			aso =	SceneManager.LoadSceneAsync (maps[current_map].Name);
 			loading = true;
 		}

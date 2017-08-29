@@ -25,6 +25,7 @@ public class Missions_Organizer : MonoBehaviour
 	bool player_died;
 	Transform pointer;
 	public Transform WareHouse;
+	public AudioClip victory;
 	void Start()
 	{
 		Player = GameObject.FindGameObjectWithTag ("Player_Main");
@@ -33,12 +34,12 @@ public class Missions_Organizer : MonoBehaviour
 		timer.gameObject.SetActive (true);
 		if ((missions.Length == 0))
 			return;
-		rndm_mission = missions[Random.Range (0, missions.Length-1)];
+		rndm_mission = missions[Random.Range (0, missions.Length)];
 		rndm_mission.Target.SetActive (true);
 
 		pointer = GameObject.FindGameObjectWithTag ("Arrow").transform.GetChild(0);
 		pointer.gameObject.SetActive (true);
-
+		GameObject.FindGameObjectWithTag ("Info").GetComponent<Text> ().text = "Kill your target!";
 	}
 
 	void Update()
@@ -57,17 +58,18 @@ public class Missions_Organizer : MonoBehaviour
 		if (Time.timeScale>0) 
 		{
 			pointer_towards(rndm_mission.Victim!=null?rndm_mission.Victim.transform.position:WareHouse.transform.position);
-			timer.text = "Timer : " + Mathf.Floor (Time.timeSinceLevelLoad / 60) + ":" +Mathf.Floor( Time.timeSinceLevelLoad % 60);
+			timer.text = "Timer : " + Mathf.Floor (Time.timeSinceLevelLoad / 60) + ":" +Mathf.Floor( Time.timeSinceLevelLoad % 60) + "/" + Mathf.Floor (rndm_mission.mission_time_in_seconds / 60) + ":" +Mathf.Floor( rndm_mission.mission_time_in_seconds % 60);
 			if (rndm_mission.Victim==null&&!target_died) 
 			{
 				rndm_mission.Police_cars.gameObject.SetActive (true);
-
+				timer.gameObject.SetActive (false);
 				target_died = true;
 				foreach (Transform car in rndm_mission.Police_cars)
 				{
 					car.gameObject.GetComponent<UnityStandardAssets.Vehicles.Car.CarAIControl>().m_Target= Player.transform;
 
 				}
+				GameObject.FindGameObjectWithTag ("Info").GetComponent<Text> ().text = "Target killed! Escape the cops!";
 
 			}
 			if ((!player_died&&Time.timeSinceLevelLoad > rndm_mission.mission_time_in_seconds&&(rndm_mission.Victim!=null&&rndm_mission.Victim.GetComponent<enemyShooting> ().escaped))) 
@@ -81,8 +83,9 @@ public class Missions_Organizer : MonoBehaviour
 
 	void OnTriggerEnter(Collider c)
 	{
-		if (!rndm_mission.Victim&&(c.gameObject.CompareTag ("Player_Main")||c.gameObject.CompareTag ("Player")||(c.gameObject.CompareTag ("Vehicle")&&c.GetComponent<VehicleController>().isInsideTheCar))) 
+		if (!rndm_mission.Victim&&(c.gameObject.CompareTag ("Player_Main")||c.gameObject.CompareTag ("Player")||(c.gameObject.CompareTag ("Vehicle")&&c.GetComponentInParent<VehicleController>().isInsideTheCar))) 
 		{
+			AudioSource.PlayClipAtPoint (victory, transform.position);
 			Transform mdlMsg = GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0);
 			mdlMsg.GetComponent<Text> ().text = "Mission Passed !";
 			mdlMsg.GetComponent<Text> ().color = Color.green;

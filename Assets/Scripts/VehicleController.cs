@@ -709,7 +709,7 @@ public class VehicleController : MonoBehaviour {
 			engineInput = 0;
 		}
 		if (isInsideTheCar) {
-			if (Input.GetKeyDown (controls.controls.handBrakeInput) && controls.controls.enable_handBrakeInput_Input && Time.timeScale > 0.2f) {
+			if (Input.GetButtonDown("Handbrake") && Time.timeScale > 0.2f) {
 				handBrakeTrue = !handBrakeTrue;
 			}
 		}
@@ -816,8 +816,6 @@ public class VehicleController : MonoBehaviour {
 		{
 			isDestroyed = true;
 			health = 0.01F;
-			if(isInsideTheCar)
-				InputBroker.SetKeyDown (KeyCode.T);
 		}
 	}
 
@@ -1416,7 +1414,7 @@ public class VehicleController : MonoBehaviour {
 		if (currentBrakeValue > 0.1f) {
 			return 0;
 		}
-		if (Input.GetKey (controls.controls.handBrakeInput)&& controls.controls.enable_handBrakeInput_Input) {
+		if (Input.GetButtonDown("Handbrake")) {
 			return 0;
 		}
 		if(changinGears){
@@ -1515,7 +1513,7 @@ public class VehicleController : MonoBehaviour {
 		} else {
 			handBrake_Input = 0;
 		}
-		if (Input.GetKey (controls.controls.handBrakeInput) && controls.controls.enable_handBrakeInput_Input) {
+		if (Input.GetButtonDown("Handbrake")) {
 			handBrake_Input = 2;
 		}
 		handBrake_Input = handBrake_Input * 1000;

@@ -28,6 +28,7 @@ public class Shooting : MonoBehaviour {
 
 	public int clip_ammo_size; // size of ammo per reload
 	public int total_ammo; // total ammount of ammo given
+	public int default_ammo;
 
 	public int current_ammo=0; // current ammo in the gun
 	public bool reloading=false;
@@ -52,7 +53,8 @@ public class Shooting : MonoBehaviour {
 		if (!in_hand)
 			return;
 		StartCoroutine(reload()); // reloads at the start of the game
-
+		if (default_ammo == 0)
+			default_ammo = total_ammo;
 	}
 
 	void OnEnable()
@@ -300,7 +302,7 @@ public class Shooting : MonoBehaviour {
 	}
 
 
-	void set_ammo()
+	public void set_ammo()
 	{
 		player.gameObject.GetComponent<WeaponSwitch> ().reload_label.text = current_ammo + "/" + total_ammo;
 	}

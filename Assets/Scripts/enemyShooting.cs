@@ -132,10 +132,14 @@ public class enemyShooting : MonoBehaviour {
 		RaycastHit seen;
 		if (Physics.SphereCast (transform.position, 5,direction, out seen, spot_range)) 
 		{
-			if (seen.collider.CompareTag ("Player")||seen.collider.CompareTag ("Player_Main")||(seen.collider.gameObject.CompareTag ("Vehicle")&&seen.collider.GetComponent<VehicleController>().isInsideTheCar)) 
+			if (seen.collider.CompareTag ("Player")||seen.collider.CompareTag ("Player_Main")||(seen.collider.gameObject.CompareTag ("Vehicle")&&seen.collider.GetComponentInParent<VehicleController>().isInsideTheCar)) 
 			{
 				player_pos = seen.transform.position;
 				chasing = true;
+				foreach(Collider c in Physics.OverlapSphere (transform.position, spot_range))
+				{
+					c.GetComponent<enemyShooting> ().chasing = true;
+				}
 				return true;
 			}
 		}

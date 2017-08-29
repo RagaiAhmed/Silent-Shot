@@ -17,6 +17,7 @@ public class Sensentivity : MonoBehaviour {
 		GameObject player = GameObject.FindGameObjectWithTag ("Player_Main");
 		if (player)
 			player.GetComponent<Head_Movement> ().Sensitivity = done * (range);
+		PlayerPrefs.SetFloat("Sens", done);
 	}
 
 	void OnEnable()
@@ -24,7 +25,7 @@ public class Sensentivity : MonoBehaviour {
 		GameObject player = GameObject.FindGameObjectWithTag ("Player_Main");
 		if (player) 
 		{
-			GetComponent<Slider> ().value = player.GetComponent<Head_Movement> ().Sensitivity /range;
+			GetComponent<Slider> ().value = PlayerPrefs.GetFloat ("Sens", player.GetComponent<Head_Movement> ().Sensitivity /range);
 				
 		}
 	}

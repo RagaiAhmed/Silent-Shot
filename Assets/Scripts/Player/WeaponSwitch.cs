@@ -55,7 +55,6 @@ public class WeaponSwitch : MonoBehaviour {
 		}
 		aud = GetComponent<AudioSource> ();
 		player = GetComponent<Animator> ();
-
 	}
 
 	void Update ()
@@ -234,5 +233,17 @@ public class WeaponSwitch : MonoBehaviour {
 		WeaponHolder.GetChild (frm).SetSiblingIndex (to);
 		show_inventory ();
 		
+	}
+
+	public void refill()
+	{
+		foreach (Transform t in WeaponHolder) {
+			Shooting s = t.GetComponent<Shooting> ();
+			if(s)
+			{
+				s.total_ammo = s.default_ammo;
+				s.set_ammo ();
+			}
+		}
 	}
 }
