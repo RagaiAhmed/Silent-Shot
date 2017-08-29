@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -90,7 +90,10 @@ public class Missions_Organizer : MonoBehaviour
 			mdlMsg.GetComponent<Text> ().text = "Mission Passed !";
 			mdlMsg.GetComponent<Text> ().color = Color.green;
 			mdlMsg.gameObject.SetActive (true);
-			Player.GetComponent<Main_Health> ().add_score ((rndm_mission.mission_time_in_seconds-Time.timeSinceLevelLoad)*12);
+			int sc = (rndm_mission.mission_time_in_seconds-Time.timeSinceLevelLoad) * 2
+			if(sc < 100)
+				sc = 100;
+			Player.GetComponent<Main_Health> ().add_score (sc);
 			StartCoroutine (Stop_level(5));
 		}
 	}
