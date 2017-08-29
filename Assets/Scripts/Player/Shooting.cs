@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 
@@ -48,13 +48,17 @@ public class Shooting : MonoBehaviour {
 	public Vector3[] standard;
 	public bool non_player;
 
+	void Awake()
+	{
+		if (default_ammo == 0)
+			default_ammo = total_ammo;
+	}
+
 	void Start()
 	{
 		if (!in_hand)
 			return;
 		StartCoroutine(reload()); // reloads at the start of the game
-		if (default_ammo == 0)
-			default_ammo = total_ammo;
 	}
 
 	void OnEnable()
@@ -83,7 +87,6 @@ public class Shooting : MonoBehaviour {
 		player.side_shift = side_shift;
 		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
 		scope = GameObject.FindGameObjectWithTag ("Scope").transform.GetChild(0).gameObject;
-
 	}
 
 
