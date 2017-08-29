@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class WeaponSwitch : MonoBehaviour {
+
+public class WeaponSwitch : NetworkBehaviour {
 	public GameObject Inventory;
 
 	public Text reload_label;
@@ -13,7 +15,7 @@ public class WeaponSwitch : MonoBehaviour {
 
 	public int[] WeaponHolder_path;
 
-	private Transform WeaponHolder;
+	public Transform WeaponHolder;
 	private Animator player;
 	public float switch_time;
 	public AudioClip switching;

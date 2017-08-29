@@ -2,7 +2,7 @@
 using UnityEngine.Networking;
 
 
-public class Health_Body_Part : MonoBehaviour {
+public class Health_Body_Part : NetworkBehaviour {
 
 	public int layer;
 	private Main_Health main;
@@ -18,6 +18,7 @@ public class Health_Body_Part : MonoBehaviour {
 		main = t.GetComponent<Main_Health> ();
 	}
 
+	[Command]
 	public void CmdDecrease (float damage,GameObject did)
 	{
 		if (main.died)

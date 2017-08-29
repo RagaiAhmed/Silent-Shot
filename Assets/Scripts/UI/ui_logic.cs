@@ -2,6 +2,10 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+public class locker 
+{
+	public static bool isPlaying=true;
+}
 
 public class ui_logic : MonoBehaviour {
 
@@ -34,14 +38,13 @@ public class ui_logic : MonoBehaviour {
 		Cursor.visible = !Cursor.visible;
 		if (menu.activeSelf)
 		{
-			Time.timeScale = 0;
+			locker.isPlaying = false;
 			Cursor.lockState = CursorLockMode.None;
 		}
 		else 
 		{
-			Time.timeScale = 1;
+			locker.isPlaying = true;
 			Cursor.lockState = CursorLockMode.Locked;
-
 		}
 	}
 	void load_main ()

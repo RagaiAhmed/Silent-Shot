@@ -56,6 +56,7 @@ public class Map_Shower : MonoBehaviour {
 		if (loading) 
 		{
 			transform.GetChild (0).gameObject.SetActive (false);
+			transform.GetChild (2).gameObject.SetActive (false);
 			GameObject slider = transform.GetChild (1).gameObject;
 			slider.SetActive (true);
 			slider.GetComponent<Slider> ().value = aso.progress/0.9f;

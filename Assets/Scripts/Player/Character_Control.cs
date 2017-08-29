@@ -1,16 +1,10 @@
 ﻿
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 
-[System.Serializable]
-public class Floors 
-{
-	public AudioClip Jump;
-	public AudioClip Land;
-	public AudioClip[] FootSteps;
-}
 
-public class Character_Control : MonoBehaviour 
+public class Character_Control : NetworkBehaviour 
 {
 
 
@@ -40,7 +34,7 @@ public class Character_Control : MonoBehaviour
 	public float fall_damage;
 
 	private Animator anim;
-	private AudioSource Audio;
+	private Multi_Sound Audio;
 	private float[] speed_array;
 	delegate void action ();
 	private action[] state_functions;
@@ -64,40 +58,50 @@ public class Character_Control : MonoBehaviour
 		state_functions = new action[] {Crouch,Walk,Sprint};
 		engine0 = GetComponent<Rigidbody>(); 
 		anim    = GetComponent<Animator>();
-		Audio   = GetComponent<AudioSource>();
+		Audio   = GetComponent<Multi_Sound>();
 		player  = GetComponent<Head_Movement> ();
 		health  = GetComponent<Main_Health> ();
+		if (!isLocalPlayer) 
+		{
+			Destroy (this);
+		}
+
 	}
 
 
 	void Update()
 	{
-
-		if (Time.timeScale != 0) 
-		{
-			isGrounded = isgrounded();
+		if (!isLocalPlayer)
+			return;
+		isGrounded = isgrounded();
+		if(locker.isPlaying)	
 			state = (int)Input.GetAxisRaw ("Sprint") + 1;
-			Move (); // calls the move function
-		}
+		Move (); // calls the move function
 	}
 
 
 	void Move()
 	{
 		Vector3 Movement=Vector3.zero ; // to store main movement input
+		if (locker.isPlaying)
+		{
+			Movement.x = Input.GetAxis ("Horizontal");
+			Movement.z = Input.GetAxis ("Vertical")  ;  // stores input
+		}
 
-		Movement.x = Input.GetAxis ("Horizontal");
-		Movement.z = Input.GetAxis ("Vertical")  ;  // stores input
 
 		animate_direction (Movement);  // sends the animator the direction of movement
 
-		Movement = Movement.x * transform.right + Movement.z * transform.forward; // stores the direction of movement
-		Movement.Normalize (); // normalizes the vector
+		if (locker.isPlaying)
+		{
+			Movement = Movement.x * transform.right + Movement.z * transform.forward; // stores the direction of movement
+			Movement.Normalize (); // normalizes the vector
 
 
-		Movement *= getSpeed ();
+			Movement *= getSpeed ();
+		}
+			Movement.y = engine0.velocity.y; // stores the y axis velocity
 
-		Movement.y = engine0.velocity.y; // stores the y axis velocity
 
 		if (isGrounded)  // if the character is grounded
 		{
@@ -111,17 +115,16 @@ public class Character_Control : MonoBehaviour
 				wasinair = false; // its now not in air
 				anim.SetTrigger("Idle");
 				was_idle = true;
-				Audio.PlayOneShot(floor[Floor_Type].Land);  // playing land Audio clip
+			//	Audio.Cmdplay(floor[Floor_Type].Land);  // playing land Audio clip
 			}
-			else if (Input.GetAxisRaw ("Jump") == 1 && !wasinair) 
+			else if (Input.GetAxisRaw ("Jump") == 1 && !wasinair && locker.isPlaying) 
 			{
 				Movement.y += jump; // adds velocity in y axis
 				anim.SetTrigger("InAir");
 				wasinair = true;
-				Audio.PlayOneShot(floor[Floor_Type].Jump); // plays jump audio clip
+			//	Audio.Cmdplay(floor[Floor_Type].Jump); // plays jump audio clip
 			}
-
-
+				
 			engine0.velocity=Movement; // applying the movement
 		}
 		else
@@ -154,7 +157,7 @@ public class Character_Control : MonoBehaviour
 
 			if (!step && isGrounded && state>1) 
 			{
-				Audio.PlayOneShot (floor[Floor_Type].FootSteps [Random.Range (0, floor[Floor_Type].FootSteps.Length)]);
+			//	Audio.Cmdplay (floor[Floor_Type].FootSteps [Random.Range (0, floor[Floor_Type].FootSteps.Length)]);
 				StartCoroutine (step_wait(getSpeed()));
 			}
 

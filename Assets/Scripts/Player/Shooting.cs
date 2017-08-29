@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
-public class Shooting : MonoBehaviour {
+
+public class Shooting : NetworkBehaviour {
 
 	// The following settings should be modified for every weapon individualy
 	public float fire_rate; // fire rate in bullets/second

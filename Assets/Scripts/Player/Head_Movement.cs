@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 
-public class Head_Movement : MonoBehaviour 
+
+public class Head_Movement : NetworkBehaviour 
 {
 	public Vector3 new_rotation; // holding the new rotation according to mouse input
 
@@ -33,6 +35,17 @@ public class Head_Movement : MonoBehaviour
 		torso = get_from_path (torso_path);
 		head = get_from_path (head_path);
 
+		if (!isLocalPlayer)
+		{
+			set_layer (transform, LayerMask.NameToLayer ("Default"));
+			Destroy(head.GetChild (0).gameObject);
+			Destroy (transform.Find ("Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/Gun_Camera").gameObject);
+			Destroy (this);
+			return;
+		}
+
+
+
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false; // hides mouse
 		anim=GetComponent<Animator>(); 
@@ -40,38 +53,47 @@ public class Head_Movement : MonoBehaviour
 
 	void Update()
 	{
-		if (Time.timeScale > 0)
+		if (!isLocalPlayer)
+			return;
+		if (locker.isPlaying) 
 		{
 			temp_x *= 0.5f;
 			temp_y *= 0.5f;
 
-			new_rotation += new Vector3 (temp_x,temp_y);
+			new_rotation += new Vector3 (temp_x, temp_y);
 
-			float turn=-Input.GetAxis ("Mouse Y");
+			float turn = -Input.GetAxis ("Mouse Y");
 
-			if (turn > 0) 
-				anim.SetBool ("Turn_R",true);
-			else 
-				anim.SetBool ("Turn_R",false);
-			if (turn < 0)
-				anim.SetBool ("Turn_L",true);
+			if (turn > 0)
+				anim.SetBool ("Turn_R", true);
 			else
-				anim.SetBool ("Turn_L",false);
+				anim.SetBool ("Turn_R", false);
+			if (turn < 0)
+				anim.SetBool ("Turn_L", true);
+			else
+				anim.SetBool ("Turn_L", false);
 
-			new_rotation += new Vector3( turn, Input.GetAxis( "Mouse X" ), 0)*Sensitivity ;	// adds the input to the current looking state
+			new_rotation += new Vector3 (turn, Input.GetAxis ("Mouse X"), 0) * Sensitivity;	// adds the input to the current looking state
 
+		}
+		else 
+		{
+			anim.SetBool ("Turn_L", false);
+			anim.SetBool ("Turn_R", false);
 		}
 	}
 
 	void LateUpdate () 
 	{
-			new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -90, 60), new_rotation.y%360, 0); // clamps it
-			transform.rotation  = Quaternion.Euler( 0, new_rotation.y, 0); // applying portion of rotation to body
-			root.localRotation  = Quaternion.Euler(0,yshift,0);
-			torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -yshift+side_shift/2, 0); // applying portion of rotation to torso
-			chest.localRotation = Quaternion.Euler( Mathf.Abs( new_rotation.x/4 ),side_shift/2, 0 ); // applying portion of rotation to chest
-			head.localRotation  = Quaternion.Euler( 0, -side_shift, 0 ); 
-			head.rotation = Quaternion.Euler(head.eulerAngles.x , head.eulerAngles.y , 0 ); ;
+		if (!isLocalPlayer)
+			return;
+		new_rotation        = new Vector3( Mathf.Clamp( new_rotation.x, -90, 60), new_rotation.y%360, 0); // clamps it
+		transform.rotation  = Quaternion.Euler( 0, new_rotation.y, 0); // applying portion of rotation to body
+		root.localRotation  = Quaternion.Euler(0,yshift,0);
+		torso.localRotation = Quaternion.Euler( new_rotation.x/4*3 , -yshift+side_shift/2, 0); // applying portion of rotation to torso
+		chest.localRotation = Quaternion.Euler( Mathf.Abs( new_rotation.x/4 ),side_shift/2, 0 ); // applying portion of rotation to chest
+		head.localRotation  = Quaternion.Euler( 0, -side_shift, 0 ); 
+		head.rotation = Quaternion.Euler(head.eulerAngles.x , head.eulerAngles.y , 0 ); ;
 		
 	}
 	public float apply_x(float val)
@@ -98,5 +120,14 @@ public class Head_Movement : MonoBehaviour
 		}
 		return t;
 	}
-		
+
+	void set_layer(Transform t,int i)
+	{
+		t.gameObject.layer = i;
+		t.tag = "Player";
+		foreach (Transform tc in t) 
+		{
+			set_layer (tc, i);
+		}
+	}
 }

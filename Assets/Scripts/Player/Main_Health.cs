@@ -3,18 +3,19 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using UnityEngine.SceneManagement;
-//using UnityEngine.Networking;
+using UnityEngine.Networking;
 
 
-public class Main_Health : MonoBehaviour {
+public class Main_Health : NetworkBehaviour {
 
 	public AudioClip[] Hurt;
-	AudioSource aud;
+	Multi_Sound aud;
 	public Image label;
 	public Slider healthSlider;
 
 	bool hurtin;
 	public float Health;
+	[SyncVar]
 	private float hp;
 	public float regeneration;
 	public bool is_player=true;
@@ -24,7 +25,7 @@ public class Main_Health : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
 	{
-		aud = GetComponent<AudioSource> ();
+		aud = GetComponent<Multi_Sound> ();
 
 		if (is_player) 
 		{
@@ -41,6 +42,7 @@ public class Main_Health : MonoBehaviour {
 
 	}
 
+	[ClientRpc]
 	public void RpcDecrease (float damage)
 	{
 		if (died)
@@ -53,7 +55,7 @@ public class Main_Health : MonoBehaviour {
 		if (!hurtin) 
 		{	
 			AudioClip	ac = Hurt [Random.Range (0, Hurt.Length)];
-			aud.PlayOneShot(ac);
+	//		aud.Cmdplay(ac);
 			hurtin = true;
 			StartCoroutine (non_hurtin (ac.length));
 		}
@@ -66,7 +68,7 @@ public class Main_Health : MonoBehaviour {
 	}
 	void set_health()
 	{
-		if (is_player)
+		if (is_player&&isLocalPlayer)
 		{
 			label.CrossFadeAlpha (1-hp/Health, 0.2f, true);
 			healthSlider.value = hp / Health;
@@ -92,13 +94,16 @@ public class Main_Health : MonoBehaviour {
 		Destroy(GetComponent<enemyShooting> ());
 		Destroy (GetComponent<Animator> ());
 		Destroy (GetComponent<WeaponSwitch> ());
+		Destroy (GetComponent<WeaponSwitch> ());
 		Destroy (GetComponent<Head_Movement> ());
+		Destroy (GetComponent<Head_Movement> ());
+		Destroy (GetComponent<Character_Control> ());
 		Destroy (GetComponent<Character_Control> ());
 		Destroy (GetComponent<PedestrianObject> ());
 	}
 	void Update()
 	{
-		if (Time.timeScale>0 && hp < Health&&!died)
+		if (hp < Health && !died && isLocalPlayer)
 		{
 			hp += Time.deltaTime * regeneration;
 			set_health ();

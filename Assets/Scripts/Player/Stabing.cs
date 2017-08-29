@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Stabing : MonoBehaviour {
+
+public class Stabing : NetworkBehaviour {
 
 	public float damage;
 	public float reach;
