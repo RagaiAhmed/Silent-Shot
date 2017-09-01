@@ -48,7 +48,7 @@ public class Shooting : MonoBehaviour {
 	public Vector3[] standard;
 	public bool non_player;
 
-	void Awake()
+	public Shooting()
 	{
 		if (default_ammo == 0)
 			default_ammo = total_ammo;

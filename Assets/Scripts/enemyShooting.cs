@@ -138,7 +138,8 @@ public class enemyShooting : MonoBehaviour {
 				chasing = true;
 				foreach(Collider c in Physics.OverlapSphere (transform.position, spot_range))
 				{
-					c.GetComponent<enemyShooting> ().chasing = true;
+					if(c.GetComponent<enemyShooting> ())
+						c.GetComponent<enemyShooting> ().chasing = true;
 				}
 				return true;
 			}

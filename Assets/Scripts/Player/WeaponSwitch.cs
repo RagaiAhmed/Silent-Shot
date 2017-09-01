@@ -242,7 +242,8 @@ public class WeaponSwitch : MonoBehaviour {
 			if(s)
 			{
 				s.total_ammo = s.default_ammo;
-				s.set_ammo ();
+				if(s.gameObject.activeSelf)
+					s.set_ammo ();
 			}
 		}
 	}

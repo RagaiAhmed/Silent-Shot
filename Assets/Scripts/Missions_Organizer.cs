@@ -25,7 +25,7 @@ public class Missions_Organizer : MonoBehaviour
 	bool player_died;
 	Transform pointer;
 	public Transform WareHouse;
-	public AudioClip victory;
+	public AudioSource victory;
 	void Start()
 	{
 		Player = GameObject.FindGameObjectWithTag ("Player_Main");
@@ -85,14 +85,14 @@ public class Missions_Organizer : MonoBehaviour
 	{
 		if (!rndm_mission.Victim&&(c.gameObject.CompareTag ("Player_Main")||c.gameObject.CompareTag ("Player")||(c.gameObject.CompareTag ("Vehicle")&&c.GetComponentInParent<VehicleController>().isInsideTheCar))) 
 		{
-			AudioSource.PlayClipAtPoint (victory, transform.position);
+			victory.Play ();
 			Transform mdlMsg = GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0);
 			mdlMsg.GetComponent<Text> ().text = "Mission Passed !";
 			mdlMsg.GetComponent<Text> ().color = Color.green;
 			mdlMsg.gameObject.SetActive (true);
-			int sc = (rndm_mission.mission_time_in_seconds-Time.timeSinceLevelLoad) * 2
-			if(sc < 100)
-				sc = 100;
+			float sc = (rndm_mission.mission_time_in_seconds - Time.timeSinceLevelLoad) * 2;
+			if(sc < rndm_mission.mission_time_in_seconds / 2)
+				sc = rndm_mission.mission_time_in_seconds / 2;
 			Player.GetComponent<Main_Health> ().add_score (sc);
 			StartCoroutine (Stop_level(5));
 		}

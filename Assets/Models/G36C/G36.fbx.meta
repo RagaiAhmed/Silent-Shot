@@ -1,0 +1,195 @@
+fileFormatVersion: 2
+guid: 7097cf16f35d86d44837e24996c7a36a
+timeCreated: 1504264057
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: car15_mag
+    100002: car15_reciever
+    100004: car15_suppressor
+    100006: //RootNode
+    100008: L_Armdummy
+    100010: L_Forearm
+    100012: L_Index1
+    100014: L_Index2
+    100016: L_Index3
+    100018: L_Mid1
+    100020: L_Mid2
+    100022: L_Mid3
+    100024: L_Pinky1
+    100026: L_Pinky2
+    100028: L_Pinky3
+    100030: L_Ring1
+    100032: L_Ring2
+    100034: L_Ring3
+    100036: L_Thumb1
+    100038: L_Thumb2
+    100040: L_Thumb3
+    100042: L_Upperarm
+    100044: L_Wrist
+    100046: R_Armdummy
+    100048: R_Forearm
+    100050: R_Index1
+    100052: R_Index2
+    100054: R_Index3
+    100056: R_Mid1
+    100058: R_Mid2
+    100060: R_Mid3
+    100062: R_Pinky1
+    100064: R_Pinky2
+    100066: R_Pinky3
+    100068: R_Ring1
+    100070: R_Ring2
+    100072: R_Ring3
+    100074: R_Thumb1
+    100076: R_Thumb2
+    100078: R_Thumb3
+    100080: R_Upperarm
+    100082: R_Wrist
+    100084: SMDImport
+    100086: BlueSkyHemiOrange
+    100088: BlueSkySunBlue
+    100090: BlueSkySunOrange
+    100092: Camera
+    100094: Cube
+    100096: G36C_butt
+    100098: G36C_clip
+    400000: car15_mag
+    400002: car15_reciever
+    400004: car15_suppressor
+    400006: //RootNode
+    400008: L_Armdummy
+    400010: L_Forearm
+    400012: L_Index1
+    400014: L_Index2
+    400016: L_Index3
+    400018: L_Mid1
+    400020: L_Mid2
+    400022: L_Mid3
+    400024: L_Pinky1
+    400026: L_Pinky2
+    400028: L_Pinky3
+    400030: L_Ring1
+    400032: L_Ring2
+    400034: L_Ring3
+    400036: L_Thumb1
+    400038: L_Thumb2
+    400040: L_Thumb3
+    400042: L_Upperarm
+    400044: L_Wrist
+    400046: R_Armdummy
+    400048: R_Forearm
+    400050: R_Index1
+    400052: R_Index2
+    400054: R_Index3
+    400056: R_Mid1
+    400058: R_Mid2
+    400060: R_Mid3
+    400062: R_Pinky1
+    400064: R_Pinky2
+    400066: R_Pinky3
+    400068: R_Ring1
+    400070: R_Ring2
+    400072: R_Ring3
+    400074: R_Thumb1
+    400076: R_Thumb2
+    400078: R_Thumb3
+    400080: R_Upperarm
+    400082: R_Wrist
+    400084: SMDImport
+    400086: BlueSkyHemiOrange
+    400088: BlueSkySunBlue
+    400090: BlueSkySunOrange
+    400092: Camera
+    400094: Cube
+    400096: G36C_butt
+    400098: G36C_clip
+    2300000: Cube
+    2300002: G36C_butt
+    2300004: G36C_clip
+    3300000: Cube
+    3300002: G36C_butt
+    3300004: G36C_clip
+    4300000: SMDImport
+    4300002: G36C_butt
+    4300004: G36C_clip
+    4300006: Cube
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: SMDImport
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 0
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+    normalCalculationMode: 0
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

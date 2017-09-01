@@ -1,0 +1,179 @@
+fileFormatVersion: 2
+guid: a76a65e11007ae949acefb8116f406e7
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: DrawCall_03
+    100004: DrawCall_04
+    100006: DrawCall_05
+    100008: frame l armtwist1
+    100010: frame l armtwist2
+    100012: frame l armtwist3
+    100014: frame l armtwist4
+    100016: frame l forearm
+    100018: frame l index low
+    100020: frame l index mid
+    100022: frame l index tip
+    100024: frame l middle mid
+    100026: frame l middle tip
+    100028: frame l middlelow
+    100030: frame l pinky low
+    100032: frame l pinky mid
+    100034: frame l pinky tip
+    100036: frame l ring low
+    100038: frame l ring mid
+    100040: frame l ring tip
+    100042: frame l thumb low
+    100044: frame l thumb mid
+    100046: frame l thumb tip
+    100048: frame l upperarm
+    100050: frame l wriste
+    100052: frame main-bone
+    100054: frame r armtwist1
+    100056: frame r armtwist2
+    100058: frame r armtwist3
+    100060: frame r armtwist4
+    100062: frame r forearm
+    100064: frame r index low
+    100066: frame r index mid
+    100068: frame r index tip
+    100070: frame r middle mid
+    100072: frame r middle tip
+    100074: frame r middlelow
+    100076: frame r pinky low
+    100078: frame r pinky mid
+    100080: frame r pinky tip
+    100082: frame r ring low
+    100084: frame r ring mid
+    100086: frame r ring tip
+    100088: frame r thumb low
+    100090: frame r thumb mid
+    100092: frame r thumb tip
+    100094: frame r upperarm
+    100096: frame r wriste
+    100098: smdimport
+    400000: //RootNode
+    400002: DrawCall_03
+    400004: DrawCall_04
+    400006: DrawCall_05
+    400008: frame l armtwist1
+    400010: frame l armtwist2
+    400012: frame l armtwist3
+    400014: frame l armtwist4
+    400016: frame l forearm
+    400018: frame l index low
+    400020: frame l index mid
+    400022: frame l index tip
+    400024: frame l middle mid
+    400026: frame l middle tip
+    400028: frame l middlelow
+    400030: frame l pinky low
+    400032: frame l pinky mid
+    400034: frame l pinky tip
+    400036: frame l ring low
+    400038: frame l ring mid
+    400040: frame l ring tip
+    400042: frame l thumb low
+    400044: frame l thumb mid
+    400046: frame l thumb tip
+    400048: frame l upperarm
+    400050: frame l wriste
+    400052: frame main-bone
+    400054: frame r armtwist1
+    400056: frame r armtwist2
+    400058: frame r armtwist3
+    400060: frame r armtwist4
+    400062: frame r forearm
+    400064: frame r index low
+    400066: frame r index mid
+    400068: frame r index tip
+    400070: frame r middle mid
+    400072: frame r middle tip
+    400074: frame r middlelow
+    400076: frame r pinky low
+    400078: frame r pinky mid
+    400080: frame r pinky tip
+    400082: frame r ring low
+    400084: frame r ring mid
+    400086: frame r ring tip
+    400088: frame r thumb low
+    400090: frame r thumb mid
+    400092: frame r thumb tip
+    400094: frame r upperarm
+    400096: frame r wriste
+    400098: smdimport
+    4300000: smdimport
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: smdimport
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
