@@ -73,8 +73,6 @@ public class Custom_NetworkManager : NetworkManager
 		}
 		NetworkServer.SpawnWithClientAuthority(kn.gameObject,player);
 
-
-
 		pr.GetComponent<Multi_Child_sync>().RpcPutIn(player,"Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/GunHolder");
 		sc.GetComponent<Multi_Child_sync>().RpcPutIn(player,"Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/GunHolder");
 		kn.GetComponent<Multi_Child_sync>().RpcPutIn(player,"Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/GunHolder");
