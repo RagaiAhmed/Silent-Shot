@@ -44,8 +44,12 @@ public class WeaponSwitch : NetworkBehaviour {
 
 	void Start()
 	{
+		if (!isLocalPlayer)
+		{
+			Destroy (this);
+			return;
+		}
 		Inventory = GameObject.FindGameObjectWithTag ("Inventory").transform.GetChild (0).gameObject;
-
 		reload_label=GameObject.FindGameObjectWithTag("Ammo").GetComponent<Text>();
 		Name_label=GameObject.FindGameObjectWithTag("WPName").GetComponent<Text>();
 		message=GameObject.FindGameObjectWithTag("Message").GetComponent<Text>();
@@ -62,7 +66,9 @@ public class WeaponSwitch : NetworkBehaviour {
 
 	void Update ()
 	{
-		if (Time.timeScale > 0)
+		if (!isLocalPlayer)
+			return;
+		if (locker.isPlaying)
 		{
 			for (int i = 0; i < 9; i++) 
 			{
@@ -111,7 +117,7 @@ public class WeaponSwitch : NetworkBehaviour {
 			aud.PlayOneShot (switching);
 			if (current < WeaponHolder.childCount && current >= 0) 
 			{
-				gun = WeaponHolder.GetChild (current).gameObject;
+				gun = WeaponHolder.GetChild (current).GetChild(0).gameObject;
 				state = gun.GetComponent<Shooting> ();
 				if (state != null)
 					state.current_state = gun.transform.GetChild (2);
@@ -121,7 +127,7 @@ public class WeaponSwitch : NetworkBehaviour {
 			if (index != current || free)
 			{
 				current = index;
-				gun = WeaponHolder.GetChild (index).gameObject;
+				gun = WeaponHolder.GetChild (index).GetChild(0).gameObject;
 				state = gun.GetComponent<Shooting> ();
 				if (state != null)
 					state.current_state = gun.transform.GetChild (0);
@@ -159,7 +165,7 @@ public class WeaponSwitch : NetworkBehaviour {
 	{
 		
 		
-		GameObject gun = WeaponHolder.GetChild (i).gameObject;
+		GameObject gun = WeaponHolder.GetChild (i).GetChild(0).gameObject;
 		if (!gun.GetComponent<Shooting> ())
 			return;
 		player.SetBool (gun.tag, false);

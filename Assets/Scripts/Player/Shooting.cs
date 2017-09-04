@@ -45,7 +45,7 @@ public class Shooting : NetworkBehaviour {
 	public bool in_hand=true;
 	private float recoil_ammount;
 	public Transform current_state;
-	AudioSource Audio;
+	Multi_Sound Audio;
 	public Vector3[] standard;
 	public bool non_player;
 
@@ -69,7 +69,7 @@ public class Shooting : NetworkBehaviour {
 		{
 			pl = pl.parent;
 		}
-		Audio = GetComponent<AudioSource> ();
+		Audio = GetComponent<Multi_Sound> ();
 		reloading = false;
 		if (non_player)
 			return;
@@ -81,7 +81,7 @@ public class Shooting : NetworkBehaviour {
 		current_state = transform.GetChild (0);
 		set_ammo ();
 		player.side_shift = side_shift;
-		gun_cam = GameObject.FindGameObjectWithTag ("gun_cam").transform;
+		gun_cam = pl.Find("Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/Gun_Camera");
 		scope = GameObject.FindGameObjectWithTag ("Scope").transform.GetChild(0).gameObject;
 
 	}
@@ -89,7 +89,7 @@ public class Shooting : NetworkBehaviour {
 
 	void LateUpdate () 
 	{
-		if (Time.timeScale > 0&&in_hand&&!non_player)
+		if (locker.isPlaying&&in_hand&&!non_player&&player.isLocalPlayer)
 		{
 			if (!reloading) // if not reloading
 			{  
@@ -116,7 +116,7 @@ public class Shooting : NetworkBehaviour {
 			if ((Time.time - last_shot >= cool_down_between_shots || released)) 
 			{ // if not in cooldown or gun was released before and there are ammo
 				muzzle_flash.Play (); // shows the muzzle flash
-				Audio.PlayOneShot (GunFire);
+				Audio.Cmdplay("Shooting","GunFire",false,-1);
 				last_shot = Time.time; // saves the time to know whether the next bullet will be in cooldown or not
 				RaycastHit info;  // a variable representing information from a hit on a ray cast
 				// if a ray from center of the screen hit a collider
@@ -200,11 +200,9 @@ public class Shooting : NetworkBehaviour {
 			{
 				StartCoroutine (reload ());	 // reload
 
-				if (!Audio.isPlaying)
-				{
-					Audio.clip = NoAmmo;
-					Audio.Play();
-				}
+
+				Audio.Cmdplay("Shooting","NoAmmo",true,-1);
+
 			}
 		}
 	}
@@ -215,11 +213,7 @@ public class Shooting : NetworkBehaviour {
 		
 		if (total_ammo == 0 || current_ammo == clip_ammo_size) 
 		{
-			if (!Audio.isPlaying)
-			{
-				Audio.clip = NoAmmo;
-				Audio.Play();
-			}
+			Audio.Cmdplay("Shooting","NoAmmo",true,-1);
 		} 
 		else
 		{
@@ -239,7 +233,7 @@ public class Shooting : NetworkBehaviour {
 			}
 			Transform temp = current_state;
 			current_state = transform.GetChild (2);
-			Audio.PlayOneShot(Reload);
+			Audio.Cmdplay("Shooting","Reload",false,-1);
 			reloading = true;
 			yield return new WaitForSeconds (Reload.length); //waits for the animation
 			reloading = false;
@@ -307,6 +301,7 @@ public class Shooting : NetworkBehaviour {
 		player.gameObject.GetComponent<WeaponSwitch> ().reload_label.text = current_ammo + "/" + total_ammo;
 	}
 
+
 	void hit(RaycastHit info,float damage,float left_distance,Vector3 direction)
 	{
 		Rigidbody r = info.transform.gameObject.GetComponent<Rigidbody> ();
@@ -345,7 +340,6 @@ public class Shooting : NetworkBehaviour {
 	}
 		
 
-
 	void OnTriggerStay(Collider c)
 	{
 		if (c.CompareTag ("Player"))
@@ -355,6 +349,8 @@ public class Shooting : NetworkBehaviour {
 				ws.pick (gameObject);
 		}
 	}
+
+
 	void OnTriggerExit(Collider c)
 	{
 		if (c.CompareTag ("Player"))
@@ -364,6 +360,8 @@ public class Shooting : NetworkBehaviour {
 				ws.end_pick ();
 		}
 	}
+
+
 	public void drop()
 	{
 		transform.parent = null;
@@ -384,7 +382,6 @@ public class Shooting : NetworkBehaviour {
 
 		gameObject.AddComponent<Rigidbody> ().useGravity = true;
 		gameObject.SetActive (true);
-
 	}
-		
+
 }

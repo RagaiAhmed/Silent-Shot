@@ -9,8 +9,8 @@ public class Multi_Child_sync : NetworkBehaviour
 	[ClientRpc]
 	public void RpcPutIn (GameObject t,string strng)
 	{
+		
 		Transform holder = t.transform.Find (strng);
 		transform.parent =holder;
-		transform.gameObject.SetActive (false);
 	}
 }

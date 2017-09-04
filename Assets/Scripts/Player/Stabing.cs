@@ -44,9 +44,9 @@ public class Stabing : NetworkBehaviour {
 		PL.GetComponent<Head_Movement> ().side_shift = side_shift;
 	}
 
-	void Update () 
+	void LateUpdate () 
 	{
-		if (Time.timeScale > 0)
+		if (locker.isPlaying && PL.isLocalPlayer)
 		{
 			gun_cam.position = Vector3.Lerp(gun_cam.position ,current_state.position,0.2f);
 			gun_cam.rotation = Quaternion.Slerp(gun_cam.rotation ,current_state.rotation,0.2f);

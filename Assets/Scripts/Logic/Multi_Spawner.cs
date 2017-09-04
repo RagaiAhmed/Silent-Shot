@@ -11,6 +11,7 @@ public class Multi_Spawner : NetworkBehaviour {
 	public int primary;
 	public int secondary;
 	public bool ok;
+
 	void LateUpdate () 
 	{
 		if (!ok)
@@ -21,6 +22,7 @@ public class Multi_Spawner : NetworkBehaviour {
 		m.primary = primary;
 		m.secondary = secondary;
 		ClientScene.AddPlayer (nt.client.connection, 0,m);
+
 
 	}
 }

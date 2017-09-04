@@ -41,6 +41,11 @@ public class Main_Health : NetworkBehaviour {
 
 
 	}
+	[Command]
+	public void CmdDecrease (float damage)
+	{
+		RpcDecrease (damage);
+	}
 
 	[ClientRpc]
 	public void RpcDecrease (float damage)
@@ -82,7 +87,7 @@ public class Main_Health : NetworkBehaviour {
 		died = true;
 		add_to_children (root);
 		Destroy (gameObject, 10);
-		if (is_player)
+		if (is_player&&isLocalPlayer)
 		{
 			GetComponent<WeaponSwitch> ().switchto (GetComponent<WeaponSwitch> ().current);
 			GameObject.FindGameObjectWithTag ("Game_Over").transform.GetChild (0).gameObject.SetActive (true);
@@ -92,6 +97,7 @@ public class Main_Health : NetworkBehaviour {
 		Destroy (GetComponent<Animation> ());
 		Destroy (GetComponent<NavMeshAgent> ());
 		Destroy(GetComponent<enemyShooting> ());
+		Destroy (GetComponent<NetworkAnimator> ());
 		Destroy (GetComponent<Animator> ());
 		Destroy (GetComponent<WeaponSwitch> ());
 		Destroy (GetComponent<WeaponSwitch> ());
@@ -103,7 +109,7 @@ public class Main_Health : NetworkBehaviour {
 	}
 	void Update()
 	{
-		if (hp < Health && !died && isLocalPlayer)
+		if (hp < Health && !died)
 		{
 			hp += Time.deltaTime * regeneration;
 			set_health ();

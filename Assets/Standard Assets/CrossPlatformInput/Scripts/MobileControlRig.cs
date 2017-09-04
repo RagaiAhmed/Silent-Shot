@@ -55,7 +55,7 @@ namespace UnityStandardAssets.CrossPlatformInput
         {
             EditorApplication.update -= Update;
             EditorUserBuildSettings.activeBuildTargetChanged -= Update;
-        }
+		}
 
 
         private void Update()

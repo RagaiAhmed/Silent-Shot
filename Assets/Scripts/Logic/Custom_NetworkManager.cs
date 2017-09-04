@@ -62,11 +62,19 @@ public class Custom_NetworkManager : NetworkManager
 
 	
 		NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
-		if (pr)
-			NetworkServer.SpawnWithClientAuthority(pr,conn);
-		if (sc)
-			NetworkServer.SpawnWithClientAuthority(sc,conn);
-		NetworkServer.SpawnWithClientAuthority(kn,conn);
+		if (pr) 
+		{
+			NetworkServer.SpawnWithClientAuthority(pr.gameObject,player);
+		}
+		if (sc) 
+		{
+			NetworkServer.SpawnWithClientAuthority(sc.gameObject,player);
+
+		}
+		NetworkServer.SpawnWithClientAuthority(kn.gameObject,player);
+
+
+
 		pr.GetComponent<Multi_Child_sync>().RpcPutIn(player,"Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/GunHolder");
 		sc.GetComponent<Multi_Child_sync>().RpcPutIn(player,"Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/GunHolder");
 		kn.GetComponent<Multi_Child_sync>().RpcPutIn(player,"Root/Hips/Spine/Spine1/RightShoulder/RightArm/RightForeArm/GunHolder");

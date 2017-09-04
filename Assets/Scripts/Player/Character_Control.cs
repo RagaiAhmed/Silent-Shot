@@ -7,7 +7,6 @@ using UnityEngine.Networking;
 public class Character_Control : NetworkBehaviour 
 {
 
-
 	Rigidbody engine0 ; 
 
 	public float crouch; // adjustable speed variable
@@ -20,7 +19,7 @@ public class Character_Control : NetworkBehaviour
 
 	Transform Rightfoot;
 	Transform Leftfoot;
-	public Floors[] floor;
+	public AudioClip[] floor;
 	private int Floor_Type;
 
 
@@ -61,11 +60,6 @@ public class Character_Control : NetworkBehaviour
 		Audio   = GetComponent<Multi_Sound>();
 		player  = GetComponent<Head_Movement> ();
 		health  = GetComponent<Main_Health> ();
-		if (!isLocalPlayer) 
-		{
-			Destroy (this);
-		}
-
 	}
 
 
@@ -115,14 +109,14 @@ public class Character_Control : NetworkBehaviour
 				wasinair = false; // its now not in air
 				anim.SetTrigger("Idle");
 				was_idle = true;
-			//	Audio.Cmdplay(floor[Floor_Type].Land);  // playing land Audio clip
+				Audio.Cmdplay("Character_Control","floor",false,Floor_Type*(floor.Length/2));  // playing land Audio clip
 			}
 			else if (Input.GetAxisRaw ("Jump") == 1 && !wasinair && locker.isPlaying) 
 			{
 				Movement.y += jump; // adds velocity in y axis
 				anim.SetTrigger("InAir");
 				wasinair = true;
-			//	Audio.Cmdplay(floor[Floor_Type].Jump); // plays jump audio clip
+				Audio.Cmdplay("Character_Control","floor",false,Floor_Type*(floor.Length/2)+1); // plays jump audio clip
 			}
 				
 			engine0.velocity=Movement; // applying the movement
@@ -157,7 +151,7 @@ public class Character_Control : NetworkBehaviour
 
 			if (!step && isGrounded && state>1) 
 			{
-			//	Audio.Cmdplay (floor[Floor_Type].FootSteps [Random.Range (0, floor[Floor_Type].FootSteps.Length)]);
+				Audio.Cmdplay ("Character_Control","floor",false,Floor_Type*(floor.Length/2)+Random.Range(2,floor.Length/2));
 				StartCoroutine (step_wait(getSpeed()));
 			}
 
@@ -197,12 +191,12 @@ public class Character_Control : NetworkBehaviour
 	bool isgrounded ()
 	{
 		RaycastHit info;
-		if ( Physics.Raycast (Rightfoot.position, -transform.up, out info, 0.5f) ) 
+		if ( Physics.Raycast (Rightfoot.position, -transform.up, out info, 1) ) 
 		{
 			Floor_Type = (info.collider.gameObject.CompareTag ("Grass")) ? 1 : 0; 
 			return true;
 		}
-		else if ( Physics.Raycast (Leftfoot.position, -transform.up, out info, 0.5f) )
+		else if ( Physics.Raycast (Leftfoot.position, -transform.up, out info, 1) )
 		{
 			Floor_Type = (info.collider.gameObject.CompareTag ("Grass")) ? 1 : 0; 
 			return true;

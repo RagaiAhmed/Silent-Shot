@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 
 
-public class Health_Body_Part : NetworkBehaviour {
+public class Health_Body_Part : MonoBehaviour {
 
 	public int layer;
 	private Main_Health main;
@@ -18,19 +17,15 @@ public class Health_Body_Part : NetworkBehaviour {
 		main = t.GetComponent<Main_Health> ();
 	}
 
-	[Command]
 	public void CmdDecrease (float damage,GameObject did)
 	{
-		if (main.died)
-			return;
 		float d = damage * DamageMultiplier;
-		main.RpcDecrease (d);
+		main.CmdDecrease (d);
 		if (!did)
 			return;
 		Main_Health doer = did.GetComponent<Main_Health> ();
 		if (doer)
 			doer.add_score(d);
-
 
 	}
 
