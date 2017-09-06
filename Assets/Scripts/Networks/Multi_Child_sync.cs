@@ -11,7 +11,7 @@ public class Multi_Child_sync : NetworkBehaviour
 	{
 		
 		Transform holder = t.transform.Find (strng);
-		transform.parent = holder;
+		transform.parent.parent = holder;
 
 	}
 

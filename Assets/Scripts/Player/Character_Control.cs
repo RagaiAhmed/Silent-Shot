@@ -191,12 +191,12 @@ public class Character_Control : NetworkBehaviour
 	bool isgrounded ()
 	{
 		RaycastHit info;
-		if ( Physics.Raycast (Rightfoot.position, -transform.up, out info, 1) ) 
+		if ( Physics.Raycast (Rightfoot.position, -transform.up, out info, 0.5f) ) 
 		{
 			Floor_Type = (info.collider.gameObject.CompareTag ("Grass")) ? 1 : 0; 
 			return true;
 		}
-		else if ( Physics.Raycast (Leftfoot.position, -transform.up, out info, 1) )
+		else if ( Physics.Raycast (Leftfoot.position, -transform.up, out info, 0.5f) )
 		{
 			Floor_Type = (info.collider.gameObject.CompareTag ("Grass")) ? 1 : 0; 
 			return true;
