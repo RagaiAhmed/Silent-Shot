@@ -1,0 +1,10 @@
+# Created on: Sun Nov 18 14:10:02 2007 0x065d6cb0
+
+newmtl NoName,21
+Ns 0
+Ka 0.300000 0.300000 0.300000
+Kd 1.000000 1.000000 1.000000
+Ks 0.100000 0.100000 0.100000
+d 0.996078
+map_Kd hangar_tex.bmp 
+# End

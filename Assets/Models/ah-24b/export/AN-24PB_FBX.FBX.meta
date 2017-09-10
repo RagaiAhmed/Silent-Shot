@@ -1,0 +1,298 @@
+fileFormatVersion: 2
+guid: 05109697038a6c4468128c9196ebd1b7
+timeCreated: 1504637430
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Cylinder003
+    100004: Cylinder004
+    100006: Cylinder005
+    100008: Cylinder006
+    100010: Cylinder007
+    100012: Cylinder008
+    100014: Cylinder009
+    100016: Cylinder010
+    100018: Cylinder012
+    100020: Cylinder014
+    100022: Cylinder015
+    100024: Cylinder016
+    100026: engine_1
+    100028: engine_2
+    100030: fuselage
+    100032: hatch_keel
+    100034: hatch_wing_1
+    100036: hatch_wing_2
+    100038: Line001
+    100040: Line002
+    100042: propeller_1
+    100044: propeller_2
+    100046: tail_wheel
+    100048: undercarriage_1
+    100050: undercarriage_2
+    100052: undercarriage_3
+    100054: wheel_climb_1
+    100056: wheel_climb_2
+    400000: //RootNode
+    400002: Cylinder003
+    400004: Cylinder004
+    400006: Cylinder005
+    400008: Cylinder006
+    400010: Cylinder007
+    400012: Cylinder008
+    400014: Cylinder009
+    400016: Cylinder010
+    400018: Cylinder012
+    400020: Cylinder014
+    400022: Cylinder015
+    400024: Cylinder016
+    400026: engine_1
+    400028: engine_2
+    400030: fuselage
+    400032: hatch_keel
+    400034: hatch_wing_1
+    400036: hatch_wing_2
+    400038: Line001
+    400040: Line002
+    400042: propeller_1
+    400044: propeller_2
+    400046: tail_wheel
+    400048: undercarriage_1
+    400050: undercarriage_2
+    400052: undercarriage_3
+    400054: wheel_climb_1
+    400056: wheel_climb_2
+    2300000: Cylinder003
+    2300002: Cylinder004
+    2300004: Cylinder005
+    2300006: Cylinder006
+    2300008: Cylinder007
+    2300010: Cylinder008
+    2300012: Cylinder009
+    2300014: Cylinder010
+    2300016: Cylinder012
+    2300018: Cylinder014
+    2300020: Cylinder015
+    2300022: Cylinder016
+    2300024: engine_1
+    2300026: engine_2
+    2300028: fuselage
+    2300030: hatch_keel
+    2300032: hatch_wing_1
+    2300034: hatch_wing_2
+    2300036: propeller_1
+    2300038: propeller_2
+    2300040: tail_wheel
+    2300042: wheel_climb_1
+    2300044: wheel_climb_2
+    3300000: Cylinder003
+    3300002: Cylinder004
+    3300004: Cylinder005
+    3300006: Cylinder006
+    3300008: Cylinder007
+    3300010: Cylinder008
+    3300012: Cylinder009
+    3300014: Cylinder010
+    3300016: Cylinder012
+    3300018: Cylinder014
+    3300020: Cylinder015
+    3300022: Cylinder016
+    3300024: engine_1
+    3300026: engine_2
+    3300028: fuselage
+    3300030: hatch_keel
+    3300032: hatch_wing_1
+    3300034: hatch_wing_2
+    3300036: propeller_1
+    3300038: propeller_2
+    3300040: tail_wheel
+    3300042: wheel_climb_1
+    3300044: wheel_climb_2
+    4300000: tail_wheel
+    4300002: engine_1
+    4300004: propeller_1
+    4300006: hatch_wing_1
+    4300008: hatch_keel
+    4300010: propeller_2
+    4300012: hatch_wing_2
+    4300014: engine_2
+    4300016: wheel_climb_1
+    4300018: wheel_climb_2
+    4300020: fuselage
+    4300022: Cylinder012
+    4300024: Cylinder003
+    4300026: Cylinder004
+    4300028: Cylinder014
+    4300030: Cylinder016
+    4300032: Cylinder015
+    4300034: Cylinder007
+    4300036: Cylinder005
+    4300038: Cylinder006
+    4300040: Cylinder010
+    4300042: Cylinder009
+    4300044: Cylinder008
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 55
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: engine_1
+        weight: 1
+      - path: engine_2
+        weight: 1
+      - path: fuselage
+        weight: 1
+      - path: hatch_keel
+        weight: 1
+      - path: hatch_wing_1
+        weight: 1
+      - path: hatch_wing_2
+        weight: 1
+      - path: propeller_1
+        weight: 1
+      - path: propeller_2
+        weight: 1
+      - path: tail_wheel
+        weight: 1
+      - path: undercarriage_1
+        weight: 1
+      - path: undercarriage_1/Cylinder003
+        weight: 1
+      - path: undercarriage_1/Cylinder004
+        weight: 1
+      - path: undercarriage_1/Cylinder012
+        weight: 1
+      - path: undercarriage_1/Line001
+        weight: 1
+      - path: undercarriage_2
+        weight: 1
+      - path: undercarriage_2/Cylinder014
+        weight: 1
+      - path: undercarriage_2/Cylinder015
+        weight: 1
+      - path: undercarriage_2/Cylinder016
+        weight: 1
+      - path: undercarriage_2/Line002
+        weight: 1
+      - path: undercarriage_3
+        weight: 1
+      - path: undercarriage_3/Cylinder005
+        weight: 1
+      - path: undercarriage_3/Cylinder006
+        weight: 1
+      - path: undercarriage_3/Cylinder007
+        weight: 1
+      - path: undercarriage_3/Cylinder008
+        weight: 1
+      - path: undercarriage_3/Cylinder009
+        weight: 1
+      - path: undercarriage_3/Cylinder010
+        weight: 1
+      - path: wheel_climb_1
+        weight: 1
+      - path: wheel_climb_2
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

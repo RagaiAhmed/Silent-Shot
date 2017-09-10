@@ -142,7 +142,6 @@ public class SceneController : MonoBehaviour {
 						vehicleCode.ExitTheVehicle ();
 						if (player) 
 						{
-							player.SetActive (true);
 							if (vehicleCode.doorPosition.Length>0&&vehicleCode.doorPosition[0].transform.position != vehicle.transform.position) 
 							{
 								player.transform.position = vehicleCode.doorPosition[0].transform.position;
@@ -150,6 +149,7 @@ public class SceneController : MonoBehaviour {
 							{
 								player.transform.position = vehicleCode.doorPosition[0].transform.position + Vector3.up * 3.0f;
 							}
+							player.SetActive (true);
 						}
 						blockedInteraction = true;
 						StartCoroutine ("WaitToInteract");
@@ -189,7 +189,6 @@ public class SceneController : MonoBehaviour {
 					vehicleCode.ExitTheVehicle ();
 					if (player) 
 					{
-						player.SetActive (true);
 						if (vehicleCode.doorPosition.Length>0&&vehicleCode.doorPosition[0].transform.position != vehicle.transform.position) 
 						{
 							player.transform.position = vehicleCode.doorPosition[0].transform.position;
@@ -197,8 +196,9 @@ public class SceneController : MonoBehaviour {
 						{
 							player.transform.position = vehicleCode.doorPosition[0].transform.position + Vector3.up * 3.0f;
 						}
+						player.SetActive (true);
 					}
-					player.GetComponent<Main_Health> ().die ();
+					player.GetComponent<Main_Health> ().RpcDecrease(50F);
 					blockedInteraction = true;
 					StartCoroutine ("WaitToInteract");
 				}

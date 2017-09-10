@@ -1,0 +1,119 @@
+fileFormatVersion: 2
+guid: 3f45bebfa901603499b9e39b609e64a9
+timeCreated: 1504550234
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Red_Dot_Sight_Cube.011_Lens
+    100002: Red_Dot_Sight_Cube.011_RDS_Holographic_Conduct
+    100004: Red_Dot_Sight_Cube.011_RDS_N1
+    100006: Red_Dot_Sight_Cube.011_RDS_Sight
+    100008: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House
+    100010: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House_Screws
+    100012: Red_Dot_Sight_Cube.011_Sight_Node
+    100014: //RootNode
+    400000: Red_Dot_Sight_Cube.011_Lens
+    400002: Red_Dot_Sight_Cube.011_RDS_Holographic_Conduct
+    400004: Red_Dot_Sight_Cube.011_RDS_N1
+    400006: Red_Dot_Sight_Cube.011_RDS_Sight
+    400008: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House
+    400010: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House_Screws
+    400012: Red_Dot_Sight_Cube.011_Sight_Node
+    400014: //RootNode
+    2300000: Red_Dot_Sight_Cube.011_Lens
+    2300002: Red_Dot_Sight_Cube.011_RDS_Holographic_Conduct
+    2300004: Red_Dot_Sight_Cube.011_RDS_N1
+    2300006: Red_Dot_Sight_Cube.011_RDS_Sight
+    2300008: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House
+    2300010: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House_Screws
+    2300012: Red_Dot_Sight_Cube.011_Sight_Node
+    3300000: Red_Dot_Sight_Cube.011_Lens
+    3300002: Red_Dot_Sight_Cube.011_RDS_Holographic_Conduct
+    3300004: Red_Dot_Sight_Cube.011_RDS_N1
+    3300006: Red_Dot_Sight_Cube.011_RDS_Sight
+    3300008: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House
+    3300010: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House_Screws
+    3300012: Red_Dot_Sight_Cube.011_Sight_Node
+    4300000: Red_Dot_Sight_Cube.011_Lens
+    4300002: Red_Dot_Sight_Cube.011_RDS_Holographic_Conduct
+    4300004: Red_Dot_Sight_Cube.011_RDS_N1
+    4300006: Red_Dot_Sight_Cube.011_RDS_Sight
+    4300008: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House
+    4300010: Red_Dot_Sight_Cube.011_Reflex_Red_Dot_Sight_House_Screws
+    4300012: Red_Dot_Sight_Cube.011_Sight_Node
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -10,6 +10,11 @@ public class Sensentivity : MonoBehaviour {
 	void Start ()
 	{
 		GetComponent<Slider> ().onValueChanged.AddListener (adjust_sens);
+		GameObject player = GameObject.FindGameObjectWithTag ("Player_Main");
+		if (player) 
+		{
+			GetComponent<Slider> ().value = PlayerPrefs.GetFloat ("Sens", player.GetComponent<Head_Movement> ().Sensitivity /range);
+		}
 	}
 
 	void adjust_sens(float done)
@@ -26,7 +31,6 @@ public class Sensentivity : MonoBehaviour {
 		if (player) 
 		{
 			GetComponent<Slider> ().value = PlayerPrefs.GetFloat ("Sens", player.GetComponent<Head_Movement> ().Sensitivity /range);
-				
 		}
 	}
 }
