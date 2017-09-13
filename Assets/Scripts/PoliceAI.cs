@@ -7,7 +7,9 @@ using UnityStandardAssets.Vehicles.Car;
 
 public class PoliceAI : MonoBehaviour {
 
-	public GameObject policeMan;
+	public GameObject cop;
+
+	private GameObject policeMan;
 
 	[Tooltip("The ParticleSystem to be used for explosion events.")]
 	public ParticleSystem _explosionParticle;
@@ -32,13 +34,9 @@ public class PoliceAI : MonoBehaviour {
 	private int bulletholes = 0;
 
 	Rigidbody rb;
-	
-	Vector3 policelocation;
 
 	// Use this for initialization
 	void Start () {
-		policelocation = policeMan.transform.localPosition;
-		policeMan.SetActive (false);
 		aiControl = GetComponent<CarAIControl> ();
 	}
 
@@ -67,9 +65,7 @@ public class PoliceAI : MonoBehaviour {
 			aiControl.enabled = false;
 		}
 		if (localTarget.magnitude > 3*aiControl.m_ReachTargetThreshold&&policeMan.activeSelf&&health!=-0.01f) {
-			policeMan.transform.localPosition = policelocation;
-			aiControl.enabled = true;
-			policeMan.SetActive (false);
+			Destroy (policeMan);
 		}
 		int currentbullets = 0;
 		foreach (Transform child in transform)
@@ -82,8 +78,7 @@ public class PoliceAI : MonoBehaviour {
 		bulletholes = currentbullets;
 		if (aiControl.m_CarController.CurrentSpeed<1&&!aiControl.enabled) 
 		{
-			policeMan.SetActive (true);
-			policeMan.transform.position = new Vector3(transform.position.x - 3, transform.position.y, transform.position.z);
+			policeMan = Instantiate (cop, transform);
 			policeMan.GetComponent<enemyShooting> ().Nodes = new Transform[1] { aiControl.m_Target };
 		}
 	}

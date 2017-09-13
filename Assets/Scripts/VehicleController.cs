@@ -434,7 +434,7 @@ public class VehicleController : MonoBehaviour {
 		}
 		controls = GetComponent<SceneController>();
 		if (!controls) {
-			Debug.LogError ("There must be an object with the 'MSSceneController' component so that vehicles can be managed.");
+			Debug.LogError ("There must be an object with the 'SceneController' component so that vehicles can be managed.");
 			this.transform.gameObject.SetActive (false);
 			return;
 		}
@@ -442,7 +442,7 @@ public class VehicleController : MonoBehaviour {
 		bool isOnTheList =controls!=null ;
 
 		if (!isOnTheList) {
-			Debug.LogError ("This vehicle can not be controlled because it is not associated with the vehicle list of the scene controller (object that has the 'MSSceneController' component).");
+			Debug.LogError ("This vehicle can not be controlled because it is not associated with the vehicle list of the scene controller (object that has the 'SceneController' component).");
 			this.transform.gameObject.SetActive (false);
 			return;
 		}
