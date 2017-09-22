@@ -5,6 +5,8 @@ public class Destructable : MonoBehaviour {
 	public GameObject destroyed;
 	public float explosion_multiplier;
 	bool not_shot =true;
+	public bool addPoints = false;
+
 	public	void destroy()
 	{	
 		if(destroyed)
@@ -20,6 +22,11 @@ public class Destructable : MonoBehaviour {
 		{
 			StartCoroutine(SplitMesh());
 		}
+		if (!addPoints)
+			return;
+		Main_Health doer = FindObjectOfType<Main_Health> ();
+		if (doer)
+			doer.add_score(10);
 	}
 
 	public IEnumerator SplitMesh ()    

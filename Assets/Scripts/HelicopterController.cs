@@ -19,6 +19,9 @@ public class HelicopterController : MonoBehaviour
 	[Tooltip("The sound effect to be used for explosion events.")]
 	public AudioClip _explosionAudio;
 
+	[Space(5)][Tooltip("Collision sounds should be associated with this list.")]
+	public AudioClip[] collisionSounds;
+
 	[Tooltip("The lights of the car.")]
 	public GameObject _heliLight;
 
@@ -29,6 +32,7 @@ public class HelicopterController : MonoBehaviour
 	[HideInInspector]
 	public bool isDestroyed = false;
 
+	AudioSource beatsSoundAUD;
 	bool changeTypeCamera;
 	float timeScaleSpeed;
 	float minDistanceOrbitalCamera;
@@ -81,6 +85,33 @@ public class HelicopterController : MonoBehaviour
     private float hTurn = 0f;
     public bool IsOnGround = true;
 	  
+	void Start()
+	{
+		if (collisionSounds.Length > 0) {
+			if (collisionSounds [0]) {
+				beatsSoundAUD = GenerateAudioSource ("Sound of beats", 10, 1, collisionSounds [UnityEngine.Random.Range (0, collisionSounds.Length)], false, false, false);
+			}
+		}
+	}
+
+	public AudioSource GenerateAudioSource(string name, float minDistance, float volume, AudioClip audioClip, bool loop, bool playNow, bool playAwake){
+		GameObject audioSource = new GameObject(name);
+		audioSource.transform.position = transform.position;
+		audioSource.transform.parent = transform;
+		AudioSource temp = audioSource.AddComponent<AudioSource>() as AudioSource;
+		temp.minDistance = minDistance;
+		temp.volume = volume;
+		temp.clip = audioClip;
+		temp.loop = loop;
+		temp.playOnAwake = playAwake;
+		temp.spatialBlend = 1.0f;
+		temp.dopplerLevel = 0.0f;
+		if (playNow) {
+			temp.Play ();
+		}
+		return temp;
+	}
+
 	void Awake()
 	{
 		controls = GetComponent<SceneControllerForHelicopters>();
@@ -212,9 +243,29 @@ public class HelicopterController : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter()
+	private void OnCollisionEnter(Collision collision)
     {
         IsOnGround = true;
+		float otherMass;
+		if (collision.rigidbody) {
+			otherMass = collision.rigidbody.mass;
+		} else {
+			otherMass = 1000;
+			float force = otherMass * (Mathf.Sqrt (Mathf.Pow (collision.relativeVelocity.x, 2) + Mathf.Pow (collision.relativeVelocity.y, 2) + Mathf.Pow (collision.relativeVelocity.z, 2)));
+			if (force > 1) {
+				this.decreaseHealth(Mathf.RoundToInt (force / 1000));
+			}
+		}
+		if (!this.enabled)
+			return;
+		if (collision.contacts.Length > 0) {
+			if (collision.relativeVelocity.magnitude > 7.5f && collision.contacts [0].thisCollider.gameObject.transform != transform.parent) {
+				if (collisionSounds.Length > 0) {
+					beatsSoundAUD.clip = collisionSounds [UnityEngine.Random.Range (0, collisionSounds.Length)];
+					beatsSoundAUD.PlayOneShot (beatsSoundAUD.clip);
+				}
+			}
+		}
     }
 
     private void OnCollisionExit()

@@ -22,9 +22,4 @@ public class DepthDistanceSlider : MonoBehaviour {
 				cam.farClipPlane = done;
 		}
 	}
-
-	void OnEnable()
-	{
-		GetComponent<Slider> ().value = PlayerPrefs.GetInt ("Depth", 360);
-	}
 }
