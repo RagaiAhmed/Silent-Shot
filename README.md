@@ -5,11 +5,15 @@ Silent Shot is a FPS multiplayer game with Co-op missions and interactive gamepl
 Game Made by ZORY Team:
 
     1- Ziyad Eslam  
-    2- Yusuf Elnady  
-    3- Omar Ahmed  
-    4- Ragai Ahmed  
+    2- Omar Ahmed  
+    3- Ragai Ahmed  
+    4- Yusuf El-Nady
     
-    
-*Note game still under development*
+*Note game is still under development*
 
 Any Feedback will be appreciated
+
+You can contact us through our social media links on the game's website:-
+yusufelnady.github.io/SilentShot/
+
+Enjoy!
